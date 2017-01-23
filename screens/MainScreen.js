@@ -77,8 +77,8 @@ class MainScreen extends Component {
 }
 
 const query = gql`
-  query query($userId: String!) {
-    user(id: $userId) {
+  query query($currentUserId: String!) {
+    user(id: $currentUserId) {
       id
       name
       firstName
@@ -89,11 +89,6 @@ const query = gql`
 `;
 
 export default graphql(query, {
-  options: ({ currentUserId }) => ({
-    variables: {
-      userId: currentUserId
-    }
-  }),
   props: ({ ownProps, data: { loading, user, refetch } }) => ({
     loading: loading,
     currentUser: user,
