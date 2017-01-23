@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 
 import Constants from './util/Constants';
-import GameListScreen from './screens/GameListScreen';
+import MainScreen from './screens/MainScreen';
 import LoginScreen from './screens/LoginScreen';
 import {
   getUserStore,
@@ -54,7 +54,7 @@ class App extends Component {
     return <ApolloProvider client={apolloClient}>
       <Navigator
         initialRoute={{
-          component: GameListScreen,
+          component: MainScreen,
           props: {currentUserId: currentUserId}
         }}
         renderScene={(route, navigator) => {

@@ -66,7 +66,9 @@ const updateUserMutation = gql`
 export default graphql(updateUserMutation, {
   props: ({ mutate }) => ({
     onFbLogin: (id, name, firstName, lastName, fbToken) => {
-      mutate({variables: {id, name, firstName, lastName, fbToken}});
+      mutate({
+        variables: { id, name, firstName, lastName, fbToken }
+      });
     }
   }),
 })(LoginScreen);
