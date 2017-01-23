@@ -1,7 +1,11 @@
 import Exponent from 'exponent';
+import gql from 'graphql-tag';
 import React, {
   Component,
 } from 'react';
+import {
+  graphql,
+} from 'react-apollo';
 import {
   Text,
   TouchableHighlight,
@@ -16,7 +20,7 @@ import {
   getUserStore,
 } from '../model/store/UserStore'
 
-export default class LoginScreen extends Component {
+class LoginScreen extends Component {
   render() {
     return (
       <Screen>
@@ -37,8 +41,32 @@ export default class LoginScreen extends Component {
       const resp = await fetch(`https://graph.facebook.com/me?` +
         `access_token=${token}&fields=${Constants.FbUserFields}`);
       const respJson = await resp.json();
-      await getUserStore().onFbLogin(respJson.id, respJson.name,
-        respJson.first_name, respJson.last_name, token);
+      const userId = Constants.FbUserIdPrefix + respJson.id;
+      await this.props.onFbLogin(userId, respJson.name, respJson.first_name,
+        respJson.last_name, token);
+      getUserStore().setCurrentUserId(userId);
     }
   }
 }
+
+const updateUserMutation = gql`
+  mutation updateUser($id: String!, $name: String!, $firstName: String!,
+      $lastName: String!, $fbToken: String!) {
+    updateUser(id: $id, name: $name, firstName: $firstName,
+        lastName: $lastName, fbToken: $fbToken) {
+      id
+      name
+      firstName
+      lastName
+      fbToken
+    }
+  }
+`;
+
+export default graphql(updateUserMutation, {
+  props: ({ mutate }) => ({
+    onFbLogin: (id, name, firstName, lastName, fbToken) => {
+      mutate({variables: {id, name, firstName, lastName, fbToken}});
+    }
+  }),
+})(LoginScreen);

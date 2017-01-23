@@ -13,8 +13,8 @@ export const Screen = (props) => (
 const ScreenStyles = StyleSheet.create({
   Root: {
     flex: 1,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    justifyContent: "center",
   },
 });
 

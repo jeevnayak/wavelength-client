@@ -6,84 +6,61 @@ import Constants from '../../util/Constants';
 import Store from './Store';
 import User from '../User';
 
-const kCurrentUserStorageKey_ = "WavelengthCurrentUser";
+const kCurrentUserIdStorageKey_ = "WavelengthCurrentUserId";
 
 class UserStore extends Store {
   constructor() {
     super();
-    this.usersById_ = {};
     this.currentUserId_ = null;
     this.initialize_();
   }
 
-  getUser(userId) {
-    return this.usersById_[userId];
+  getCurrentUserId() {
+    return this.currentUserId_;
   }
 
-  getFbUser(fbId) {
-    return this.usersById_[User.fbIdToUserId(fbId)];
-  }
-
-  addUser(user) {
-    this.usersById_[user.id] = user;
-  }
-
-  getCurrentUser() {
-    return this.currentUserId_ ? this.usersById_[this.currentUserId_] : null;
+  setCurrentUserId(userId) {
+    this.currentUserId_ = userId;
+    this.notifyListeners();
+    this.saveCurrentUserIdToStorage_();
   }
 
   clearCurrentUser() {
-    this.clearCurrentUserFromStorage_();
-  }
-
-  async onFbLogin(fbId, name, firstName, lastName, fbToken) {
-    const user = User.fromFbInfo(fbId, name, firstName, lastName, fbToken);
-    if (await user.saveToServer()) {
-      this.currentUserId_ = user.id;
-      this.addUser(user);
-      this.notifyListeners();
-      this.saveCurrentUserToStorage_();
-    }
+    this.clearCurrentUserIdFromStorage_();
   }
 
   async initialize_() {
-    await this.loadCurrentUserFromStorage_();
+    await this.loadCurrentUserIdFromStorage_();
     this.onInitialized();
   }
 
-  async saveCurrentUserToStorage_() {
+  async saveCurrentUserIdToStorage_() {
     try {
       await AsyncStorage.setItem(
-        kCurrentUserStorageKey_, User.toJson(this.getCurrentUser()));
+        kCurrentUserIdStorageKey_, this.currentUserId_);
     } catch (error) {
       // no-op
     }
   }
 
-  async loadCurrentUserFromStorage_() {
+  async loadCurrentUserIdFromStorage_() {
     try {
-      const json = await AsyncStorage.getItem(kCurrentUserStorageKey_);
-      if (json){
-        const user = User.fromJson(json);
-        this.currentUserId_ = user.id;
-        this.addUser(user);
-      }
+      this.currentUserId_ = await AsyncStorage.getItem(
+        kCurrentUserIdStorageKey_);
     } catch (error) {
       // no-op
     }
   }
 
-  async clearCurrentUserFromStorage_() {
+  async clearCurrentUserIdFromStorage_() {
     try {
-      await AsyncStorage.removeItem(kCurrentUserStorageKey_);
+      await AsyncStorage.removeItem(kCurrentUserIdStorageKey_);
       this.currentUserId_ = null;
       this.notifyListeners();
     } catch (error) {
       // no-op
     }
   }
-
-  
 }
 
 const userStore_ = new UserStore();

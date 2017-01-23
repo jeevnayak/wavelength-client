@@ -1,3 +1,6 @@
+import ApolloClient, {
+  createNetworkInterface
+} from 'apollo-client';
 import Exponent, {
   Components,
 } from 'exponent';
@@ -5,31 +8,34 @@ import React, {
   Component,
 } from 'react';
 import {
+  ApolloProvider
+} from 'react-apollo';
+import {
   Navigator,
   StatusBar,
 } from 'react-native';
 
+import Constants from './util/Constants';
 import GameListScreen from './screens/GameListScreen';
 import LoginScreen from './screens/LoginScreen';
 import {
   getUserStore,
 } from './model/store/UserStore';
-import {
-  getGameStore,
-} from './model/store/GameStore';
+
+const apolloClient = new ApolloClient({
+  networkInterface: createNetworkInterface({ uri: Constants.GraphQLUri }),
+});
 
 class App extends Component {
   componentDidMount() {
     StatusBar.setHidden(true);
     this.isMounted_ = true;
-    getUserStore().addListener(this.onModelUpdate_);
-    getGameStore().addListener(this.onModelUpdate_);
+    getUserStore().addListener(this.onUserUpdate_);
   }
 
   componentWillUnmount() {
     this.isMounted_ = false;
-    getUserStore().removeListener(this.onModelUpdate_);
-    getGameStore().removeListener(this.onModelUpdate_);
+    getUserStore().removeListener(this.onUserUpdate_);
   }
 
   render() {
@@ -38,28 +44,28 @@ class App extends Component {
       return <Components.AppLoading />;
     }
 
-    const currentUser = userStore.getCurrentUser();
-    if (!currentUser) {
-      return <LoginScreen />;
+    const currentUserId = userStore.getCurrentUserId();
+    if (!currentUserId) {
+      return <ApolloProvider client={apolloClient}>
+        <LoginScreen />
+      </ApolloProvider>;
     }
 
-    if (!getGameStore().isInitialized()) {
-      return <Components.AppLoading />;
-    }
-
-    return <Navigator
-      initialRoute={{
-        component: GameListScreen,
-        props: {user: currentUser}
-      }}
-      renderScene={(route, navigator) => {
-        let props = route.props || {};
-        props.navigator = navigator;
-        return React.createElement(route.component, props);
-      }} />;
+    return <ApolloProvider client={apolloClient}>
+      <Navigator
+        initialRoute={{
+          component: GameListScreen,
+          props: {currentUserId: currentUserId}
+        }}
+        renderScene={(route, navigator) => {
+          let props = route.props || {};
+          props.navigator = navigator;
+          return React.createElement(route.component, props);
+        }} />
+    </ApolloProvider>;
   }
   
-  onModelUpdate_ = () => {
+  onUserUpdate_ = () => {
     if (this.isMounted_) {
       this.forceUpdate();
     }

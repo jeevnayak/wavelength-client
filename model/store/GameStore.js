@@ -83,7 +83,7 @@ class GameStore extends Store {
   }
 }
 
-const gameStore_ = new GameStore();
+// const gameStore_ = new GameStore();
 
 export function getGameStore() {
   return gameStore_;
