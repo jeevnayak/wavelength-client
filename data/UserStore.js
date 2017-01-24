@@ -2,17 +2,19 @@ import {
   AsyncStorage,
 } from 'react-native';
 
-import Constants from '../../util/Constants';
-import Store from './Store';
-import User from '../User';
-
 const kCurrentUserIdStorageKey_ = "WavelengthCurrentUserId";
 
-class UserStore extends Store {
+class UserStore {
   constructor() {
-    super();
     this.currentUserId_ = null;
+    this.initialized_ = false;
+    this.listeners_ = [];
+
     this.initialize_();
+  }
+
+  isInitialized() {
+    return this.initialized_;
   }
 
   getCurrentUserId() {
@@ -21,7 +23,7 @@ class UserStore extends Store {
 
   setCurrentUserId(userId) {
     this.currentUserId_ = userId;
-    this.notifyListeners();
+    this.notifyListeners_();
     this.saveCurrentUserIdToStorage_();
   }
 
@@ -29,9 +31,27 @@ class UserStore extends Store {
     this.clearCurrentUserIdFromStorage_();
   }
 
+  addListener(listener) {
+    this.listeners_.push(listener);
+  }
+
+  removeListener(listener) {
+    const index = this.listeners_.indexOf(listener);
+    if (index !== -1) {
+      this.listeners_.splice(index, 1);
+    }
+  }
+
+  notifyListeners_() {
+    for (const listener of this.listeners_) {
+      listener();
+    }
+  }
+
   async initialize_() {
     await this.loadCurrentUserIdFromStorage_();
-    this.onInitialized();
+    this.initialized_ = true;
+    this.notifyListeners_();
   }
 
   async saveCurrentUserIdToStorage_() {
@@ -56,7 +76,7 @@ class UserStore extends Store {
     try {
       await AsyncStorage.removeItem(kCurrentUserIdStorageKey_);
       this.currentUserId_ = null;
-      this.notifyListeners();
+      this.notifyListeners_();
     } catch (error) {
       // no-op
     }

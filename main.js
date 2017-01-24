@@ -20,7 +20,7 @@ import MainScreen from './screens/MainScreen';
 import LoginScreen from './screens/LoginScreen';
 import {
   getUserStore,
-} from './model/store/UserStore';
+} from './data/UserStore';
 
 const apolloClient = new ApolloClient({
   networkInterface: createNetworkInterface({ uri: Constants.GraphQLUri }),
@@ -64,7 +64,7 @@ class App extends Component {
         }} />
     </ApolloProvider>;
   }
-  
+
   onUserUpdate_ = () => {
     if (this.isMounted_) {
       this.forceUpdate();

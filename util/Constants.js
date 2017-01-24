@@ -1,5 +1,4 @@
 export default Constants = {
-  ServerUrl: "http://localhost:5000",
   GraphQLUri: "http://localhost:5000/graphql",
   FbAppId: "1387424857934791",
   FbPermissions: ["public_profile", "user_friends"],

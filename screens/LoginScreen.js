@@ -18,7 +18,7 @@ import {
 } from '../ui/Elements';
 import {
   getUserStore,
-} from '../model/store/UserStore'
+} from '../data/UserStore'
 
 class LoginScreen extends Component {
   render() {

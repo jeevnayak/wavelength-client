@@ -23,7 +23,7 @@ import GameScreen from './GameScreen';
 import NewGameScreen from './NewGameScreen';
 import {
   getUserStore,
-} from '../model/store/UserStore';
+} from '../data/UserStore';
 
 class MainScreen extends Component {
   render() {
