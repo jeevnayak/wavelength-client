@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 
 import {
+  LoadingScreen,
   Row,
   RowTitle,
   Screen,
@@ -27,10 +28,8 @@ import {
 class MainScreen extends Component {
   render() {
     if (this.props.loading) {
-      console.log("loading");
-      return <Text>Loading...</Text>;
+      return <LoadingScreen />;
     }
-    console.log("done");
 
     const logOut = getUserStore().clearCurrentUser.bind(getUserStore());
     // let dataSource = new ListView.DataSource({
@@ -72,7 +71,10 @@ class MainScreen extends Component {
   }
 
   onPressNewGame_() {
-    this.props.navigator.push({component: NewGameScreen});
+    this.props.navigator.push({
+      component: NewGameScreen,
+      props: {currentUser: this.props.currentUser}
+    });
   }
 }
 

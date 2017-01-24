@@ -23,11 +23,9 @@ class FbFriendStore extends Store {
     }
   }
 
-  getNonPartnerFriends() {
+  getFbFriends() {
     const userStore = getUserStore();
-    const partnerIds = getGameStore().getPartnerIds();
     return Array.from(this.fbFriendIds_)
-      .filter((fbId) => !partnerIds.has(User.fbIdToUserId(fbId)))
       .map((fbId) => userStore.getFbUser(fbId))
       .sort((friend1, friend2) => {
         if (friend1.name > friend2.name) {
@@ -62,7 +60,7 @@ class FbFriendStore extends Store {
   }
 }
 
-let fbFriendStore_ = new FbFriendStore();
+// let fbFriendStore_ = new FbFriendStore();
 
 export function getFbFriendStore() {
   return fbFriendStore_;

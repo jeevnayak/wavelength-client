@@ -18,16 +18,24 @@ const ScreenStyles = StyleSheet.create({
   },
 });
 
+export const LoadingScreen = (props) => (
+  <Screen {...props}>
+    <Text>Loading...</Text>
+  </Screen>
+);
+
 export const Row = (props) => (
   <TouchableHighlight onPress={props.onPress}>
     <View {...props} style={[RowStyles.Row, props.style]} />
   </TouchableHighlight>
 );
 
-export const UserPicture = (props) => (
-  <Image {...props} style={[RowStyles.UserPicture, props.style]}
-    source={{uri: props.user.getPictureUrl()}}/>
-);
+export const UserPicture = (props) => {
+  const fbId = props.user.id.substring(2);
+  const pictureUrl = `https://graph.facebook.com/${fbId}/picture?type=square`;
+  return <Image {...props} style={[RowStyles.UserPicture, props.style]}
+    source={{uri: pictureUrl}}/>
+};
 
 export const RowTitle = (props) => (
   <Text {...props} style={[RowStyles.RowTitle, props.style]}>
@@ -44,6 +52,7 @@ const RowStyles = StyleSheet.create({
   UserPicture: {
     width: 50,
     height: 50,
+    borderRadius: 25,
   },
   RowTitle: {
     flex: 1,

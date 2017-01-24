@@ -9,51 +9,36 @@ import {
 } from 'react-native';
 
 import {
+  LoadingScreen,
   Row,
   RowTitle,
   Screen,
   UserPicture,
 } from '../ui/Elements';
-import {
-  getFbFriendStore,
-} from '../model/store/FbFriendStore';
-import {
-  getGameStore,
-} from '../model/store/GameStore';
-import {
-  getUserStore,
-} from '../model/store/UserStore'
 
 export default class NewGameScreen extends Component {
-  componentDidMount() {
-    this.isMounted_ = true;
-    getGameStore().addListener(this.onModelUpdate_);
-    const fbFriendStore = getFbFriendStore();
-    fbFriendStore.addListener(this.onModelUpdate_);
-    fbFriendStore.refresh();
-  }
+  constructor(props) {
+    super(props);
 
-  componentWillUnmount() {
-    this.isMounted_ = false;
-    getGameStore().removeListener(this.onModelUpdate_);
-    getFbFriendStore().removeListener(this.onModelUpdate_);
+    const dataSource = new ListView.DataSource({
+      rowHasChanged: (friend1, friend2) => friend1.id !== friend2.id
+    });
+    this.state = {
+      loading: true,
+      dataSource: dataSource
+    }
+    this.fetchFbFriends_();
   }
 
   render() {
-    const fbFriendStore = getFbFriendStore();
-    if (!fbFriendStore.isInitialized()) {
-      // TODO: loading state
-      return null;
+    if (this.state.loading) {
+      return <LoadingScreen />;
     }
 
-    let dataSource = new ListView.DataSource({
-      rowHasChanged: (friend1, friend2) => friend1.id !== friend2.id
-    });
-    dataSource = dataSource.cloneWithRows(fbFriendStore.getNonPartnerFriends());
-    let listView = null;
-    if (dataSource.getRowCount() > 0) {
+    let listView;
+    if (this.state.dataSource.getRowCount() > 0) {
       listView = <ListView
-        dataSource={dataSource}
+        dataSource={this.state.dataSource}
         renderRow={(friend) => this.renderFbFriendRow_(friend)} />;
     }
 
@@ -79,9 +64,28 @@ export default class NewGameScreen extends Component {
     console.log(game);
   }
 
-  onModelUpdate_ = () => {
-    if (this.isMounted_) {
-      this.forceUpdate();
+  async fetchFbFriends_() {
+    let fbFriends = [];
+    try {
+      const fbId = this.props.currentUser.id.substring(2);
+      const resp = await fetch(
+        `https://graph.facebook.com/${fbId}/friends?` +
+        `access_token=${this.props.currentUser.fbToken}&` +
+        `fields=${Constants.FbUserFields}`);
+      const respJson = await resp.json();
+      for (const fbUserInfo of respJson.data) {
+        fbFriends.push({
+          id: Constants.FbUserIdPrefix + fbUserInfo.id,
+          name: fbUserInfo.name,
+          firstName: fbUserInfo.first_name,
+          lastName: fbUserInfo.last_name
+        });
+      }
+    } catch (error) {
     }
-  };
+    this.setState({
+      loading: false,
+      dataSource: this.state.dataSource.cloneWithRows(fbFriends)
+    });
+  }
 }
