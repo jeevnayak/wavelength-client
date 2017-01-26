@@ -1,6 +1,10 @@
+import gql from 'graphql-tag';
 import React, {
   Component,
 } from 'react';
+import {
+  graphql,
+} from 'react-apollo';
 import {
   ListView,
   Text,
@@ -16,7 +20,7 @@ import {
   UserPicture,
 } from '../ui/Elements';
 
-export default class NewGameScreen extends Component {
+class NewGameScreen extends Component {
   constructor(props) {
     super(props);
 
@@ -60,7 +64,8 @@ export default class NewGameScreen extends Component {
   }
 
   async onPressFriendRow_(friend) {
-    const game = await getGameStore().createGame(friend);
+    const game = await this.props.createNewGame(
+      this.props.currentUser.id, friend.id);
     console.log(game);
   }
 
@@ -89,3 +94,23 @@ export default class NewGameScreen extends Component {
     });
   }
 }
+
+const newGameMutation = gql`
+  mutation newGame($cluerId: String!, $guesserId: String!) {
+    newGame(cluerId: $cluerId, guesserId: $guesserId) {
+      id
+      word
+      cluerId
+    }
+  }
+`;
+
+export default graphql(newGameMutation, {
+  props: ({ mutate }) => ({
+    createNewGame: (cluerId, guesserId) => {
+      return mutate({
+        variables: { cluerId, guesserId }
+      });
+    }
+  }),
+})(NewGameScreen);
