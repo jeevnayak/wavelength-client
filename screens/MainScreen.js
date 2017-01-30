@@ -19,29 +19,38 @@ import {
   Screen,
   UserPicture,
 } from '../ui/Elements';
-import GameScreen from './GameScreen';
 import NewGameScreen from './NewGameScreen';
+import PartnershipScreen from './PartnershipScreen';
 import {
   getUserStore,
 } from '../data/UserStore';
 
 class MainScreen extends Component {
+  constructor(props) {
+    super(props);
+
+    const dataSource = new ListView.DataSource({
+      rowHasChanged: (partnership1, partnership2) => (
+        partnership1.id !== partnership2.id
+      )
+    });
+    this.dataSource_ = dataSource;
+  }
+
   render() {
     if (this.props.loading) {
       return <LoadingScreen />;
     }
 
     const logOut = getUserStore().clearCurrentUser.bind(getUserStore());
-    // let dataSource = new ListView.DataSource({
-    //   rowHasChanged: (game1, game2) => game1.id !== game2.id
-    // });
-    // dataSource = dataSource.cloneWithRows(getGameStore().getGames());
-    // let listView = null;
-    // if (dataSource.getRowCount() > 0) {
-    //   listView = <ListView
-    //     dataSource={dataSource}
-    //     renderRow={(game) => this.renderGameRow_(game)} />;
-    // }
+    this.dataSource_ = this.dataSource_.cloneWithRows(
+      this.props.currentUser.partnerships);
+    let listView;
+    if (this.dataSource_.getRowCount() > 0) {
+      listView = <ListView
+        dataSource={this.dataSource_}
+        renderRow={(partnership) => this.renderPartnershipRow_(partnership)} />;
+    }
 
     return (
       <Screen>
@@ -52,21 +61,25 @@ class MainScreen extends Component {
         <TouchableHighlight onPress={logOut}>
           <Text>Log out</Text>
         </TouchableHighlight>
+        {listView}
       </Screen>
     );
   }
 
-  renderGameRow_(game) {
-    return <Row onPress={() => this.onPressGameRow_(game)}>
-      <UserPicture user={game.getPartner()} />
-      <RowTitle text={game.getPartner().name} />
+  renderPartnershipRow_(partnership) {
+    return <Row onPress={() => this.onPressPartnershipRow_(partnership)}>
+      <UserPicture user={partnership.partner} />
+      <RowTitle text={partnership.partner.name} />
     </Row>;
   }
 
-  onPressGameRow_(game) {
+  onPressPartnershipRow_(partnership) {
     this.props.navigator.push({
-      component: GameScreen,
-      props: {game: game}
+      component: PartnershipScreen,
+      props: {
+        currentUserId: this.props.currentUser.id,
+        partnershipId: partnership.id
+      }
     });
   }
 
@@ -86,6 +99,13 @@ const query = gql`
       firstName
       lastName
       fbToken
+      partnerships {
+        id
+        partner(userId: $currentUserId) {
+          id
+          name
+        }
+      }
     }
   }
 `;
