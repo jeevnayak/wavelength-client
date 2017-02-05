@@ -19,6 +19,7 @@ import {
   Screen,
   UserPicture,
 } from '../ui/Elements';
+import GiveCluesScreen from './GiveCluesScreen';
 
 class PartnershipScreen extends Component {
   constructor(props) {
@@ -63,7 +64,10 @@ class PartnershipScreen extends Component {
   }
 
   onPressGameRow_(game) {
-    console.log(game);
+    this.props.navigator.push({
+      component: GiveCluesScreen,
+      props: {game: game}
+    });
   }
 }
 
