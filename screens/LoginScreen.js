@@ -1,4 +1,7 @@
-import Exponent from 'exponent';
+import Exponent, {
+  Notifications,
+  Permissions,
+} from 'exponent';
 import gql from 'graphql-tag';
 import React, {
   Component,
@@ -24,11 +27,19 @@ class LoginScreen extends Component {
   render() {
     return (
       <Screen>
-        <TouchableHighlight onPress={() => this.fbLogin_()}>
+        <TouchableHighlight onPress={() => this.login_()}>
           <Text>Log in with Facebook</Text>
         </TouchableHighlight>
       </Screen>
     );
+  }
+
+  async login_() {
+    const userId = await this.fbLogin_();
+    if (userId) {
+      await this.registerForPushNotifications_(userId);
+      getUserStore().setCurrentUserId(userId);
+    }
   }
 
   async fbLogin_() {
@@ -44,8 +55,21 @@ class LoginScreen extends Component {
       const userId = Constants.FbUserIdPrefix + respJson.id;
       await this.props.onFbLogin(userId, respJson.name, respJson.first_name,
         respJson.last_name, token);
-      getUserStore().setCurrentUserId(userId);
+      return userId;
+    } else {
+      return null;
     }
+  }
+
+  async registerForPushNotifications_(userId) {
+    const { status } = await Permissions.askAsync(
+      Permissions.REMOTE_NOTIFICATIONS);
+    if (status !== "granted") {
+      return;
+    }
+
+    const pushToken = await Notifications.getExponentPushTokenAsync();
+    await this.props.addPushToken(userId, pushToken);
   }
 }
 
@@ -63,6 +87,14 @@ const updateUserMutation = gql`
   }
 `;
 
+const addPushTokenMutation = gql`
+  mutation addPushToken($userId: String!, $pushToken: String!) {
+    addPushToken(userId: $userId, pushToken: $pushToken) {
+      id
+    }
+  }
+`;
+
 export default graphql(updateUserMutation, {
   props: ({ mutate }) => ({
     onFbLogin: (id, name, firstName, lastName, fbToken) => {
@@ -71,4 +103,12 @@ export default graphql(updateUserMutation, {
       });
     }
   }),
-})(LoginScreen);
+})(graphql(addPushTokenMutation, {
+  props: ({ mutate }) => ({
+    addPushToken: (userId, pushToken) => {
+      mutate({
+        variables: { userId, pushToken }
+      });
+    }
+  }),
+})(LoginScreen));
