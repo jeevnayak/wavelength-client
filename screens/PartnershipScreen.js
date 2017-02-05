@@ -20,15 +20,21 @@ import {
   UserPicture,
 } from '../ui/Elements';
 import GiveCluesScreen from './GiveCluesScreen';
+import {
+  GameState,
+  getGameState,
+} from '../util/Helpers';
+import MakeGuessesScreen from './MakeGuessesScreen';
+import ResultsScreen from './ResultsScreen';
 
 class PartnershipScreen extends Component {
   constructor(props) {
     super(props);
 
     const dataSource = new ListView.DataSource({
-      rowHasChanged: (game1, game2) => (
-        game1.id !== game2.id
-      )
+      getSectionHeaderData: (sectionData, sectionId) => sectionId,
+      sectionHeaderHasChanged: (header1, header2) => header1 !== header2,
+      rowHasChanged: (game1, game2) => game1.id !== game2.id
     });
     this.dataSource_ = dataSource;
   }
@@ -38,12 +44,13 @@ class PartnershipScreen extends Component {
       return <LoadingScreen />;
     }
 
-    this.dataSource_ = this.dataSource_.cloneWithRows(
-      this.props.partnership.games);
+    this.dataSource_ = this.dataSource_.cloneWithRowsAndSections(
+      this.generateListViewData_(this.props.partnership.games));
     let listView;
     if (this.dataSource_.getRowCount() > 0) {
       listView = <ListView
         dataSource={this.dataSource_}
+        renderSectionHeader={(header) => this.renderSectionHeader_(header)}
         renderRow={(game) => this.renderGameRow_(game)} />;
     }
 
@@ -57,6 +64,28 @@ class PartnershipScreen extends Component {
     );
   }
 
+  generateListViewData_(games) {
+    const data = {
+      [GameState.GiveClues]: [],
+      [GameState.MakeGuesses]: [],
+      [GameState.TheirTurn]: [],
+      [GameState.Complete]: []
+    };
+    for (const game of games) {
+      data[getGameState(game)].push(game);
+    }
+    for (const section in data) {
+      if (data[section].length === 0) {
+        delete data[section];
+      }
+    }
+    return data;
+  }
+
+  renderSectionHeader_(header) {
+    return <Text>{header}</Text>;
+  }
+
   renderGameRow_(game) {
     return <Row onPress={() => this.onPressGameRow_(game)}>
       <RowTitle text={game.id} />
@@ -64,10 +93,24 @@ class PartnershipScreen extends Component {
   }
 
   onPressGameRow_(game) {
-    this.props.navigator.push({
-      component: GiveCluesScreen,
-      props: {game: game}
-    });
+    let screen;
+    switch (getGameState(game)) {
+      case GameState.GiveClues:
+        screen = GiveCluesScreen;
+        break;
+      case GameState.MakeGuesses:
+        screen = MakeGuessesScreen;
+        break;
+      case GameState.Complete:
+        screen = ResultsScreen;
+        break;
+    }
+    if (screen) {
+      this.props.navigator.push({
+        component: screen,
+        props: {game: game}
+      });
+    }
   }
 }
 

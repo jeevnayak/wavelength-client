@@ -16,15 +16,15 @@ import {
   Screen,
 } from '../ui/Elements';
 
-class GiveCluesScreen extends Component {
+class MakeGuessesScreen extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      clue1: "",
-      clue2: "",
-      clue3: "",
-      clue4: ""
+      guess1: "",
+      guess2: "",
+      guess3: "",
+      guess4: ""
     };
   }
 
@@ -36,59 +36,61 @@ class GiveCluesScreen extends Component {
         </TouchableHighlight>
         <Text>{this.props.game.word}</Text>
         <Text>Clues:</Text>
+        <Text>{this.props.game.clues.join(", ")}</Text>
+        <Text>Guesses:</Text>
         <TextInput
-          name="clue1"
+          name="guess1"
           style={{height: 40, borderColor: "gray", borderWidth: 1}}
           autoCapitalize="characters"
-          onChangeText={(clue1) => this.setState({clue1})} />
+          onChangeText={(guess1) => this.setState({guess1})} />
         <TextInput
-          name="clue2"
+          name="guess2"
           style={{height: 40, borderColor: "gray", borderWidth: 1}}
           autoCapitalize="characters"
-          onChangeText={(clue2) => this.setState({clue2})} />
+          onChangeText={(guess2) => this.setState({guess2})} />
         <TextInput
-          name="clue3"
+          name="guess3"
           style={{height: 40, borderColor: "gray", borderWidth: 1}}
           autoCapitalize="characters"
-          onChangeText={(clue3) => this.setState({clue3})} />
+          onChangeText={(guess3) => this.setState({guess3})} />
         <TextInput
-          name="clue4"
+          name="guess4"
           style={{height: 40, borderColor: "gray", borderWidth: 1}}
           autoCapitalize="characters"
-          onChangeText={(clue4) => this.setState({clue4})} />
-        <TouchableHighlight onPress={() => this.giveClues_()}>
+          onChangeText={(guess4) => this.setState({guess4})} />
+        <TouchableHighlight onPress={() => this.makeGuesses_()}>
           <Text>Submit</Text>
         </TouchableHighlight>
       </Screen>
     );
   }
 
-  async giveClues_() {
-    const clues = [
-      this.state.clue1,
-      this.state.clue2,
-      this.state.clue3,
-      this.state.clue4
+  async makeGuesses_() {
+    const guesses = [
+      this.state.guess1,
+      this.state.guess2,
+      this.state.guess3,
+      this.state.guess4
     ];
-    await this.props.giveClues(this.props.game.id, clues);
+    await this.props.makeGuesses(this.props.game.id, guesses);
     this.props.navigator.pop();
   }
 }
 
-const giveCluesMutation = gql`
-  mutation giveClues($gameId: Int!, $clues: [String]!) {
-    giveClues(gameId: $gameId, clues: $clues) {
+const makeGuessesMutation = gql`
+  mutation makeGuesses($gameId: Int!, $guesses: [String]!) {
+    makeGuesses(gameId: $gameId, guesses: $guesses) {
       id
     }
   }
 `;
 
-export default graphql(giveCluesMutation, {
+export default graphql(makeGuessesMutation, {
   props: ({ mutate }) => ({
-    giveClues: (gameId, clues) => {
+    makeGuesses: (gameId, guesses) => {
       mutate({
-        variables: { gameId, clues }
+        variables: { gameId, guesses }
       });
     }
   }),
-})(GiveCluesScreen);
+})(MakeGuessesScreen);
