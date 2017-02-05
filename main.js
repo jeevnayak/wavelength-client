@@ -55,7 +55,7 @@ class App extends Component {
       <Navigator
         initialRoute={{
           component: MainScreen,
-          props: {currentUserId: currentUserId}
+          props: { currentUserId }
         }}
         renderScene={(route, navigator) => {
           let props = route.props || {};

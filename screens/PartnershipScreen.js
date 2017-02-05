@@ -108,7 +108,7 @@ class PartnershipScreen extends Component {
     if (screen) {
       this.props.navigator.push({
         component: screen,
-        props: {game: game}
+        props: { game }
       });
     }
   }

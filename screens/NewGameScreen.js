@@ -19,6 +19,7 @@ import {
   Screen,
   UserPicture,
 } from '../ui/Elements';
+import GiveCluesScreen from './GiveCluesScreen';
 
 class NewGameScreen extends Component {
   constructor(props) {
@@ -64,9 +65,12 @@ class NewGameScreen extends Component {
   }
 
   async onPressFriendRow_(friend) {
-    const game = await this.props.createNewGame(
+    const resp = await this.props.createNewGame(
       this.props.currentUser.id, friend.id);
-    console.log(game);
+    this.props.navigator.replace({
+      component: GiveCluesScreen,
+      props: {game: resp.data.newGame}
+    });
   }
 
   async fetchFbFriends_() {
@@ -100,7 +104,10 @@ const newGameMutation = gql`
     newGame(cluerId: $cluerId, guesserId: $guesserId) {
       id
       word
-      cluerId
+      isCluer(userId: $cluerId)
+      clues
+      guesses
+      replayed
     }
   }
 `;
