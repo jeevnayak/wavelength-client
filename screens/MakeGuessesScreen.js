@@ -78,15 +78,21 @@ class MakeGuessesScreen extends Component {
       this.state.guess3,
       this.state.guess4
     ];
-    await this.props.makeGuesses(this.props.game.id, guesses);
+    await this.props.makeGuesses(guesses);
     this.props.navigator.pop();
   }
 }
 
 const makeGuessesMutation = gql`
-  mutation makeGuesses($gameId: Int!, $guesses: [String]!) {
+  mutation makeGuesses(
+      $currentUserId: String!, $gameId: Int!, $guesses: [String]!) {
     makeGuesses(gameId: $gameId, guesses: $guesses) {
       id
+      word
+      isCluer(userId: $currentUserId)
+      clues
+      guesses
+      replayed
     }
   }
 `;
@@ -97,10 +103,14 @@ export default graphql(GameQuery, {
     game: game,
   }),
 })(graphql(makeGuessesMutation, {
-  props: ({ mutate }) => ({
-    makeGuesses: (gameId, guesses) => {
+  props: ({ ownProps, mutate }) => ({
+    makeGuesses: (guesses) => {
       mutate({
-        variables: { gameId, guesses }
+        variables: {
+          currentUserId: ownProps.currentUserId,
+          gameId: ownProps.gameId,
+          guesses: guesses
+        }
       });
     }
   }),

@@ -69,7 +69,10 @@ class NewGameScreen extends Component {
       this.props.currentUser.id, friend.id);
     this.props.navigator.replace({
       component: GiveCluesScreen,
-      props: {game: resp.data.newGame}
+      props: {
+        currentUserId: this.props.currentUser.id,
+        gameId: resp.data.newGame.id
+      }
     });
   }
 

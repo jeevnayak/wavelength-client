@@ -76,15 +76,20 @@ class GiveCluesScreen extends Component {
       this.state.clue3,
       this.state.clue4
     ];
-    await this.props.giveClues(this.props.game.id, clues);
+    await this.props.giveClues(clues);
     this.props.navigator.pop();
   }
 }
 
 const giveCluesMutation = gql`
-  mutation giveClues($gameId: Int!, $clues: [String]!) {
+  mutation giveClues($currentUserId: String!, $gameId: Int!, $clues: [String]!) {
     giveClues(gameId: $gameId, clues: $clues) {
       id
+      word
+      isCluer(userId: $currentUserId)
+      clues
+      guesses
+      replayed
     }
   }
 `;
@@ -95,10 +100,14 @@ export default graphql(GameQuery, {
     game: game,
   }),
 })(graphql(giveCluesMutation, {
-  props: ({ mutate }) => ({
-    giveClues: (gameId, clues) => {
+  props: ({ ownProps, mutate }) => ({
+    giveClues: (clues) => {
       mutate({
-        variables: { gameId, clues }
+        variables: {
+          currentUserId: ownProps.currentUserId,
+          gameId: ownProps.gameId,
+          clues: clues
+        }
       });
     }
   }),
