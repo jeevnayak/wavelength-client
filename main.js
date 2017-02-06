@@ -28,8 +28,6 @@ import {
 
 const dataIdFromObject = (object) => {
   if (object.__typename && object.id) {
-    console.log("dataid");
-    console.log(object.__typename + object.id);
     return object.__typename + object.id;
   } else {
     return null;
