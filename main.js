@@ -1,5 +1,6 @@
 import ApolloClient, {
-  createNetworkInterface
+  createNetworkInterface,
+  toIdValue
 } from 'apollo-client';
 import Exponent, {
   Components,
@@ -25,8 +26,31 @@ import {
   getUserStore,
 } from './data/UserStore';
 
+const dataIdFromObject = (object) => {
+  if (object.__typename && object.id) {
+    console.log("dataid");
+    console.log(object.__typename + object.id);
+    return object.__typename + object.id;
+  } else {
+    return null;
+  }
+};
 const apolloClient = new ApolloClient({
-  networkInterface: createNetworkInterface({ uri: Constants.GraphQLUri }),
+  networkInterface: createNetworkInterface({uri: Constants.GraphQLUri}),
+  addTypename: true,
+  dataIdFromObject: dataIdFromObject,
+  customResolvers: {
+    Query: {
+      partnership: (_, args) => toIdValue(dataIdFromObject({
+        __typename: "Partnership",
+        id: args.id
+      })),
+      game: (_, args) => toIdValue(dataIdFromObject({
+        __typename: "Game",
+        id: args.id
+      }))
+    }
+  }
 });
 
 class App extends Component {
