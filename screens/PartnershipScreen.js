@@ -1,4 +1,3 @@
-import gql from 'graphql-tag';
 import React, {
   Component,
 } from 'react';
@@ -25,6 +24,7 @@ import {
   getGameState,
 } from '../util/Helpers';
 import MakeGuessesScreen from './MakeGuessesScreen';
+import PartnershipQuery from '../queries/PartnershipQuery';
 import ResultsScreen from './ResultsScreen';
 
 class PartnershipScreen extends Component {
@@ -108,33 +108,16 @@ class PartnershipScreen extends Component {
     if (screen) {
       this.props.navigator.push({
         component: screen,
-        props: { game }
+        props: {
+          currentUserId: this.props.currentUserId,
+          gameId: game.id
+        }
       });
     }
   }
 }
 
-const query = gql`
-  query query($partnershipId: Int!, $currentUserId: String!) {
-    partnership(id: $partnershipId) {
-      id
-      partner(userId: $currentUserId) {
-        id
-        name
-      }
-      games {
-        id
-        word
-        isCluer(userId: $currentUserId)
-        clues
-        guesses
-        replayed
-      }
-    }
-  }
-`;
-
-export default graphql(query, {
+export default graphql(PartnershipQuery, {
   props: ({ ownProps, data: { loading, partnership, refetch } }) => ({
     loading: loading,
     partnership: partnership,

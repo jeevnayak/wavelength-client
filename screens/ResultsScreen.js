@@ -2,6 +2,9 @@ import React, {
   Component,
 } from 'react';
 import {
+  graphql,
+} from 'react-apollo';
+import {
   Text,
   TextInput,
   TouchableHighlight,
@@ -9,11 +12,17 @@ import {
 } from 'react-native';
 
 import {
+  LoadingScreen,
   Screen,
 } from '../ui/Elements';
+import GameQuery from '../queries/GameQuery';
 
-export default class ResultsScreen extends Component {
+class ResultsScreen extends Component {
   render() {
+    if (this.props.loading) {
+      return <LoadingScreen />;
+    }
+
     return (
       <Screen>
         <TouchableHighlight onPress={this.props.navigator.pop}>
@@ -28,3 +37,10 @@ export default class ResultsScreen extends Component {
     );
   }
 }
+
+export default graphql(GameQuery, {
+  props: ({ ownProps, data: { loading, game, refetch } }) => ({
+    loading: loading,
+    game: game,
+  }),
+})(ResultsScreen);

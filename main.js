@@ -3,6 +3,7 @@ import ApolloClient, {
 } from 'apollo-client';
 import Exponent, {
   Components,
+  Notifications,
 } from 'exponent';
 import React, {
   Component,
@@ -16,8 +17,10 @@ import {
 } from 'react-native';
 
 import Constants from './util/Constants';
-import MainScreen from './screens/MainScreen';
 import LoginScreen from './screens/LoginScreen';
+import MainScreen from './screens/MainScreen';
+import MakeGuessesScreen from './screens/MakeGuessesScreen';
+import ResultsScreen from './screens/ResultsScreen';
 import {
   getUserStore,
 } from './data/UserStore';
@@ -31,6 +34,8 @@ class App extends Component {
     StatusBar.setHidden(true);
     this.isMounted_ = true;
     getUserStore().addListener(this.onUserUpdate_);
+    Notifications.addListener(
+      (notification) => this.handleNotification_(notification));
   }
 
   componentWillUnmount() {
@@ -53,6 +58,7 @@ class App extends Component {
 
     return <ApolloProvider client={apolloClient}>
       <Navigator
+        ref={(navigator) => { this.navigator_ = navigator; }}
         initialRoute={{
           component: MainScreen,
           props: { currentUserId }
@@ -63,6 +69,29 @@ class App extends Component {
           return React.createElement(route.component, props);
         }} />
     </ApolloProvider>;
+  }
+
+  handleNotification_(notification) {
+    const currentUserId = getUserStore().getCurrentUserId();
+    if (notification.origin === "selected" &&
+        currentUserId &&
+        this.navigator_) {
+      const screen = notification.data.cluesGiven ?
+        MakeGuessesScreen : ResultsScreen;
+      this.navigator_.immediatelyResetRouteStack([
+        {
+          component: MainScreen,
+          props: { currentUserId }
+        },
+        {
+          component: screen,
+          props: {
+            currentUserId: currentUserId,
+            gameId: notification.data.gameId
+          }
+        }
+      ]);
+    }
   }
 
   onUserUpdate_ = () => {

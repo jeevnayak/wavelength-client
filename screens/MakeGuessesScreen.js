@@ -13,8 +13,10 @@ import {
 } from 'react-native';
 
 import {
+  LoadingScreen,
   Screen,
 } from '../ui/Elements';
+import GameQuery from '../queries/GameQuery';
 
 class MakeGuessesScreen extends Component {
   constructor(props) {
@@ -29,6 +31,10 @@ class MakeGuessesScreen extends Component {
   }
 
   render() {
+    if (this.props.loading) {
+      return <LoadingScreen />;
+    }
+
     return (
       <Screen>
         <TouchableHighlight onPress={this.props.navigator.pop}>
@@ -85,7 +91,12 @@ const makeGuessesMutation = gql`
   }
 `;
 
-export default graphql(makeGuessesMutation, {
+export default graphql(GameQuery, {
+  props: ({ ownProps, data: { loading, game, refetch } }) => ({
+    loading: loading,
+    game: game,
+  }),
+})(graphql(makeGuessesMutation, {
   props: ({ mutate }) => ({
     makeGuesses: (gameId, guesses) => {
       mutate({
@@ -93,4 +104,4 @@ export default graphql(makeGuessesMutation, {
       });
     }
   }),
-})(MakeGuessesScreen);
+})(MakeGuessesScreen));

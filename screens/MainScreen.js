@@ -1,4 +1,3 @@
-import gql from 'graphql-tag';
 import React, {
   Component,
 } from 'react';
@@ -24,6 +23,7 @@ import PartnershipScreen from './PartnershipScreen';
 import {
   getUserStore,
 } from '../data/UserStore';
+import UserQuery from '../queries/UserQuery';
 
 class MainScreen extends Component {
   constructor(props) {
@@ -91,26 +91,7 @@ class MainScreen extends Component {
   }
 }
 
-const query = gql`
-  query query($currentUserId: String!) {
-    user(id: $currentUserId) {
-      id
-      name
-      firstName
-      lastName
-      fbToken
-      partnerships {
-        id
-        partner(userId: $currentUserId) {
-          id
-          name
-        }
-      }
-    }
-  }
-`;
-
-export default graphql(query, {
+export default graphql(UserQuery, {
   props: ({ ownProps, data: { loading, user, refetch } }) => ({
     loading: loading,
     currentUser: user,
