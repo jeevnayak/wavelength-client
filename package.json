@@ -14,5 +14,8 @@
     "react-apollo": "^0.10.0",
     "react-dom": "^15.3.2",
     "react-native": "https://github.com/exponent/react-native/archive/sdk-13.0.3.tar.gz"
+  },
+  "devDependencies": {
+    "react-native-debugger-open": "^0.3.2"
   }
 }
