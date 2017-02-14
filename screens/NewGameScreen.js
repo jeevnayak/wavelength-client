@@ -19,31 +19,30 @@ import {
   Screen,
   UserPicture,
 } from '../ui/Elements';
+import {
+  withFbFriends,
+} from '../data/FbFriendStore';
 import GiveCluesScreen from './GiveCluesScreen';
 
 class NewGameScreen extends Component {
   constructor(props) {
     super(props);
 
-    const dataSource = new ListView.DataSource({
+    this.dataSource_ = new ListView.DataSource({
       rowHasChanged: (friend1, friend2) => friend1.id !== friend2.id
     });
-    this.state = {
-      loading: true,
-      dataSource: dataSource
-    }
-    this.fetchFbFriends_();
   }
 
   render() {
-    if (this.state.loading) {
+    if (this.props.loadingFbFriends) {
       return <LoadingScreen />;
     }
 
+    this.dataSource_ = this.dataSource_.cloneWithRows(this.props.fbFriends);
     let listView;
-    if (this.state.dataSource.getRowCount() > 0) {
+    if (this.dataSource_.getRowCount() > 0) {
       listView = <ListView
-        dataSource={this.state.dataSource}
+        dataSource={this.dataSource_}
         renderRow={(friend) => this.renderFbFriendRow_(friend)} />;
     }
 
@@ -75,31 +74,6 @@ class NewGameScreen extends Component {
       }
     });
   }
-
-  async fetchFbFriends_() {
-    let fbFriends = [];
-    try {
-      const fbId = this.props.currentUser.id.substring(2);
-      const resp = await fetch(
-        `https://graph.facebook.com/${fbId}/friends?` +
-        `access_token=${this.props.currentUser.fbToken}&` +
-        `fields=${Constants.FbUserFields}`);
-      const respJson = await resp.json();
-      for (const fbUserInfo of respJson.data) {
-        fbFriends.push({
-          id: Constants.FbUserIdPrefix + fbUserInfo.id,
-          name: fbUserInfo.name,
-          firstName: fbUserInfo.first_name,
-          lastName: fbUserInfo.last_name
-        });
-      }
-    } catch (error) {
-    }
-    this.setState({
-      loading: false,
-      dataSource: this.state.dataSource.cloneWithRows(fbFriends)
-    });
-  }
 }
 
 const newGameMutation = gql`
@@ -115,7 +89,7 @@ const newGameMutation = gql`
   }
 `;
 
-export default graphql(newGameMutation, {
+export default withFbFriends(graphql(newGameMutation, {
   props: ({ mutate }) => ({
     createNewGame: (cluerId, guesserId) => {
       return mutate({
@@ -123,4 +97,4 @@ export default graphql(newGameMutation, {
       });
     }
   }),
-})(NewGameScreen);
+})(NewGameScreen));

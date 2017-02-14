@@ -31,12 +31,11 @@ class PartnershipScreen extends Component {
   constructor(props) {
     super(props);
 
-    const dataSource = new ListView.DataSource({
+    this.dataSource_ = new ListView.DataSource({
       getSectionHeaderData: (sectionData, sectionId) => sectionId,
       sectionHeaderHasChanged: (header1, header2) => header1 !== header2,
       rowHasChanged: (game1, game2) => game1.id !== game2.id
     });
-    this.dataSource_ = dataSource;
   }
 
   render() {
