@@ -57,6 +57,7 @@ export const Row = wrapInTouchableHighlight((props) => (
       props.style]}>
     {props.pictureUser ? <UserPicture user={props.pictureUser} /> : null}
     <Text style={RowStyles.RowTitle}>{props.title}</Text>
+    {props.button}
   </View>
 ));
 

@@ -11,6 +11,7 @@ import {
   View,
 } from 'react-native';
 
+import DailyChallengeScreen from './DailyChallengeScreen';
 import {
   Button,
   LoadingScreen,
@@ -56,6 +57,7 @@ class MainScreen extends Component {
     return (
       <Screen>
         <Button onPress={() => this.onPressNewGame_()} text="New Game" />
+        <Button onPress={() => this.onPressDailyChallenge_()} text="Daily Challenge" />
         {listView}
         <Button onPress={logOut} text="Sign Out" />
       </Screen>
@@ -83,6 +85,16 @@ class MainScreen extends Component {
     this.props.navigator.push({
       component: NewGameScreen,
       props: {currentUser: this.props.currentUser}
+    });
+  }
+
+  onPressDailyChallenge_() {
+    this.props.navigator.push({
+      component: DailyChallengeScreen,
+      props: {
+        currentUser: this.props.currentUser,
+        currentUserId: this.props.currentUser.id
+      }
     });
   }
 }

@@ -20,14 +20,12 @@ import {
   Screen,
   UserPicture,
 } from '../ui/Elements';
-import GiveCluesScreen from './GiveCluesScreen';
 import {
   GameState,
+  getGameScreen,
   getGameState,
 } from '../util/Helpers';
-import MakeGuessesScreen from './MakeGuessesScreen';
 import PartnershipQuery from '../queries/PartnershipQuery';
-import ResultsScreen from './ResultsScreen';
 
 class PartnershipScreen extends Component {
   constructor(props) {
@@ -46,7 +44,7 @@ class PartnershipScreen extends Component {
     }
 
     this.dataSource_ = this.dataSource_.cloneWithRowsAndSections(
-      this.generateListViewData_(this.props.partnership.games));
+      this.generateListViewData_());
     let listView;
     if (this.dataSource_.getRowCount() > 0) {
       listView = <ListView
@@ -63,14 +61,14 @@ class PartnershipScreen extends Component {
     );
   }
 
-  generateListViewData_(games) {
+  generateListViewData_() {
     const data = {
       [GameState.GiveClues]: [],
       [GameState.MakeGuesses]: [],
       [GameState.TheirTurn]: [],
       [GameState.Complete]: []
     };
-    for (const game of games) {
+    for (const game of this.props.partnership.games) {
       data[getGameState(game)].push(game);
     }
     for (const section in data) {
@@ -92,18 +90,7 @@ class PartnershipScreen extends Component {
   }
 
   onPressGameRow_(game) {
-    let screen;
-    switch (getGameState(game)) {
-      case GameState.GiveClues:
-        screen = GiveCluesScreen;
-        break;
-      case GameState.MakeGuesses:
-        screen = MakeGuessesScreen;
-        break;
-      case GameState.Complete:
-        screen = ResultsScreen;
-        break;
-    }
+    let screen = getGameScreen(game);
     if (screen) {
       this.props.navigator.push({
         component: screen,

@@ -2,7 +2,7 @@ import {
   Platform,
 } from 'react-native';
 
-const prod = true;
+const prod = false;
 
 export default Constants = {
   GraphQLUri: prod ? "https://jeev-wavelength.herokuapp.com/graphql" :
