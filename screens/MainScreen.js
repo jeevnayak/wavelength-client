@@ -6,12 +6,14 @@ import {
 } from 'react-apollo';
 import {
   ListView,
+  StyleSheet,
   Text,
   TouchableHighlight,
   View,
 } from 'react-native';
 
 import {
+  Button,
   LoadingScreen,
   Row,
   RowTitle,
@@ -54,14 +56,9 @@ class MainScreen extends Component {
 
     return (
       <Screen>
-        <Text>{this.props.currentUser.name} is logged in!</Text>
-        <TouchableHighlight onPress={() => this.onPressNewGame_()}>
-          <Text>New game</Text>
-        </TouchableHighlight>
-        <TouchableHighlight onPress={logOut}>
-          <Text>Log out</Text>
-        </TouchableHighlight>
+        <Button onPress={() => this.onPressNewGame_()} text="New Game" />
         {listView}
+        <Button onPress={logOut} text="Sign Out" layoutStyle={null} style={Styles.SignOutButtonStyle} />
       </Screen>
     );
   }
@@ -97,3 +94,15 @@ export default graphql(UserQuery, {
     currentUser: user,
   }),
 })(MainScreen);
+
+const Styles = StyleSheet.create({
+  SignOutButtonStyle: {
+    
+  },
+  SignOutButtonLayoutStyle: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+  }
+});

@@ -13,6 +13,8 @@ import {
 } from 'react-native';
 
 import {
+  BackButton,
+  Button,
   LoadingScreen,
   Screen,
 } from '../ui/Elements';
@@ -37,9 +39,7 @@ class MakeGuessesScreen extends Component {
 
     return (
       <Screen>
-        <TouchableHighlight onPress={this.props.navigator.pop}>
-          <Text>Back</Text>
-        </TouchableHighlight>
+        <BackButton navigator={this.props.navigator} />
         <Text>{this.props.game.word}</Text>
         <Text>Clues:</Text>
         <Text>{this.props.game.clues.join(", ")}</Text>
@@ -64,9 +64,7 @@ class MakeGuessesScreen extends Component {
           style={{height: 40, borderColor: "gray", borderWidth: 1}}
           autoCapitalize="characters"
           onChangeText={(guess4) => this.setState({guess4})} />
-        <TouchableHighlight onPress={() => this.makeGuesses_()}>
-          <Text>Submit</Text>
-        </TouchableHighlight>
+        <Button onPress={() => this.makeGuesses_()} text="Submit" />
       </Screen>
     );
   }

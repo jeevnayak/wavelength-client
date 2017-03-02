@@ -17,6 +17,7 @@ import {
 
 import Constants from '../util/Constants';
 import {
+  Button,
   Screen,
 } from '../ui/Elements';
 import {
@@ -27,9 +28,7 @@ class LoginScreen extends Component {
   render() {
     return (
       <Screen>
-        <TouchableHighlight onPress={() => this.login_()}>
-          <Text>Log in with Facebook</Text>
-        </TouchableHighlight>
+        <Button onPress={() => this.login_()} text="Log in with Facebook" />
       </Screen>
     );
   }

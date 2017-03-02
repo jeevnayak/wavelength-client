@@ -12,8 +12,10 @@ import {
 } from 'react-native';
 
 import {
+  BackButton,
   LoadingScreen,
   Row,
+  RowHeader,
   RowTitle,
   Screen,
   UserPicture,
@@ -55,9 +57,7 @@ class PartnershipScreen extends Component {
 
     return (
       <Screen>
-        <TouchableHighlight onPress={this.props.navigator.pop}>
-          <Text>Back</Text>
-        </TouchableHighlight>
+        <BackButton navigator={this.props.navigator} />
         {listView}
       </Screen>
     );
@@ -82,7 +82,7 @@ class PartnershipScreen extends Component {
   }
 
   renderSectionHeader_(header) {
-    return <Text>{header}</Text>;
+    return <RowHeader text={header} />;
   }
 
   renderGameRow_(game) {

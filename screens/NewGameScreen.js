@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 
 import {
+  BackButton,
   LoadingScreen,
   Row,
   RowTitle,
@@ -48,9 +49,7 @@ class NewGameScreen extends Component {
 
     return (
       <Screen>
-        <TouchableHighlight onPress={this.props.navigator.pop}>
-          <Text>Back</Text>
-        </TouchableHighlight>
+        <BackButton navigator={this.props.navigator} />
         {listView}
       </Screen>
     );

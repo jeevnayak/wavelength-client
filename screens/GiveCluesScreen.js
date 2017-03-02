@@ -13,6 +13,8 @@ import {
 } from 'react-native';
 
 import {
+  BackButton,
+  Button,
   LoadingScreen,
   Screen,
 } from '../ui/Elements';
@@ -37,9 +39,7 @@ class GiveCluesScreen extends Component {
 
     return (
       <Screen>
-        <TouchableHighlight onPress={this.props.navigator.pop}>
-          <Text>Back</Text>
-        </TouchableHighlight>
+        <BackButton navigator={this.props.navigator} />
         <Text>{this.props.game.word}</Text>
         <Text>Clues:</Text>
         <TextInput
@@ -62,9 +62,7 @@ class GiveCluesScreen extends Component {
           style={{height: 40, borderColor: "gray", borderWidth: 1}}
           autoCapitalize="characters"
           onChangeText={(clue4) => this.setState({clue4})} />
-        <TouchableHighlight onPress={() => this.giveClues_()}>
-          <Text>Submit</Text>
-        </TouchableHighlight>
+        <Button onPress={() => this.giveClues_()} text="Submit" />
       </Screen>
     );
   }

@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 
 import {
+  BackButton,
   LoadingScreen,
   Screen,
 } from '../ui/Elements';
@@ -25,9 +26,7 @@ class ResultsScreen extends Component {
 
     return (
       <Screen>
-        <TouchableHighlight onPress={this.props.navigator.pop}>
-          <Text>Back</Text>
-        </TouchableHighlight>
+        <BackButton navigator={this.props.navigator} />
         <Text>{this.props.game.word}</Text>
         <Text>Clues:</Text>
         <Text>{this.props.game.clues.join(", ")}</Text>
