@@ -67,10 +67,10 @@ class MainScreen extends Component {
   }
 
   renderPartnershipRow_(partnership) {
-    return <Row onPress={() => this.onPressPartnershipRow_(partnership)}>
-      <UserPicture user={partnership.partner} />
-      <RowTitle text={partnership.partner.name} />
-    </Row>;
+    return <Row
+      title={partnership.partner.name}
+      pictureUser={partnership.partner}
+      onPress={() => this.onPressPartnershipRow_(partnership)} />;
   }
 
   onPressPartnershipRow_(partnership) {

@@ -26,7 +26,10 @@ export const LoadingScreen = (props) => (
 
 export const Row = (props) => (
   <TouchableHighlight onPress={props.onPress}>
-    <View {...props} style={[RowStyles.Row, props.style]} />
+    <View {...props} style={[RowStyles.Row, props.style]}>
+      {props.pictureUser ? <UserPicture user={props.pictureUser} /> : null}
+      <Text style={RowStyles.RowTitle}>{props.title}</Text>
+    </View>
   </TouchableHighlight>
 );
 
@@ -36,12 +39,6 @@ export const UserPicture = (props) => {
   return <Image {...props} style={[RowStyles.UserPicture, props.style]}
     source={{uri: pictureUrl}}/>
 };
-
-export const RowTitle = (props) => (
-  <Text {...props} style={[RowStyles.RowTitle, props.style]}>
-    {props.text}
-  </Text>
-);
 
 const RowStyles = StyleSheet.create({
   Row: {

@@ -57,10 +57,10 @@ class NewGameScreen extends Component {
   }
 
   renderFbFriendRow_(friend) {
-    return <Row onPress={() => this.onPressFriendRow_(friend)}>
-      <UserPicture user={friend} />
-      <RowTitle text={friend.name} />
-    </Row>;
+    return <Row
+      title={friend.name}
+      pictureUser={friend}
+      onPress={() => this.onPressFriendRow_(friend)} />;
   }
 
   async onPressFriendRow_(friend) {

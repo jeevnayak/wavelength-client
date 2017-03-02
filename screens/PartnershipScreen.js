@@ -86,9 +86,9 @@ class PartnershipScreen extends Component {
   }
 
   renderGameRow_(game) {
-    return <Row onPress={() => this.onPressGameRow_(game)}>
-      <RowTitle text={game.id} />
-    </Row>;
+    return <Row
+      title={game.id}
+      onPress={() => this.onPressGameRow_(game)}/>;
   }
 
   onPressGameRow_(game) {
