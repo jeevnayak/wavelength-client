@@ -51,7 +51,10 @@ export const LoadingScreen = (props) => (
 );
 
 export const Row = wrapInTouchableHighlight((props) => (
-  <View style={[RowStyles.Row, props.highlightActive ? RowStyles.RowActive : null, props.style]}>
+  <View style={[
+      RowStyles.Row,
+      props.highlightActive ? RowStyles.RowActive : null,
+      props.style]}>
     {props.pictureUser ? <UserPicture user={props.pictureUser} /> : null}
     <Text style={RowStyles.RowTitle}>{props.title}</Text>
   </View>
@@ -71,14 +74,19 @@ export const RowHeader = (props) => (
 );
 
 export const Button = wrapInTouchableHighlight((props) => (
-  <Text
-      style={[ButtonStyles.Base, props.highlightActive ? ButtonStyles.BaseActive : null, props.style]}>
+  <Text style={[
+      ButtonStyles.Base,
+      props.highlightActive ? ButtonStyles.BaseActive : null,
+      props.style]}>
     {props.text}
   </Text>
 ));
 
 export const BackButton = (props) => (
-  <Button onPress={props.navigator.pop} style={[ButtonStyles.Back, props.style]} text="Back" />
+  <Button
+    onPress={props.navigator.pop}
+    style={[ButtonStyles.Back, props.style]}
+    text="Back" />
 );
 
 const ButtonStyles = StyleSheet.create({

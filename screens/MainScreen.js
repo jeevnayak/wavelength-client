@@ -6,7 +6,6 @@ import {
 } from 'react-apollo';
 import {
   ListView,
-  StyleSheet,
   Text,
   TouchableHighlight,
   View,
@@ -58,7 +57,7 @@ class MainScreen extends Component {
       <Screen>
         <Button onPress={() => this.onPressNewGame_()} text="New Game" />
         {listView}
-        <Button onPress={logOut} text="Sign Out" layoutStyle={null} style={Styles.SignOutButtonStyle} />
+        <Button onPress={logOut} text="Sign Out" />
       </Screen>
     );
   }
@@ -94,15 +93,3 @@ export default graphql(UserQuery, {
     currentUser: user,
   }),
 })(MainScreen);
-
-const Styles = StyleSheet.create({
-  SignOutButtonStyle: {
-    
-  },
-  SignOutButtonLayoutStyle: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-  }
-});
