@@ -15,11 +15,13 @@ import {
   View,
 } from 'react-native';
 
-import Constants from '../util/Constants';
 import {
   Button,
+} from '../ui/Button';
+import Constants from '../util/Constants';
+import {
   Screen,
-} from '../ui/Elements';
+} from '../ui/Screen';
 import {
   getUserStore,
 } from '../data/UserStore'

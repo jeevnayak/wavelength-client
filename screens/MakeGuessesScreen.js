@@ -15,10 +15,12 @@ import {
 import {
   BackButton,
   Button,
+} from '../ui/Button';
+import GameQuery from '../queries/GameQuery';
+import {
   LoadingScreen,
   Screen,
-} from '../ui/Elements';
-import GameQuery from '../queries/GameQuery';
+} from '../ui/Screen';
 
 class MakeGuessesScreen extends Component {
   constructor(props) {

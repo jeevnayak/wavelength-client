@@ -12,14 +12,11 @@ import {
   View,
 } from 'react-native';
 
-import DailyChallengeQuery from '../queries/DailyChallengeQuery';
 import {
   BackButton,
   Button,
-  LoadingScreen,
-  Row,
-  Screen,
-} from '../ui/Elements';
+} from '../ui/Button';
+import DailyChallengeQuery from '../queries/DailyChallengeQuery';
 import {
   withFbFriends,
 } from '../data/FbFriendStore';
@@ -27,6 +24,13 @@ import {
   getGameScreen,
   getGameState,
 } from '../util/Helpers';
+import {
+  Row,
+} from '../ui/Row';
+import {
+  LoadingScreen,
+  Screen,
+} from '../ui/Screen';
 
 class DailyChallengeScreen extends Component {
   constructor(props) {

@@ -13,19 +13,21 @@ import {
 
 import {
   BackButton,
-  LoadingScreen,
-  Row,
-  RowHeader,
-  RowTitle,
-  Screen,
-  UserPicture,
-} from '../ui/Elements';
+} from '../ui/Button';
 import {
   GameState,
   getGameScreen,
   getGameState,
 } from '../util/Helpers';
 import PartnershipQuery from '../queries/PartnershipQuery';
+import {
+  HeaderRow,
+  Row,
+} from '../ui/Row';
+import {
+  LoadingScreen,
+  Screen,
+} from '../ui/Screen';
 
 class PartnershipScreen extends Component {
   constructor(props) {
@@ -80,7 +82,7 @@ class PartnershipScreen extends Component {
   }
 
   renderSectionHeader_(header) {
-    return <RowHeader text={header} />;
+    return <HeaderRow text={header} />;
   }
 
   renderGameRow_(game) {

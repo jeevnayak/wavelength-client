@@ -14,16 +14,18 @@ import {
 
 import {
   BackButton,
-  LoadingScreen,
-  Row,
-  RowTitle,
-  Screen,
-  UserPicture,
-} from '../ui/Elements';
+} from '../ui/Button';
 import {
   withFbFriends,
 } from '../data/FbFriendStore';
 import GiveCluesScreen from './GiveCluesScreen';
+import {
+  Row,
+} from '../ui/Row';
+import {
+  LoadingScreen,
+  Screen,
+} from '../ui/Screen';
 
 class NewGameScreen extends Component {
   constructor(props) {

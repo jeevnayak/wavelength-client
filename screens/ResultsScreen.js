@@ -13,10 +13,12 @@ import {
 
 import {
   BackButton,
+} from '../ui/Button';
+import GameQuery from '../queries/GameQuery';
+import {
   LoadingScreen,
   Screen,
-} from '../ui/Elements';
-import GameQuery from '../queries/GameQuery';
+} from '../ui/Screen';
 
 class ResultsScreen extends Component {
   render() {

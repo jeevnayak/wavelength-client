@@ -11,17 +11,19 @@ import {
   View,
 } from 'react-native';
 
-import DailyChallengeScreen from './DailyChallengeScreen';
 import {
   Button,
-  LoadingScreen,
-  Row,
-  RowTitle,
-  Screen,
-  UserPicture,
-} from '../ui/Elements';
+} from '../ui/Button';
+import DailyChallengeScreen from './DailyChallengeScreen';
 import NewGameScreen from './NewGameScreen';
 import PartnershipScreen from './PartnershipScreen';
+import {
+  Row,
+} from '../ui/Row';
+import {
+  LoadingScreen,
+  Screen,
+} from '../ui/Screen';
 import {
   getUserStore,
 } from '../data/UserStore';
@@ -57,7 +59,9 @@ class MainScreen extends Component {
     return (
       <Screen>
         <Button onPress={() => this.onPressNewGame_()} text="New Game" />
-        <Button onPress={() => this.onPressDailyChallenge_()} text="Daily Challenge" />
+        <Button
+          onPress={() => this.onPressDailyChallenge_()}
+          text="Daily Challenge" />
         {listView}
         <Button onPress={logOut} text="Sign Out" />
       </Screen>
