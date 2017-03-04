@@ -22,6 +22,7 @@ import {
 } from '../ui/Row';
 import {
   LoadingScreen,
+  screen,
   Screen,
 } from '../ui/Screen';
 import {
@@ -42,10 +43,6 @@ class MainScreen extends Component {
   }
 
   render() {
-    if (this.props.loading) {
-      return <LoadingScreen />;
-    }
-
     const logOut = getUserStore().clearCurrentUser.bind(getUserStore());
     this.dataSource_ = this.dataSource_.cloneWithRows(
       this.props.currentUser.partnerships);
@@ -104,8 +101,9 @@ class MainScreen extends Component {
 }
 
 export default graphql(UserQuery, {
-  props: ({ ownProps, data: { loading, user, refetch } }) => ({
+  props: ({ ownProps, data: { loading, error, user, refetch } }) => ({
     loading: loading,
+    error: error,
     currentUser: user,
   }),
-})(MainScreen);
+})(screen(MainScreen));

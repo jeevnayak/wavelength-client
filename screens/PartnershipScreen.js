@@ -26,6 +26,7 @@ import {
 } from '../ui/Row';
 import {
   LoadingScreen,
+  screen,
   Screen,
 } from '../ui/Screen';
 
@@ -41,10 +42,6 @@ class PartnershipScreen extends Component {
   }
 
   render() {
-    if (this.props.loading) {
-      return <LoadingScreen />;
-    }
-
     this.dataSource_ = this.dataSource_.cloneWithRowsAndSections(
       this.generateListViewData_());
     let listView;
@@ -106,8 +103,9 @@ class PartnershipScreen extends Component {
 }
 
 export default graphql(PartnershipQuery, {
-  props: ({ ownProps, data: { loading, partnership, refetch } }) => ({
+  props: ({ ownProps, data: { loading, error, partnership, refetch } }) => ({
     loading: loading,
+    error: error,
     partnership: partnership,
   }),
-})(PartnershipScreen);
+})(screen(PartnershipScreen));

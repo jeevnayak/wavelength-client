@@ -29,6 +29,7 @@ import {
 } from '../ui/Row';
 import {
   LoadingScreen,
+  screen,
   Screen,
 } from '../ui/Screen';
 
@@ -42,11 +43,6 @@ class DailyChallengeScreen extends Component {
   }
 
   render() {
-    if (this.props.loading ||
-        (this.props.loadingFbFriends && this.props.games.length === 0)) {
-      return <LoadingScreen />;
-    }
-
     let contents;
     if (this.props.games.length > 0) {
       contents = this.props.games.map(
@@ -141,8 +137,11 @@ const acceptDailyChallengeRequestMutation = gql`
 `;
 
 export default withFbFriends(graphql(DailyChallengeQuery, {
-  props: ({ ownProps, data: { loading, user, refetch } }) => ({
-    loading: loading,
+  props: ({ ownProps, data: { loading, error, user, refetch } }) => ({
+    loading: loading ||
+      ((!user || user.dailyChallengeInfo.games.length === 0)
+        && ownProps.loadingFbFriends),
+    error: error,
     user: user,
     incomingRequests: user ? user.dailyChallengeInfo.incomingRequests : [],
     outgoingRequests: user ? user.dailyChallengeInfo.outgoingRequests : [],
@@ -164,4 +163,4 @@ export default withFbFriends(graphql(DailyChallengeQuery, {
       });
     }
   }),
-})(DailyChallengeScreen))));
+})(screen(DailyChallengeScreen)))));

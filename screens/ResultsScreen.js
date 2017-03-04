@@ -17,15 +17,12 @@ import {
 import GameQuery from '../queries/GameQuery';
 import {
   LoadingScreen,
+  screen,
   Screen,
 } from '../ui/Screen';
 
 class ResultsScreen extends Component {
   render() {
-    if (this.props.loading) {
-      return <LoadingScreen />;
-    }
-
     return (
       <Screen>
         <BackButton navigator={this.props.navigator} />
@@ -40,8 +37,9 @@ class ResultsScreen extends Component {
 }
 
 export default graphql(GameQuery, {
-  props: ({ ownProps, data: { loading, game, refetch } }) => ({
+  props: ({ ownProps, data: { loading, error, game, refetch } }) => ({
     loading: loading,
+    error: error,
     game: game,
   }),
-})(ResultsScreen);
+})(screen(ResultsScreen));

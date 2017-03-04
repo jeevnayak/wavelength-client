@@ -19,6 +19,7 @@ import {
 import GameQuery from '../queries/GameQuery';
 import {
   LoadingScreen,
+  screen,
   Screen,
 } from '../ui/Screen';
 
@@ -35,10 +36,6 @@ class GiveCluesScreen extends Component {
   }
 
   render() {
-    if (this.props.loading) {
-      return <LoadingScreen />;
-    }
-
     return (
       <Screen>
         <BackButton navigator={this.props.navigator} />
@@ -95,8 +92,9 @@ const giveCluesMutation = gql`
 `;
 
 export default graphql(GameQuery, {
-  props: ({ ownProps, data: { loading, game, refetch } }) => ({
+  props: ({ ownProps, data: { loading, error, game, refetch } }) => ({
     loading: loading,
+    error: error,
     game: game,
   }),
 })(graphql(giveCluesMutation, {
@@ -111,4 +109,4 @@ export default graphql(GameQuery, {
       });
     }
   }),
-})(GiveCluesScreen));
+})(screen(GiveCluesScreen)));
