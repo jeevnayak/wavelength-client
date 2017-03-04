@@ -24,7 +24,6 @@ import {
   Row,
 } from '../ui/Row';
 import {
-  LoadingScreen,
   screen,
   Screen,
 } from '../ui/Screen';
@@ -39,10 +38,6 @@ class NewGameScreen extends Component {
   }
 
   render() {
-    if (this.props.loadingFbFriends) {
-      return <LoadingScreen />;
-    }
-
     this.dataSource_ = this.dataSource_.cloneWithRows(this.props.fbFriends);
     let listView;
     if (this.dataSource_.getRowCount() > 0) {

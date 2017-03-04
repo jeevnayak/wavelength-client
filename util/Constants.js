@@ -1,7 +1,3 @@
-import {
-  Platform,
-} from 'react-native';
-
 const prod = true;
 
 export default Constants = {

@@ -31,7 +31,7 @@ export const Screen = (props) => (
   <View {...props} style={[Styles.Screen, props.style]} />
 );
 
-export const LoadingScreen = (props) => (
+const LoadingScreen = (props) => (
   <Screen style={props.style}>
     <Text style={Styles.LoadingText}>Loading...</Text>
   </Screen>
