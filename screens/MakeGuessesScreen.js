@@ -97,9 +97,10 @@ const makeGuessesMutation = gql`
 
 export default compose(
   graphql(GameQuery, {
-    props: ({ ownProps, data: { loading, error, game, refetch } }) => ({
+    props: ({ ownProps, data: { loading, error, refetch, game } }) => ({
       loading: loading,
       error: error,
+      refetch: refetch,
       game: game,
     }),
   }),

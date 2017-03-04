@@ -138,17 +138,16 @@ const acceptDailyChallengeRequestMutation = gql`
 `;
 
 export default compose(
-  withFbFriends,
   graphql(DailyChallengeQuery, {
-    props: ({ ownProps, data: { loading, error, user, refetch } }) => ({
-      loading: loading ||
-        ((!user || user.dailyChallengeInfo.games.length === 0)
-          && ownProps.loadingFbFriends),
+    props: ({ ownProps, data: { loading, error, refetch, user } }) => ({
+      loading: loading,
       error: error,
+      refetch: refetch,
       user: user,
       incomingRequests: user ? user.dailyChallengeInfo.incomingRequests : [],
       outgoingRequests: user ? user.dailyChallengeInfo.outgoingRequests : [],
       games: user ? user.dailyChallengeInfo.games : [],
+      fbFriendsNotNeeded: user && user.dailyChallengeInfo.games.length > 0
     }),
   }),
   graphql(sendDailyChallengeRequestMutation, {
@@ -169,5 +168,6 @@ export default compose(
       }
     }),
   }),
+  withFbFriends,
   screen
 )(DailyChallengeScreen);

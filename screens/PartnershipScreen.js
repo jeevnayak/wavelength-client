@@ -105,9 +105,10 @@ class PartnershipScreen extends Component {
 
 export default compose(
   graphql(PartnershipQuery, {
-    props: ({ ownProps, data: { loading, error, partnership, refetch } }) => ({
+    props: ({ ownProps, data: { loading, error, refetch, partnership } }) => ({
       loading: loading,
       error: error,
+      refetch: refetch,
       partnership: partnership,
     }),
   }),

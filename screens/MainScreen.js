@@ -103,9 +103,10 @@ class MainScreen extends Component {
 
 export default compose(
   graphql(UserQuery, {
-    props: ({ ownProps, data: { loading, error, user, refetch } }) => ({
+    props: ({ ownProps, data: { loading, error, refetch, user } }) => ({
       loading: loading,
       error: error,
+      refetch: refetch,
       currentUser: user,
     }),
   }),

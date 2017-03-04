@@ -25,6 +25,7 @@ import {
 } from '../ui/Row';
 import {
   LoadingScreen,
+  screen,
   Screen,
 } from '../ui/Screen';
 
@@ -92,7 +93,6 @@ const newGameMutation = gql`
 `;
 
 export default compose(
-  withFbFriends,
   graphql(newGameMutation, {
     props: ({ mutate }) => ({
       createNewGame: (cluerId, guesserId) => {
@@ -101,5 +101,7 @@ export default compose(
         });
       }
     }),
-  })
+  }),
+  withFbFriends,
+  screen
 )(NewGameScreen);

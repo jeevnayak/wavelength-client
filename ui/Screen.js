@@ -7,6 +7,10 @@ import {
   View,
 } from 'react-native';
 
+import {
+  Button,
+} from './Button';
+
 export function screen(WrappedComponent) {
   return class extends Component {
     render() {
@@ -15,7 +19,7 @@ export function screen(WrappedComponent) {
       }
 
       if (this.props.error) {
-        return <ErrorScreen />;
+        return <ErrorScreen refetch={this.props.refetch} />;
       }
 
       return <WrappedComponent {...this.props} />;
@@ -36,6 +40,7 @@ export const LoadingScreen = (props) => (
 const ErrorScreen = (props) => (
   <Screen style={props.style}>
     <Text style={Styles.ErrorText}>Network Error</Text>
+    <Button text="Refresh" onPress={() => props.refetch()} />
   </Screen>
 );
 

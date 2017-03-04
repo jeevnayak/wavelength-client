@@ -8,12 +8,17 @@ class FbFriendStore {
   constructor(user) {
     this.user_ = user;
     this.loading_ = true;
+    this.loadError_ = false;
     this.fbFriends_ = [];
     this.listeners_ = [];
   }
 
   isLoading() {
     return this.loading_;
+  }
+
+  loadError() {
+    return this.loadError_;
   }
 
   getFbFriends() {
@@ -58,7 +63,9 @@ class FbFriendStore {
           lastName: fbUserInfo.last_name
         });
       }
+      this.loadError_ = false;
     } catch (error) {
+      this.loadError_ = true;
     }
     this.loading_ = false;
     this.fbFriends_ = fbFriends;
@@ -75,6 +82,7 @@ export function withFbFriends(WrappedComponent) {
 
       this.state = {
         loading: true,
+        error: false,
         fbFriends: []
       };
       if (!fbFriendStore_) {
@@ -97,15 +105,30 @@ export function withFbFriends(WrappedComponent) {
       if (this.isMounted_) {
         this.setState({
           loading: fbFriendStore_.isLoading(),
+          error: fbFriendStore_.loadError(),
           fbFriends: fbFriendStore_.getFbFriends()
         });
       }
     };
 
     render() {
-      return <WrappedComponent {...this.props}
-        loadingFbFriends={this.state.loading}
+      let passThroughProps = Object.assign({}, this.props);
+      delete passThroughProps.error;
+      delete passThroughProps.refetch;
+
+      return <WrappedComponent {...passThroughProps}
+        loading={this.props.loading ||
+          (!this.props.fbFriendsNotNeeded && this.state.loading)}
+        error={this.props.error || this.state.error}
+        refetch={() => this.refetch_()}
         fbFriends={this.state.fbFriends} />;
+    }
+
+    refetch_() {
+      fbFriendStore_.refetch()
+      if (this.props.refetch) {
+        this.props.refetch();
+      }
     }
   }
 }
