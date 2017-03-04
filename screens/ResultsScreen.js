@@ -2,6 +2,7 @@ import React, {
   Component,
 } from 'react';
 import {
+  compose,
   graphql,
 } from 'react-apollo';
 import {
@@ -36,10 +37,13 @@ class ResultsScreen extends Component {
   }
 }
 
-export default graphql(GameQuery, {
-  props: ({ ownProps, data: { loading, error, game, refetch } }) => ({
-    loading: loading,
-    error: error,
-    game: game,
+export default compose(
+  graphql(GameQuery, {
+    props: ({ ownProps, data: { loading, error, game, refetch } }) => ({
+      loading: loading,
+      error: error,
+      game: game,
+    }),
   }),
-})(screen(ResultsScreen));
+  screen
+)(ResultsScreen);

@@ -7,6 +7,7 @@ import React, {
   Component,
 } from 'react';
 import {
+  compose,
   graphql,
 } from 'react-apollo';
 import {
@@ -96,20 +97,23 @@ const addPushTokenMutation = gql`
   }
 `;
 
-export default graphql(updateUserMutation, {
-  props: ({ mutate }) => ({
-    onFbLogin: (id, name, firstName, lastName, fbToken) => {
-      mutate({
-        variables: { id, name, firstName, lastName, fbToken }
-      });
-    }
+export default compose(
+  graphql(updateUserMutation, {
+    props: ({ mutate }) => ({
+      onFbLogin: (id, name, firstName, lastName, fbToken) => {
+        mutate({
+          variables: { id, name, firstName, lastName, fbToken }
+        });
+      }
+    }),
   }),
-})(graphql(addPushTokenMutation, {
-  props: ({ mutate }) => ({
-    addPushToken: (userId, pushToken) => {
-      mutate({
-        variables: { userId, pushToken }
-      });
-    }
-  }),
-})(LoginScreen));
+  graphql(addPushTokenMutation, {
+    props: ({ mutate }) => ({
+      addPushToken: (userId, pushToken) => {
+        mutate({
+          variables: { userId, pushToken }
+        });
+      }
+    }),
+  })
+)(LoginScreen);

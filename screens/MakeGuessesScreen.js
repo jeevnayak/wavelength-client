@@ -3,6 +3,7 @@ import React, {
   Component,
 } from 'react';
 import {
+  compose,
   graphql,
 } from 'react-apollo';
 import {
@@ -94,22 +95,26 @@ const makeGuessesMutation = gql`
   }
 `;
 
-export default graphql(GameQuery, {
-  props: ({ ownProps, data: { loading, error, game, refetch } }) => ({
-    loading: loading,
-    error: error,
-    game: game,
+export default compose(
+  graphql(GameQuery, {
+    props: ({ ownProps, data: { loading, error, game, refetch } }) => ({
+      loading: loading,
+      error: error,
+      game: game,
+    }),
   }),
-})(graphql(makeGuessesMutation, {
-  props: ({ ownProps, mutate }) => ({
-    makeGuesses: (guesses) => {
-      mutate({
-        variables: {
-          currentUserId: ownProps.currentUserId,
-          gameId: ownProps.gameId,
-          guesses: guesses
-        }
-      });
-    }
+  graphql(makeGuessesMutation, {
+    props: ({ ownProps, mutate }) => ({
+      makeGuesses: (guesses) => {
+        mutate({
+          variables: {
+            currentUserId: ownProps.currentUserId,
+            gameId: ownProps.gameId,
+            guesses: guesses
+          }
+        });
+      }
+    }),
   }),
-})(screen(MakeGuessesScreen)));
+  screen
+)(MakeGuessesScreen);

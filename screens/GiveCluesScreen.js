@@ -3,6 +3,7 @@ import React, {
   Component,
 } from 'react';
 import {
+  compose,
   graphql,
 } from 'react-apollo';
 import {
@@ -91,22 +92,26 @@ const giveCluesMutation = gql`
   }
 `;
 
-export default graphql(GameQuery, {
-  props: ({ ownProps, data: { loading, error, game, refetch } }) => ({
-    loading: loading,
-    error: error,
-    game: game,
+export default compose(
+  graphql(GameQuery, {
+    props: ({ ownProps, data: { loading, error, game, refetch } }) => ({
+      loading: loading,
+      error: error,
+      game: game,
+    }),
   }),
-})(graphql(giveCluesMutation, {
-  props: ({ ownProps, mutate }) => ({
-    giveClues: (clues) => {
-      mutate({
-        variables: {
-          currentUserId: ownProps.currentUserId,
-          gameId: ownProps.gameId,
-          clues: clues
-        }
-      });
-    }
+  graphql(giveCluesMutation, {
+    props: ({ ownProps, mutate }) => ({
+      giveClues: (clues) => {
+        mutate({
+          variables: {
+            currentUserId: ownProps.currentUserId,
+            gameId: ownProps.gameId,
+            clues: clues
+          }
+        });
+      }
+    }),
   }),
-})(screen(GiveCluesScreen)));
+  screen
+)(GiveCluesScreen);

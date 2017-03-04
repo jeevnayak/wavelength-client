@@ -2,6 +2,7 @@ import React, {
   Component,
 } from 'react';
 import {
+  compose,
   graphql,
 } from 'react-apollo';
 import {
@@ -102,10 +103,13 @@ class PartnershipScreen extends Component {
   }
 }
 
-export default graphql(PartnershipQuery, {
-  props: ({ ownProps, data: { loading, error, partnership, refetch } }) => ({
-    loading: loading,
-    error: error,
-    partnership: partnership,
+export default compose(
+  graphql(PartnershipQuery, {
+    props: ({ ownProps, data: { loading, error, partnership, refetch } }) => ({
+      loading: loading,
+      error: error,
+      partnership: partnership,
+    }),
   }),
-})(screen(PartnershipScreen));
+  screen
+)(PartnershipScreen);

@@ -3,6 +3,7 @@ import React, {
   Component,
 } from 'react';
 import {
+  compose,
   graphql,
 } from 'react-apollo';
 import {
@@ -136,31 +137,37 @@ const acceptDailyChallengeRequestMutation = gql`
   }
 `;
 
-export default withFbFriends(graphql(DailyChallengeQuery, {
-  props: ({ ownProps, data: { loading, error, user, refetch } }) => ({
-    loading: loading ||
-      ((!user || user.dailyChallengeInfo.games.length === 0)
-        && ownProps.loadingFbFriends),
-    error: error,
-    user: user,
-    incomingRequests: user ? user.dailyChallengeInfo.incomingRequests : [],
-    outgoingRequests: user ? user.dailyChallengeInfo.outgoingRequests : [],
-    games: user ? user.dailyChallengeInfo.games : [],
+export default compose(
+  withFbFriends,
+  graphql(DailyChallengeQuery, {
+    props: ({ ownProps, data: { loading, error, user, refetch } }) => ({
+      loading: loading ||
+        ((!user || user.dailyChallengeInfo.games.length === 0)
+          && ownProps.loadingFbFriends),
+      error: error,
+      user: user,
+      incomingRequests: user ? user.dailyChallengeInfo.incomingRequests : [],
+      outgoingRequests: user ? user.dailyChallengeInfo.outgoingRequests : [],
+      games: user ? user.dailyChallengeInfo.games : [],
+    }),
   }),
-})(graphql(sendDailyChallengeRequestMutation, {
-  props: ({ mutate }) => ({
-    sendRequest: (fromUserId, toUserId) => {
-      return mutate({
-        variables: { fromUserId, toUserId }
-      });
-    }
+  graphql(sendDailyChallengeRequestMutation, {
+    props: ({ mutate }) => ({
+      sendRequest: (fromUserId, toUserId) => {
+        return mutate({
+          variables: { fromUserId, toUserId }
+        });
+      }
+    }),
   }),
-})(graphql(acceptDailyChallengeRequestMutation, {
-  props: ({ mutate }) => ({
-    acceptRequest: (requestId) => {
-      return mutate({
-        variables: { requestId }
-      });
-    }
+  graphql(acceptDailyChallengeRequestMutation, {
+    props: ({ mutate }) => ({
+      acceptRequest: (requestId) => {
+        return mutate({
+          variables: { requestId }
+        });
+      }
+    }),
   }),
-})(screen(DailyChallengeScreen)))));
+  screen
+)(DailyChallengeScreen);

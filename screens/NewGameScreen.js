@@ -3,6 +3,7 @@ import React, {
   Component,
 } from 'react';
 import {
+  compose,
   graphql,
 } from 'react-apollo';
 import {
@@ -90,12 +91,15 @@ const newGameMutation = gql`
   }
 `;
 
-export default withFbFriends(graphql(newGameMutation, {
-  props: ({ mutate }) => ({
-    createNewGame: (cluerId, guesserId) => {
-      return mutate({
-        variables: { cluerId, guesserId }
-      });
-    }
-  }),
-})(NewGameScreen));
+export default compose(
+  withFbFriends,
+  graphql(newGameMutation, {
+    props: ({ mutate }) => ({
+      createNewGame: (cluerId, guesserId) => {
+        return mutate({
+          variables: { cluerId, guesserId }
+        });
+      }
+    }),
+  })
+)(NewGameScreen);

@@ -2,6 +2,7 @@ import React, {
   Component,
 } from 'react';
 import {
+  compose,
   graphql,
 } from 'react-apollo';
 import {
@@ -100,10 +101,13 @@ class MainScreen extends Component {
   }
 }
 
-export default graphql(UserQuery, {
-  props: ({ ownProps, data: { loading, error, user, refetch } }) => ({
-    loading: loading,
-    error: error,
-    currentUser: user,
+export default compose(
+  graphql(UserQuery, {
+    props: ({ ownProps, data: { loading, error, user, refetch } }) => ({
+      loading: loading,
+      error: error,
+      currentUser: user,
+    }),
   }),
-})(screen(MainScreen));
+  screen
+)(MainScreen);
