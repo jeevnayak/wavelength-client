@@ -45,6 +45,7 @@ class ChooseWordScreen extends Component {
         gameId: resp.data.newGame.id
       }
     });
+    this.props.refetch();
   }
 }
 
