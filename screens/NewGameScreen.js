@@ -16,10 +16,10 @@ import {
 import {
   BackButton,
 } from '../ui/Button';
+import ChooseWordScreen from './ChooseWordScreen';
 import {
   withFbFriends,
 } from '../data/FbFriendStore';
-import GiveCluesScreen from './GiveCluesScreen';
 import {
   Row,
 } from '../ui/Row';
@@ -62,41 +62,18 @@ class NewGameScreen extends Component {
   }
 
   async onPressFriendRow_(friend) {
-    const resp = await this.props.createNewGame(
-      this.props.currentUser.id, friend.id);
-    this.props.navigator.replace({
-      component: GiveCluesScreen,
+    this.props.navigator.push({
+      component: ChooseWordScreen,
       props: {
         currentUserId: this.props.currentUser.id,
-        gameId: resp.data.newGame.id
+        cluerId: this.props.currentUser.id,
+        guesserId: friend.id
       }
     });
   }
 }
 
-const newGameMutation = gql`
-  mutation newGame($cluerId: String!, $guesserId: String!) {
-    newGame(cluerId: $cluerId, guesserId: $guesserId) {
-      id
-      word
-      isCluer(userId: $cluerId)
-      clues
-      guesses
-      replayed
-    }
-  }
-`;
-
 export default compose(
-  graphql(newGameMutation, {
-    props: ({ mutate }) => ({
-      createNewGame: (cluerId, guesserId) => {
-        return mutate({
-          variables: { cluerId, guesserId }
-        });
-      }
-    }),
-  }),
   withFbFriends,
   screen
 )(NewGameScreen);
