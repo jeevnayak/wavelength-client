@@ -2,10 +2,10 @@ import ApolloClient, {
   createNetworkInterface,
   toIdValue
 } from 'apollo-client';
-import Exponent, {
+import Expo, {
   Components,
   Notifications,
-} from 'exponent';
+} from 'expo';
 import React, {
   Component,
 } from 'react';
@@ -123,4 +123,4 @@ class App extends Component {
   };
 }
 
-Exponent.registerRootComponent(App);
+Expo.registerRootComponent(App);

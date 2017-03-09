@@ -1,7 +1,7 @@
-import Exponent, {
+import Expo, {
   Notifications,
   Permissions,
-} from 'exponent';
+} from 'expo';
 import gql from 'graphql-tag';
 import React, {
   Component,
@@ -46,7 +46,7 @@ class LoginScreen extends Component {
 
   async fbLogin_() {
     const { type, token } =
-      await Exponent.Facebook.logInWithReadPermissionsAsync(
+      await Expo.Facebook.logInWithReadPermissionsAsync(
         Constants.FbAppId, {
           permissions: Constants.FbPermissions,
         });
