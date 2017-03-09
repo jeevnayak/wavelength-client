@@ -19,6 +19,7 @@ export default function touchable(WrappedComponent) {
     render() {
       return <TouchableHighlight
           style={this.props.layoutStyle}
+          underlayColor="transparent"
           onPress={this.props.onPress}
           onShowUnderlay={() => this.onUnderlayToggle_(true)}
           onHideUnderlay={() => this.onUnderlayToggle_(false)}>
