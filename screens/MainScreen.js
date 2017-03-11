@@ -60,7 +60,7 @@ class MainScreen extends Component {
         <Button
           onPress={() => this.onPressDailyChallenge_()}
           text="Daily Challenge" />
-        <Button onPress={() => this.onPressDemo_()} text="Demo" />
+        <Button onPress={() => this.onPressDemo_()} text="Animation Demos" />
         {listView}
         <Button onPress={logOut} text="Sign Out" />
       </Screen>
