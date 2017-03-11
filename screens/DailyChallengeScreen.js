@@ -83,7 +83,7 @@ class DailyChallengeScreen extends Component {
   }
 
   renderFriendRow_(friend) {
-    var button;
+    let button;
     if (friend.receivedRequestId) {
       button = <Button
         text="Accept request"

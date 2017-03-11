@@ -23,16 +23,14 @@ import {
 
 class ChooseWordScreen extends Component {
   render() {
-    var words = this.props.possibleWords.map((word) => (
-      <Button text={word} onPress={() => this.chooseWord_(word)} />
+    const words = this.props.possibleWords.map((word) => (
+      <Button key={word} text={word} onPress={() => this.chooseWord_(word)} />
     ));
-    return (
-      <Screen>
-        <BackButton navigator={this.props.navigator} />
-        <Text>Choose a word to clue:</Text>
-        {words}
-      </Screen>
-    );
+    return <Screen>
+      <BackButton navigator={this.props.navigator} />
+      <Text>Choose a word to clue:</Text>
+      {words}
+    </Screen>;
   }
 
   async chooseWord_(word) {
