@@ -9,6 +9,36 @@ import {
 } from 'react-native';
 
 export default Atom = (props) => {
+  let orbitalSpecs = [
+    {
+      electronColor: "#f00",
+      rotation: 0
+    },
+    {
+      electronColor: "#0f0",
+      rotation: 60
+    },
+    {
+      electronColor: "#00f",
+      rotation: 120
+    },
+  ];
+  let orbits = [];
+  let electrons = [];
+  for (const [i, orbitalSpec] of orbitalSpecs.entries()) {
+    orbits.push(<Orbit
+      key={i}
+      size={props.size}
+      rotation={orbitalSpec.rotation}
+      tilt={props.orbitalTilt} />);
+    electrons.push(<Electron
+      key={i}
+      size={props.electronSize}
+      color={orbitalSpec.electronColor}
+      orbitalSize={props.size}
+      orbitalRotation={orbitalSpec.rotation}
+      orbitalTilt={props.orbitalTilt} />)
+  }
   const style = {
     width: props.size,
     height: props.size
@@ -18,24 +48,8 @@ export default Atom = (props) => {
       size={props.nucleusSize}
       color="#f0f"
       atomSize={props.size} />
-    <Orbital
-      size={props.size}
-      electronSize={props.electronSize}
-      electronColor="#00f"
-      rotation={120}
-      tilt={props.orbitalTilt} />
-    <Orbital
-      size={props.size}
-      electronSize={props.electronSize}
-      electronColor="#0f0"
-      rotation={60}
-      tilt={props.orbitalTilt} />
-    <Orbital
-      size={props.size}
-      electronSize={props.electronSize}
-      electronColor="#f00"
-      rotation={0}
-      tilt={props.orbitalTilt} />
+    {orbits}
+    {electrons}
   </View>;
 };
 
@@ -43,7 +57,6 @@ export const Orbital = (props) => {
   const rotation = props.rotation || 0;
   const tilt = props.tilt || 0;
   const style = {
-    position: props.standalone ? "relative" : "absolute",
     width: props.size,
     height: props.size
   };

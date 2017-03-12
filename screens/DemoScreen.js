@@ -42,8 +42,7 @@ export default class DemoScreen extends Component {
           <Orbital
             size={200}
             electronSize={20}
-            electronColor="#f00"
-            standalone={true} />
+            electronColor="#f00" />
         </View>;
         break;
       case "large":
@@ -51,8 +50,7 @@ export default class DemoScreen extends Component {
           <Orbital
             size={700}
             electronSize={40}
-            electronColor="#f00"
-            standalone={true} />
+            electronColor="#f00" />
         </View>;
         break;
     }
