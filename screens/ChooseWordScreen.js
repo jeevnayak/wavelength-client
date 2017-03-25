@@ -15,6 +15,7 @@ import {
   Button,
 } from '../ui/Button';
 import GiveCluesScreen from './GiveCluesScreen';
+import PartnershipQuery from '../queries/PartnershipQuery';
 import PossibleWordsQuery from '../queries/PossibleWordsQuery';
 import {
   screen,
@@ -56,6 +57,9 @@ const newGameMutation = gql`
       clues
       guesses
       replayed
+      partnership {
+        id
+      }
     }
   }
 `;
@@ -70,10 +74,30 @@ export default compose(
     }),
   }),
   graphql(newGameMutation, {
-    props: ({ mutate }) => ({
+    props: ({ ownProps, mutate }) => ({
       createNewGame: (cluerId, guesserId, word) => {
         return mutate({
-          variables: { cluerId, guesserId, word }
+          variables: { cluerId, guesserId, word },
+          update: (proxy, { data: { newGame } }) => {
+            const queryVariables = {
+              partnershipId: newGame.partnership.id,
+              currentUserId: ownProps.currentUserId,
+            };
+            try {
+              const data = proxy.readQuery({
+                query: PartnershipQuery,
+                variables: queryVariables,
+              });
+              data.partnership.games.unshift(newGame);
+              proxy.writeQuery({
+                query: PartnershipQuery,
+                variables: queryVariables,
+                data,
+              });
+            } catch (e) {
+              // no-op
+            }
+          },
         });
       }
     }),

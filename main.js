@@ -3,7 +3,7 @@ import ApolloClient, {
   toIdValue
 } from 'apollo-client';
 import Expo, {
-  Components,
+  AppLoading,
   Notifications,
 } from 'expo';
 import React, {
@@ -68,7 +68,7 @@ class App extends Component {
   render() {
     const userStore = getUserStore();
     if (!userStore.isInitialized()) {
-      return <Components.AppLoading />;
+      return <AppLoading />;
     }
 
     const currentUserId = userStore.getCurrentUserId();
