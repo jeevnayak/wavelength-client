@@ -4,9 +4,10 @@ import React, {
 import {
   Animated,
   StyleSheet,
+  View,
 } from 'react-native';
 
-export default class Letter extends Component {
+class Letter extends Component {
   constructor(props) {
     super(props);
 
@@ -30,8 +31,18 @@ export default class Letter extends Component {
   }
 }
 
+export default Letters = (props) => {
+  const letters = props.text ? props.text.split("").map(
+    (letter, i) => <Letter key={i} value={letter} />) : null;
+  return <View style={[Styles.Letters, props.style]}>{letters}</View>;
+}
+
 const Styles = StyleSheet.create({
   Letter: {
     fontSize: 28,
+  },
+  Letters: {
+    flexDirection: "row",
+    height: 35,
   },
 });

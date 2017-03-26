@@ -6,20 +6,13 @@ import {
   compose,
   graphql,
 } from 'react-apollo';
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
 
 import {
   BackButton,
-  Button,
 } from '../ui/Button';
+import Card from '../ui/Card';
 import GameQuery from '../queries/GameQuery';
 import Keyboard from '../ui/Keyboard';
-import Letter from '../ui/Letter';
 import {
   screen,
   Screen,
@@ -35,17 +28,12 @@ class GiveCluesScreen extends Component {
   }
 
   render() {
-    const clues = this.state.clues.map((clue, i) => {
-      const letters = clue.split("").map(
-        (letter, i) => <Letter key={i} value={letter} />);
-      return <View key={i} style={Styles.Clue}>{letters}</View>;
-    });
     return (
       <Screen>
         <BackButton navigator={this.props.navigator} />
-        <Text>{this.props.game.word}</Text>
-        <Text>Clues:</Text>
-        {clues}
+        <Card
+          word={this.props.game.word}
+          clues={this.state.clues} />
         <Keyboard
           onPressLetter={(letter) => this.onPressLetter_(letter)}
           onPressBackspace={() => this.onPressBackspace_()}
@@ -79,12 +67,6 @@ class GiveCluesScreen extends Component {
     this.props.navigator.pop();
   }
 }
-
-const Styles = StyleSheet.create({
-  Clue: {
-    flexDirection: "row",
-  },
-});
 
 const giveCluesMutation = gql`
   mutation giveClues($currentUserId: String!, $gameId: Int!, $clues: [String]!) {
