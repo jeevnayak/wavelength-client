@@ -11,13 +11,13 @@ import Letters from './Letters';
 
 export default Card = (props) => (
   <View style={Styles.Card}>
-    <Header word={props.word} />
+    <Header word={props.word} guessedWord={props.guessedWord} />
     <Clues clues={props.clues} />
   </View>
 );
 
 const Header = (props) => (
-  <View style={Styles.Header}>
+  <View style={[Styles.Header, props.guessedWord ? Styles.HeaderFilled : null]}>
     <Letters text={props.word} />
   </View>
 );
@@ -41,6 +41,9 @@ const Styles = StyleSheet.create({
     alignItems: "center",
     borderBottomWidth: 1,
     borderBottomColor: "#0e0",
+  },
+  HeaderFilled: {
+    backgroundColor: "#0e0",
   },
   Clues: {
     flex: 1,

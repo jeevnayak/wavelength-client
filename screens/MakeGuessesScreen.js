@@ -6,16 +6,9 @@ import {
   compose,
   graphql,
 } from 'react-apollo';
-import {
-  Text,
-  TextInput,
-  TouchableHighlight,
-  View,
-} from 'react-native';
 
 import {
   BackButton,
-  Button,
 } from '../ui/Button';
 import GameQuery from '../queries/GameQuery';
 import {
@@ -28,54 +21,59 @@ class MakeGuessesScreen extends Component {
     super(props);
 
     this.state = {
-      guess1: "",
-      guess2: "",
-      guess3: "",
-      guess4: ""
+      guesses: [""],
     };
   }
 
   render() {
+    const guessedWord = this.guessedWord_();
+    const currentGuess = this.state.guesses[this.state.guesses.length - 1];
+    const word = guessedWord ? this.props.game.word : currentGuess;
+    const clues = guessedWord ?
+      [...this.props.game.clues.slice(0, this.state.guesses.length - 1),
+        currentGuess] :
+      this.props.game.clues.slice(0, this.state.guesses.length);
     return (
       <Screen>
         <BackButton navigator={this.props.navigator} />
-        <Text>{this.props.game.word}</Text>
-        <Text>Clues:</Text>
-        <Text>{this.props.game.clues.join(", ")}</Text>
-        <Text>Guesses:</Text>
-        <TextInput
-          name="guess1"
-          style={{height: 40, borderColor: "gray", borderWidth: 1}}
-          autoCapitalize="characters"
-          onChangeText={(guess1) => this.setState({guess1})} />
-        <TextInput
-          name="guess2"
-          style={{height: 40, borderColor: "gray", borderWidth: 1}}
-          autoCapitalize="characters"
-          onChangeText={(guess2) => this.setState({guess2})} />
-        <TextInput
-          name="guess3"
-          style={{height: 40, borderColor: "gray", borderWidth: 1}}
-          autoCapitalize="characters"
-          onChangeText={(guess3) => this.setState({guess3})} />
-        <TextInput
-          name="guess4"
-          style={{height: 40, borderColor: "gray", borderWidth: 1}}
-          autoCapitalize="characters"
-          onChangeText={(guess4) => this.setState({guess4})} />
-        <Button onPress={() => this.makeGuesses_()} text="Submit" />
+        <Card
+          word={word}
+          guessedWord={guessedWord}
+          clues={clues} />
+        <Keyboard
+          onPressLetter={(letter) => this.onPressLetter_(letter)}
+          onPressBackspace={() => this.onPressBackspace_()}
+          onPressSubmit={() => this.onPressSubmit_()} />
       </Screen>
     );
   }
 
+  guessedWord_() {
+    return this.state.guesses.some((guess) => guess === this.props.game.word);
+  }
+
+  onPressLetter_(letter) {
+    this.state.guesses[this.state.guesses.length - 1] += letter;
+    this.setState({guesses: this.state.guesses});
+  }
+
+  onPressBackspace_() {
+    let currentGuess = this.state.guesses[this.state.guesses.length - 1];
+    currentGuess = currentGuess.substring(0, currentGuess.length - 1);
+    this.state.guesses[this.state.guesses.length - 1] = currentGuess;
+    this.setState({guesses: this.state.guesses});
+  }
+
+  onPressSubmit_() {
+    if (this.state.guesses.length === 4) {
+      this.makeGuesses_();
+    } else {
+      this.setState({guesses: [...this.state.guesses, ""]});
+    }
+  }
+
   async makeGuesses_() {
-    const guesses = [
-      this.state.guess1,
-      this.state.guess2,
-      this.state.guess3,
-      this.state.guess4
-    ];
-    await this.props.makeGuesses(guesses);
+    await this.props.makeGuesses(this.state.guesses);
     this.props.navigator.pop();
   }
 }
