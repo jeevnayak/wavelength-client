@@ -47,6 +47,7 @@ const Styles = StyleSheet.create({
   },
   Letters: {
     flexDirection: "row",
+    justifyContent: "center",
     height: 35,
   },
 });

@@ -33,7 +33,10 @@ class GiveCluesScreen extends Component {
   render() {
     return <Screen style={Styles.Screen}>
       <BackButton navigator={this.props.navigator} />
-      <Card word={this.props.game.word} clues={this.state.clues} />
+      <Card
+        word={this.props.game.word}
+        clues={this.state.clues}
+        focusedClueIndex={this.state.clues.length - 1} />
       <Keyboard
         onPressLetter={(letter) => this.onPressLetter_(letter)}
         onPressBackspace={() => this.onPressBackspace_()}
