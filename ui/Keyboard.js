@@ -8,6 +8,8 @@ import {
 
 import touchable from './Touchable';
 
+export const kKeyboardHeight = 225;
+
 const kLetterRows = [
   ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
   ["A", "S", "D", "F", "G", "H", "J", "K", "L"],
@@ -40,7 +42,7 @@ export default Keyboard = (props) => {
       return letterRow;
     }
   });
-  return <View>
+  return <View style={Styles.Keyboard}>
     {letterRows}
     <View style={Styles.Row}>
       <Key
@@ -53,9 +55,7 @@ export default Keyboard = (props) => {
 };
 
 const LetterRow = (props) => {
-  return <View style={[
-      Styles.Row,
-      props.firstRow ? Styles.FirstRow : null]}>
+  return <View style={Styles.Row}>
     {props.letters.map((letter, i) => <Key
       key={i}
       firstKey={i === 0}
@@ -75,6 +75,10 @@ const Key = touchable((props) => (
 ));
 
 const Styles = StyleSheet.create({
+  Keyboard: {
+    height: kKeyboardHeight,
+    backgroundColor: "#eee",
+  },
   HorizontalLayout: {
     flexDirection: "row",
   },
@@ -84,14 +88,11 @@ const Styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: kRowSpacing,
   },
-  FirstRow: {
-    marginTop: 0,
-  },
   Key: {
     alignItems: "center",
     justifyContent: "center",
     width: kKeyWidth,
-    height: kKeyWidth * 3 / 2,
+    height: kKeyWidth * 4 / 3,
     marginLeft: kKeySpacing,
     backgroundColor: "#0ff",
   },

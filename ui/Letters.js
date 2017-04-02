@@ -24,7 +24,10 @@ class Letter extends Component {
   }
 
   render() {
-    const style = {transform: [{scale: this.state.scale}]};
+    const style = {
+      color: this.props.color,
+      transform: [{scale: this.state.scale}],
+    };
     return <Animated.Text style={[Styles.Letter, style]}>
       {this.props.value}
     </Animated.Text>;
@@ -33,7 +36,8 @@ class Letter extends Component {
 
 export default Letters = (props) => {
   const letters = props.text ? props.text.split("").map(
-    (letter, i) => <Letter key={i} value={letter} />) : null;
+    (letter, i) => <Letter key={i} value={letter} color={props.color} />) :
+    null;
   return <View style={[Styles.Letters, props.style]}>{letters}</View>;
 }
 

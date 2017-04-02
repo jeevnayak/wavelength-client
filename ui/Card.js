@@ -9,16 +9,21 @@ import {
 
 import Letters from './Letters';
 
-export default Card = (props) => (
-  <View style={Styles.Card}>
-    <Header word={props.word} guessedWord={props.guessedWord} />
+const kHorizontalMargin = 30;
+const kHeight = 500;
+const kHeaderHeight = 70;
+const kBorderSize = 10;
+
+export default Card = (props) => {
+  return <View style={Styles.Card}>
+    <Header word={props.word} />
     <Clues clues={props.clues} />
-  </View>
-);
+  </View>;
+};
 
 const Header = (props) => (
-  <View style={[Styles.Header, props.guessedWord ? Styles.HeaderFilled : null]}>
-    <Letters text={props.word} />
+  <View style={Styles.Header}>
+    <Letters text={props.word} color="#fff" />
   </View>
 );
 
@@ -33,21 +38,27 @@ const Clues = (props) => (
 
 const Styles = StyleSheet.create({
   Card: {
-    flex: 1,
+    position: "absolute",
+    top: 100,
+    right: kHorizontalMargin,
+    left: kHorizontalMargin,
+    height: kHeight,
+    paddingRight: kBorderSize,
+    paddingBottom: kBorderSize,
+    paddingLeft: kBorderSize,
+    backgroundColor: "#300095",
+    borderRadius: 12,
   },
   Header: {
-    height: 50,
+    height: kHeaderHeight,
     justifyContent: "center",
     alignItems: "center",
-    borderBottomWidth: 1,
-    borderBottomColor: "#0e0",
-  },
-  HeaderFilled: {
-    backgroundColor: "#0e0",
   },
   Clues: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#fff",
+    borderRadius: 4,
   },
 });

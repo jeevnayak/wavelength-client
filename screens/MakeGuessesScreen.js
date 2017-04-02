@@ -6,6 +6,9 @@ import {
   compose,
   graphql,
 } from 'react-apollo';
+import {
+  StyleSheet,
+} from 'react-native';
 
 import {
   BackButton,
@@ -33,19 +36,14 @@ class MakeGuessesScreen extends Component {
       [...this.props.game.clues.slice(0, this.state.guesses.length - 1),
         currentGuess] :
       this.props.game.clues.slice(0, this.state.guesses.length);
-    return (
-      <Screen>
-        <BackButton navigator={this.props.navigator} />
-        <Card
-          word={word}
-          guessedWord={guessedWord}
-          clues={clues} />
-        <Keyboard
-          onPressLetter={(letter) => this.onPressLetter_(letter)}
-          onPressBackspace={() => this.onPressBackspace_()}
-          onPressSubmit={() => this.onPressSubmit_()} />
-      </Screen>
-    );
+    return <Screen style={Styles.Screen}>
+      <BackButton navigator={this.props.navigator} />
+      <Card word={word} clues={clues} />
+      <Keyboard
+        onPressLetter={(letter) => this.onPressLetter_(letter)}
+        onPressBackspace={() => this.onPressBackspace_()}
+        onPressSubmit={() => this.onPressSubmit_()} />
+    </Screen>;
   }
 
   guessedWord_() {
@@ -77,6 +75,12 @@ class MakeGuessesScreen extends Component {
     this.props.navigator.pop();
   }
 }
+
+const Styles = StyleSheet.create({
+  Screen: {
+    justifyContent: "space-between",
+  },
+});
 
 const makeGuessesMutation = gql`
   mutation makeGuesses(

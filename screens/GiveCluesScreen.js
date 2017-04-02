@@ -6,6 +6,9 @@ import {
   compose,
   graphql,
 } from 'react-apollo';
+import {
+  StyleSheet,
+} from 'react-native';
 
 import {
   BackButton,
@@ -28,18 +31,14 @@ class GiveCluesScreen extends Component {
   }
 
   render() {
-    return (
-      <Screen>
-        <BackButton navigator={this.props.navigator} />
-        <Card
-          word={this.props.game.word}
-          clues={this.state.clues} />
-        <Keyboard
-          onPressLetter={(letter) => this.onPressLetter_(letter)}
-          onPressBackspace={() => this.onPressBackspace_()}
-          onPressSubmit={() => this.onPressSubmit_()} />
-      </Screen>
-    );
+    return <Screen style={Styles.Screen}>
+      <BackButton navigator={this.props.navigator} />
+      <Card word={this.props.game.word} clues={this.state.clues} />
+      <Keyboard
+        onPressLetter={(letter) => this.onPressLetter_(letter)}
+        onPressBackspace={() => this.onPressBackspace_()}
+        onPressSubmit={() => this.onPressSubmit_()} />
+    </Screen>;
   }
 
   onPressLetter_(letter) {
@@ -67,6 +66,12 @@ class GiveCluesScreen extends Component {
     this.props.navigator.pop();
   }
 }
+
+const Styles = StyleSheet.create({
+  Screen: {
+    justifyContent: "space-between",
+  },
+});
 
 const giveCluesMutation = gql`
   mutation giveClues($currentUserId: String!, $gameId: Int!, $clues: [String]!) {
