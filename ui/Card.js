@@ -2,8 +2,8 @@ import React, {
   Component,
 } from 'react';
 import {
+  Animated,
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
 
@@ -18,18 +18,41 @@ const kHeaderHeight = 70;
 const kClueHeight = 60;
 const kBorderSize = 10;
 
-export default Card = (props) => {
-  const cluesContainerHeight = kCardHeight - kHeaderHeight - kBorderSize;
-  const cluesHeight = kClueHeight * 4;
-  const cluesPadding = (cluesContainerHeight - cluesHeight) / 2;
-  const focusedClueBottom =
-    kHeaderHeight + cluesPadding + kClueHeight * (props.focusedClueIndex + 1);
-  const style = {bottom: kKeyboardHeight - kCardHeight + focusedClueBottom};
-  return <View style={[Styles.Card, style]}>
-    <Header word={props.word} />
-    <Clues clues={props.clues} focusedIndex={props.focusedClueIndex} />
-  </View>;
-};
+export default class Card extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      bottom: new Animated.Value(this.calculateBottom_(props)),
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    Animated.spring(this.state.bottom, {
+      toValue: this.calculateBottom_(nextProps),
+      friction: 7,
+    }).start();
+  }
+
+  render() {
+    const style = {transform: [{translateY: this.state.bottom}]};
+    return <Animated.View style={[Styles.Card, style]}>
+      <Header word={this.props.word} />
+      <Clues
+        clues={this.props.clues}
+        focusedIndex={this.props.focusedClueIndex} />
+    </Animated.View>;
+  }
+
+  calculateBottom_(props) {
+    const cluesContainerHeight = kCardHeight - kHeaderHeight - kBorderSize;
+    const cluesHeight = kClueHeight * 4;
+    const cluesPadding = (cluesContainerHeight - cluesHeight) / 2;
+    const focusedClueBottom =
+      kHeaderHeight + cluesPadding + kClueHeight * (props.focusedClueIndex + 1);
+    return -(kKeyboardHeight - kCardHeight + focusedClueBottom);
+  }
+}
 
 const Header = (props) => (
   <View style={Styles.Header}>
@@ -60,6 +83,7 @@ const Clue = (props) => {
 const Styles = StyleSheet.create({
   Card: {
     position: "absolute",
+    bottom: 0,
     right: kHorizontalMargin,
     left: kHorizontalMargin,
     height: kCardHeight,
