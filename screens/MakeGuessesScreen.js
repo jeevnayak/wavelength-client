@@ -13,6 +13,7 @@ import {
 import {
   BackButton,
 } from '../ui/Button';
+import Card from '../ui/Card';
 import GameQuery from '../queries/GameQuery';
 import {
   screen,
@@ -38,7 +39,11 @@ class MakeGuessesScreen extends Component {
       this.props.game.clues.slice(0, this.state.guesses.length);
     return <Screen style={Styles.Screen}>
       <BackButton navigator={this.props.navigator} />
-      <Card word={word} clues={clues} />
+      <Card
+        word={word}
+        clues={clues}
+        focusedClueIndex={clues.length - 1}
+        guessingWord={!guessedWord} />
       <Keyboard
         onPressLetter={(letter) => this.onPressLetter_(letter)}
         onPressBackspace={() => this.onPressBackspace_()}
@@ -47,7 +52,9 @@ class MakeGuessesScreen extends Component {
   }
 
   guessedWord_() {
-    return this.state.guesses.some((guess) => guess === this.props.game.word);
+    return this.state.guesses.some((guess, i) => (
+      i !== this.state.guesses.length - 1 && guess === this.props.game.word
+    ));
   }
 
   onPressLetter_(letter) {

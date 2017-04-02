@@ -36,7 +36,12 @@ export default class Card extends Component {
 
   render() {
     const style = {transform: [{translateY: this.state.bottom}]};
-    return <Animated.View style={[Styles.Card, style]}>
+    return <Animated.View
+        style={[
+          Styles.Card,
+          this.props.guessingWord ? Styles.PendingCard : null,
+          style,
+        ]}>
       <Header word={this.props.word} />
       <Clues
         clues={this.props.clues}
@@ -61,12 +66,9 @@ const Header = (props) => (
 );
 
 const Clues = (props) => {
-  const clues = [0, 1, 2, 3].map((i) => {
-    return <Clue
-      key={i}
-      text={props.clues[i]}
-      focused={i === props.focusedIndex} />;
-  });
+  const clues = [0, 1, 2, 3].map((i) => (
+    <Clue key={i} text={props.clues[i]} focused={i === props.focusedIndex} />
+  ));
   return <View style={Styles.Clues}>
     {clues}
   </View>
@@ -92,6 +94,9 @@ const Styles = StyleSheet.create({
     paddingLeft: kBorderSize,
     backgroundColor: "#300095",
     borderRadius: 12,
+  },
+  PendingCard: {
+    backgroundColor: "#666",
   },
   Header: {
     height: kHeaderHeight,
