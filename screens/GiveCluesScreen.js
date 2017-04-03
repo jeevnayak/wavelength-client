@@ -22,13 +22,9 @@ import {
 } from '../ui/Screen';
 
 class GiveCluesScreen extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      clues: [""],
-    };
-  }
+  state = {
+    clues: [""],
+  };
 
   render() {
     return <Screen style={Styles.Screen}>

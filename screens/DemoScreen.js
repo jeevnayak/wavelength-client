@@ -17,13 +17,9 @@ import {
 } from '../ui/Screen';
 
 export default class DemoScreen extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      currentDemo: "atom"
-    };
-  }
+  state = {
+    currentDemo: "atom",
+  };
 
   render() {
     let contents;

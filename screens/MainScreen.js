@@ -34,12 +34,11 @@ class MainScreen extends Component {
   constructor(props) {
     super(props);
 
-    const dataSource = new ListView.DataSource({
+    this.dataSource_ = new ListView.DataSource({
       rowHasChanged: (partnership1, partnership2) => (
         partnership1.id !== partnership2.id
       )
     });
-    this.dataSource_ = dataSource;
   }
 
   render() {

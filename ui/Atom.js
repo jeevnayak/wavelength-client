@@ -85,13 +85,9 @@ const Orbit = (props) => {
 };
 
 class Electron extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      rotation: new Animated.Value(0),
-    };
-  }
+  state = {
+    rotation: new Animated.Value(0),
+  };
 
   componentDidMount() {
     this.rotate_();

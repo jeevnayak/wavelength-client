@@ -8,13 +8,9 @@ import {
 
 export default function touchable(WrappedComponent) {
   return class extends Component {
-    constructor(props) {
-      super(props);
-
-      this.state = {
-        active: false
-      };
-    }
+    state = {
+      active: false,
+    };
 
     render() {
       return <TouchableHighlight

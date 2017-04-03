@@ -21,13 +21,9 @@ import {
 } from '../ui/Screen';
 
 class MakeGuessesScreen extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      guesses: [""],
-    };
-  }
+  state = {
+    guesses: [""],
+  };
 
   render() {
     const guessedWord = this.guessedWord_();

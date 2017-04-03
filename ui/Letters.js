@@ -12,18 +12,14 @@ import {
 } from './Text';
 
 class Letter extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      scale: new Animated.Value(0),
-    };
-  }
+  state = {
+    scale: new Animated.Value(0),
+  };
 
   componentDidMount() {
     Animated.spring(this.state.scale, {
-      toValue: 0.8,
-      friction: 4,
+      toValue: 1,
+      friction: 6,
     }).start();
   }
 
@@ -47,7 +43,7 @@ export default Letters = (props) => {
 
 const Styles = StyleSheet.create({
   Letter: {
-    fontSize: 28,
+    fontSize: 24,
   },
   Letters: {
     flexDirection: "row",
