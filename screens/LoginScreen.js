@@ -11,7 +11,6 @@ import {
   graphql,
 } from 'react-apollo';
 import {
-  Text,
   TouchableHighlight,
   View,
 } from 'react-native';
@@ -25,7 +24,7 @@ import {
 } from '../ui/Screen';
 import {
   getUserStore,
-} from '../data/UserStore'
+} from '../data/UserStore';
 
 class LoginScreen extends Component {
   render() {

@@ -7,6 +7,10 @@ import {
   View,
 } from 'react-native';
 
+import {
+  BoldAnimatedText,
+} from './Text';
+
 class Letter extends Component {
   constructor(props) {
     super(props);
@@ -28,9 +32,9 @@ class Letter extends Component {
       color: this.props.color,
       transform: [{scale: this.state.scale}],
     };
-    return <Animated.Text style={[Styles.Letter, style]}>
+    return <BoldAnimatedText style={[Styles.Letter, style]}>
       {this.props.value}
-    </Animated.Text>;
+    </BoldAnimatedText>;
   }
 }
 

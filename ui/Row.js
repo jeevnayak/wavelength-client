@@ -2,10 +2,12 @@ import React from 'react';
 import {
   Image,
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
 
+import {
+  MediumText,
+} from './Text';
 import touchable from './Touchable';
 
 export const Row = touchable((props) => (
@@ -14,7 +16,7 @@ export const Row = touchable((props) => (
       props.touchableActive ? Styles.RowActive : null,
       props.style]}>
     {props.pictureUser ? <UserPicture user={props.pictureUser} /> : null}
-    <Text style={Styles.RowTitle}>{props.title}</Text>
+    <MediumText style={Styles.RowTitle}>{props.title}</MediumText>
     {props.button}
   </View>
 ));
@@ -27,9 +29,9 @@ const UserPicture = (props) => {
 };
 
 export const HeaderRow = (props) => (
-  <Text style={[Styles.HeaderRow, props.style]}>
+  <MediumText style={[Styles.HeaderRow, props.style]}>
     {props.text}
-  </Text>
+  </MediumText>
 );
 
 const Styles = StyleSheet.create({

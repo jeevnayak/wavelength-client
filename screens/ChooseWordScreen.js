@@ -6,9 +6,6 @@ import {
   compose,
   graphql,
 } from 'react-apollo';
-import {
-  Text,
-} from 'react-native';
 
 import {
   BackButton,
@@ -21,6 +18,9 @@ import {
   screen,
   Screen,
 } from '../ui/Screen';
+import {
+  MediumText,
+} from '../ui/Text';
 
 class ChooseWordScreen extends Component {
   render() {
@@ -29,7 +29,7 @@ class ChooseWordScreen extends Component {
     ));
     return <Screen>
       <BackButton navigator={this.props.navigator} />
-      <Text>Choose a word to clue:</Text>
+      <MediumText>Choose a word to clue:</MediumText>
       {words}
     </Screen>;
   }

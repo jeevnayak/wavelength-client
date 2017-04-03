@@ -1,18 +1,20 @@
 import React from 'react';
 import {
   StyleSheet,
-  Text,
 } from 'react-native';
 
+import {
+  MediumText,
+} from './Text';
 import touchable from './Touchable';
 
 export const Button = touchable((props) => (
-  <Text style={[
+  <MediumText style={[
       Styles.Button,
       props.touchableActive ? Styles.ButtonActive : null,
       props.style]}>
     {props.text}
-  </Text>
+  </MediumText>
 ));
 
 export const BackButton = (props) => (

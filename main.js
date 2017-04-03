@@ -4,6 +4,7 @@ import ApolloClient, {
 } from 'apollo-client';
 import Expo, {
   AppLoading,
+  Font,
   Notifications,
 } from 'expo';
 import React, {
@@ -52,12 +53,21 @@ const apolloClient = new ApolloClient({
 });
 
 class App extends Component {
-  componentDidMount() {
+  state = {
+    fontLoaded: false,
+  };
+
+  async componentDidMount() {
     StatusBar.setHidden(true);
     this.isMounted_ = true;
     getUserStore().addListener(this.onUserUpdate_);
     Notifications.addListener(
       (notification) => this.handleNotification_(notification));
+    await Font.loadAsync({
+      "brandon-medium": require("./fonts/brandon-grotesque-medium.otf"),
+      "brandon-bold": require("./fonts/brandon-grotesque-bold.otf"),
+    });
+    this.setState({fontLoaded: true});
   }
 
   componentWillUnmount() {
@@ -66,6 +76,10 @@ class App extends Component {
   }
 
   render() {
+    if (!this.state.fontLoaded) {
+      return <AppLoading />;
+    }
+
     const userStore = getUserStore();
     if (!userStore.isInitialized()) {
       return <AppLoading />;

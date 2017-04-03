@@ -8,7 +8,6 @@ import {
 } from 'react-apollo';
 import {
   ListView,
-  Text,
   TouchableHighlight,
   View,
 } from 'react-native';
@@ -32,6 +31,9 @@ import {
   screen,
   Screen,
 } from '../ui/Screen';
+import {
+  MediumText,
+} from '../ui/Text';
 
 class DailyChallengeScreen extends Component {
   constructor(props) {
@@ -89,7 +91,7 @@ class DailyChallengeScreen extends Component {
         text="Accept request"
         onPress={() => this.acceptRequest_(friend.receivedRequestId)} />;
     } else if (friend.sentRequestId) {
-      button = <Text>Request sent</Text>;
+      button = <MediumText>Request sent</MediumText>;
     } else {
       button = <Button
         text="Send request"

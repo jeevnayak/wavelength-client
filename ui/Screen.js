@@ -3,13 +3,15 @@ import React, {
 } from 'react';
 import {
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
 
 import {
   Button,
 } from './Button';
+import {
+  MediumText,
+} from '../ui/Text';
 
 export function screen(WrappedComponent) {
   return class extends Component {
@@ -33,13 +35,13 @@ export const Screen = (props) => (
 
 const LoadingScreen = (props) => (
   <Screen style={props.style}>
-    <Text style={Styles.LoadingText}>Loading...</Text>
+    <MediumText style={Styles.LoadingText}>Loading...</MediumText>
   </Screen>
 );
 
 const ErrorScreen = (props) => (
   <Screen style={props.style}>
-    <Text style={Styles.ErrorText}>Network Error</Text>
+    <MediumText style={Styles.ErrorText}>Network Error</MediumText>
     <Button text="Refresh" onPress={() => props.refetch()} />
   </Screen>
 );

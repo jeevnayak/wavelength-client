@@ -7,7 +7,6 @@ import {
 } from 'react-apollo';
 import {
   ListView,
-  Text,
   TouchableHighlight,
   View,
 } from 'react-native';
