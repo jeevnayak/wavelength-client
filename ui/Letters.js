@@ -25,29 +25,29 @@ class Letter extends Component {
 
   render() {
     const style = {
+      fontSize: this.props.size,
       color: this.props.color,
       transform: [{scale: this.state.scale}],
     };
-    return <BoldAnimatedText style={[Styles.Letter, style]}>
+    return <BoldAnimatedText style={style}>
       {this.props.value}
     </BoldAnimatedText>;
   }
 }
 
 export default Letters = (props) => {
-  const letters = props.text ? props.text.split("").map(
-    (letter, i) => <Letter key={i} value={letter} color={props.color} />) :
-    null;
-  return <View style={[Styles.Letters, props.style]}>{letters}</View>;
+  const letters = props.text ? props.text.split("").map((letter, i) => (
+    <Letter key={i} value={letter} size={props.size} color={props.color} />
+  )) : null;
+  const style = {
+    height: props.size + 10,
+  };
+  return <View style={[Styles.Letters, style]}>{letters}</View>;
 }
 
 const Styles = StyleSheet.create({
-  Letter: {
-    fontSize: 24,
-  },
   Letters: {
     flexDirection: "row",
     justifyContent: "center",
-    height: 35,
   },
 });

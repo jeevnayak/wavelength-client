@@ -61,7 +61,7 @@ export default class Card extends Component {
 
 const Header = (props) => (
   <View style={Styles.Header}>
-    <Letters text={props.word} color="#fff" />
+    <Letters text={props.word} size={32} color="#fff" />
   </View>
 );
 
@@ -77,7 +77,7 @@ const Clues = (props) => {
 const Clue = (props) => {
   const blank = props.focused ? <View style={Styles.Blank} /> : null;
   return <View style={Styles.Clue}>
-    <Letters text={props.text} />
+    <Letters text={props.text} size={24} />
     {blank}
   </View>
 };
