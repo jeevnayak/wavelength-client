@@ -16,6 +16,9 @@ import {
 import Card from '../ui/Card';
 import GameQuery from '../queries/GameQuery';
 import {
+  kLetterPlaceholder,
+} from '../ui/Letters';
+import {
   screen,
   Screen,
 } from '../ui/Screen';
@@ -27,11 +30,11 @@ class MakeGuessesScreen extends Component {
 
   render() {
     const guessedWord = this.guessedWord_();
-    const currentGuess = this.state.guesses[this.state.guesses.length - 1];
-    const word = guessedWord ? this.props.game.word : currentGuess;
+    const displayGuess = this.getDisplayGuess_();
+    const word = guessedWord ? this.props.game.word : displayGuess;
     const clues = guessedWord ?
       [...this.props.game.clues.slice(0, this.state.guesses.length - 1),
-        currentGuess] :
+        displayGuess] :
       this.props.game.clues.slice(0, this.state.guesses.length);
     return <Screen style={Styles.Screen}>
       <BackButton navigator={this.props.navigator} />
@@ -53,7 +56,27 @@ class MakeGuessesScreen extends Component {
     ));
   }
 
+  getCurrentGuess_() {
+    const currentGuessIndex = this.state.guesses.length - 1;
+    return this.state.guesses[currentGuessIndex];
+  }
+
+  getCurrentTarget_() {
+    const currentGuessIndex = this.state.guesses.length - 1;
+    return this.guessedWord_() ?
+      this.props.game.clues[currentGuessIndex] : this.props.game.word;
+  }
+
+  getDisplayGuess_() {
+    const currentGuess = this.getCurrentGuess_();
+    return currentGuess + kLetterPlaceholder.repeat(
+      this.getCurrentTarget_().length - currentGuess.length);
+  }
+
   onPressLetter_(letter) {
+    if (this.getCurrentGuess_().length === this.getCurrentTarget_().length) {
+      return;
+    }
     this.state.guesses[this.state.guesses.length - 1] += letter;
     this.setState({guesses: this.state.guesses});
   }
@@ -66,6 +89,9 @@ class MakeGuessesScreen extends Component {
   }
 
   onPressSubmit_() {
+    if (this.getCurrentGuess_().length !== this.getCurrentTarget_().length) {
+      return;
+    }
     if (this.state.guesses.length === 4) {
       this.makeGuesses_();
     } else {
