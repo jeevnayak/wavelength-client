@@ -3,6 +3,7 @@ import React, {
 } from 'react';
 import {
   Animated,
+  Dimensions,
   StyleSheet,
   View,
 } from 'react-native';
@@ -12,13 +13,43 @@ import {
 } from './Keyboard';
 import Letters from './Letters';
 
-const kHorizontalMargin = 30;
-const kCardHeight = 400;
-const kHeaderHeight = 70;
-const kClueHeight = 60;
-const kBorderSize = 10;
+const kWindowWidth = Dimensions.get("window").width;
+const kWindowHeight = Dimensions.get("window").height;
+const kFullScreenHorizontalMargin = 30;
 
-export default class Card extends Component {
+function heightFromWidth(width) {
+  return width * 1.5;
+}
+
+function headerHeightFromWidth(width) {
+  return width * 0.22;
+}
+
+function headerTextSizeFromWidth(width) {
+  return width * 0.1;
+}
+
+function clueHeightFromWidth(width) {
+  return width * 0.25;
+}
+
+function clueTextSizeFromWidth(width) {
+  return width * 0.08;
+}
+
+function borderSizeFromWidth(width) {
+  return width * 0.03;
+}
+
+function borderRadiusFromWidth(width) {
+  return width * 0.04;
+}
+
+function innerBorderRadiusFromWidth(width) {
+  return width * 0.01;
+}
+
+export class FullScreenCard extends Component {
   constructor(props) {
     super(props);
 
@@ -36,86 +67,125 @@ export default class Card extends Component {
 
   render() {
     const style = {transform: [{translateY: this.state.bottom}]};
-    return <Animated.View
-        style={[
-          Styles.Card,
-          this.props.guessingWord ? Styles.PendingCard : null,
-          style,
-        ]}>
-      <Header word={this.props.word} />
-      <Clues
-        clues={this.props.clues}
-        focusedIndex={this.props.focusedClueIndex} />
+    return <Animated.View style={[Styles.FullScreenCard, style]}>
+      <Card width={this.width_()} {...this.props} />
     </Animated.View>;
   }
 
+  width_() {
+    return kWindowWidth - 2 * kFullScreenHorizontalMargin;
+  }
+
   calculateBottom_(props) {
-    const cluesContainerHeight = kCardHeight - kHeaderHeight - kBorderSize;
-    const cluesHeight = kClueHeight * 4;
-    const cluesPadding = (cluesContainerHeight - cluesHeight) / 2;
-    const focusedClueBottom =
-      kHeaderHeight + cluesPadding + kClueHeight * (props.focusedClueIndex + 1);
-    return -(kKeyboardHeight - kCardHeight + focusedClueBottom);
+    const width = this.width_();
+    const height = heightFromWidth(width);
+    if (props.focusedClueIndex !== undefined) {
+      const headerHeight = headerHeightFromWidth(width);
+      const borderSize = borderSizeFromWidth(width);
+      const clueHeight = clueHeightFromWidth(width);
+      const cluesContainerHeight = height - headerHeight - borderSize;
+      const cluesHeight = clueHeight * 4;
+      const cluesPadding = (cluesContainerHeight - cluesHeight) / 2;
+      const focusedClueBottom = headerHeight + cluesPadding +
+        clueHeight * (props.focusedClueIndex + 1);
+      return -(kKeyboardHeight - height + focusedClueBottom);
+    } else {
+      return -(kWindowHeight - height) / 2;
+    }
   }
 }
 
-const Header = (props) => (
-  <View style={Styles.Header}>
-    <Letters text={props.word} size={32} color="#fff" />
-  </View>
-);
+export const Card = (props) => {
+  const borderSize = borderSizeFromWidth(props.width);
+  const style = {
+    width: props.width,
+    height: heightFromWidth(props.width),
+    paddingRight: borderSize,
+    paddingBottom: borderSize,
+    paddingLeft: borderSize,
+    borderRadius: borderRadiusFromWidth(props.width),
+  };
+  return <View
+      style={[Styles.Card, props.guessingWord && Styles.PendingCard, style]}>
+    <Header
+      word={props.word}
+      height={headerHeightFromWidth(props.width)}
+      textSize={headerTextSizeFromWidth(props.width)} />
+    <Clues
+      clues={props.clues}
+      clueHeight={clueHeightFromWidth(props.width)}
+      clueTextSize={clueTextSizeFromWidth(props.width)}
+      borderRadius={innerBorderRadiusFromWidth(props.width)}
+      focusedIndex={props.focusedClueIndex} />
+  </View>;
+}
+
+const Header = (props) => {
+  const style = {height: props.height};
+  return <View style={[Styles.Header, style]}>
+    <Letters
+      text={props.word}
+      size={props.textSize}
+      color="#fff" />
+  </View>;
+};
 
 const Clues = (props) => {
-  const clues = [0, 1, 2, 3].map((i) => (
-    <Clue key={i} text={props.clues[i]} focused={i === props.focusedIndex} />
-  ));
-  return <View style={Styles.Clues}>
+  let clues;
+  if (props.clues) {
+    clues = [0, 1, 2, 3].map((i) => (
+      <Clue
+        key={i}
+        text={props.clues[i]}
+        height={props.clueHeight}
+        textSize={props.clueTextSize}
+        focused={i === props.focusedIndex} />
+    ));
+  }
+  const style = {borderRadius: props.borderRadius};
+  return <View style={[Styles.Clues, style]}>
     {clues}
-  </View>
+  </View>;
 };
 
 const Clue = (props) => {
   const blank = props.focused ? <View style={Styles.Blank} /> : null;
-  return <View style={Styles.Clue}>
-    <Letters text={props.text} size={24} />
+  const style = {height: props.height};
+  return <View style={[Styles.Clue, style]}>
+    <Letters text={props.text} size={props.textSize} />
     {blank}
   </View>
 };
 
 const Styles = StyleSheet.create({
-  Card: {
+  FullScreenCard: {
     position: "absolute",
     bottom: 0,
-    right: kHorizontalMargin,
-    left: kHorizontalMargin,
-    height: kCardHeight,
-    paddingRight: kBorderSize,
-    paddingBottom: kBorderSize,
-    paddingLeft: kBorderSize,
+    left: kFullScreenHorizontalMargin,
+  },
+  Card: {
     backgroundColor: "#300095",
-    borderRadius: 12,
   },
   PendingCard: {
     backgroundColor: "#666",
   },
   Header: {
-    height: kHeaderHeight,
     justifyContent: "center",
     alignItems: "center",
   },
   Clues: {
     flex: 1,
     justifyContent: "center",
-    padding: 35,
     backgroundColor: "#fff",
-    borderRadius: 4,
   },
   Clue: {
-    height: kClueHeight,
     justifyContent: "center",
+    paddingLeft: 35,
+    paddingRight: 35,
   },
   Blank: {
     height: 2,
+    marginTop: 5,
     backgroundColor: "#300095",
     opacity: 0.2,
   }

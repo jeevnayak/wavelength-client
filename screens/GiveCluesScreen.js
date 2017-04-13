@@ -13,7 +13,9 @@ import {
 import {
   BackButton,
 } from '../ui/Button';
-import Card from '../ui/Card';
+import {
+  FullScreenCard,
+} from '../ui/Card';
 import GameQuery from '../queries/GameQuery';
 import Keyboard from '../ui/Keyboard';
 import {
@@ -29,7 +31,7 @@ class GiveCluesScreen extends Component {
   render() {
     return <Screen style={Styles.Screen}>
       <BackButton navigator={this.props.navigator} />
-      <Card
+      <FullScreenCard
         word={this.props.game.word}
         clues={this.state.clues}
         focusedClueIndex={this.state.clues.length - 1} />

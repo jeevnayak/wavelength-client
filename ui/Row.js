@@ -28,12 +28,6 @@ const UserPicture = (props) => {
     source={{uri: pictureUrl}}/>
 };
 
-export const HeaderRow = (props) => (
-  <MediumText style={[Styles.HeaderRow, props.style]}>
-    {props.text}
-  </MediumText>
-);
-
 const Styles = StyleSheet.create({
   Row: {
     flexDirection: "row",
@@ -52,10 +46,5 @@ const Styles = StyleSheet.create({
   },
   RowTitle: {
     flex: 1,
-  },
-  HeaderRow: {
-    paddingLeft: 16,
-    paddingTop: 16,
-    color: "#aaa",
   },
 });

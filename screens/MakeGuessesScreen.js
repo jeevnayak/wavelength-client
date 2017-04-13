@@ -13,7 +13,9 @@ import {
 import {
   BackButton,
 } from '../ui/Button';
-import Card from '../ui/Card';
+import {
+  FullScreenCard,
+} from '../ui/Card';
 import GameQuery from '../queries/GameQuery';
 import {
   kLetterPlaceholder,
@@ -38,7 +40,7 @@ class MakeGuessesScreen extends Component {
       this.props.game.clues.slice(0, this.state.guesses.length);
     return <Screen style={Styles.Screen}>
       <BackButton navigator={this.props.navigator} />
-      <Card
+      <FullScreenCard
         word={word}
         clues={clues}
         focusedClueIndex={clues.length - 1}

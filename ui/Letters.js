@@ -68,7 +68,7 @@ export default Letters = (props) => {
       isFirstPlaceholder={isFirstPlaceholder} />
   }) : null;
   const style = {
-    height: props.size + 10,
+    height: props.size * 1.5,
   };
   return <View style={[Styles.Letters, style]}>{letters}</View>;
 }

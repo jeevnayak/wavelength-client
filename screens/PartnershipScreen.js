@@ -7,7 +7,8 @@ import {
 } from 'react-apollo';
 import {
   ListView,
-  TouchableHighlight,
+  Text,
+  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 
@@ -15,13 +16,15 @@ import {
   BackButton,
 } from '../ui/Button';
 import {
+  Card,
+} from '../ui/Card';
+import {
   GameState,
   getGameScreen,
   getGameState,
 } from '../util/Helpers';
 import PartnershipQuery from '../queries/PartnershipQuery';
 import {
-  HeaderRow,
   Row,
 } from '../ui/Row';
 import {
@@ -29,62 +32,55 @@ import {
   Screen,
 } from '../ui/Screen';
 
+const kCardWidth = 60;
+const kCardMargin = 10;
+
 class PartnershipScreen extends Component {
   constructor(props) {
     super(props);
 
-    this.dataSource_ = new ListView.DataSource({
-      getSectionHeaderData: (sectionData, sectionId) => sectionId,
-      sectionHeaderHasChanged: (header1, header2) => header1 !== header2,
+    this.baseDataSource_ = new ListView.DataSource({
       rowHasChanged: (game1, game2) => game1.id !== game2.id
     });
   }
 
   render() {
-    this.dataSource_ = this.dataSource_.cloneWithRowsAndSections(
-      this.generateListViewData_());
-    let listView;
-    if (this.dataSource_.getRowCount() > 0) {
-      listView = <ListView
-        dataSource={this.dataSource_}
-        renderSectionHeader={(header) => this.renderSectionHeader_(header)}
-        renderRow={(game) => this.renderGameRow_(game)} />;
-    }
-
     return (
       <Screen>
         <BackButton navigator={this.props.navigator} />
-        {listView}
+        <Section
+          headerText="Your turn"
+          dataSource={this.dataSourceForGameStates_(
+            [GameState.GiveClues, GameState.MakeGuesses])}
+          renderGameRow={(game) => this.renderGameRow_(game)} />
+        <Section
+          headerText="Their turn"
+          dataSource={this.dataSourceForGameStates_([GameState.TheirTurn])}
+          renderGameRow={(game) => this.renderGameRow_(game)} />
+        <Section
+          headerText="Complete"
+          dataSource={this.dataSourceForGameStates_([GameState.Complete])}
+          renderGameRow={(game) => this.renderGameRow_(game)} />
       </Screen>
     );
   }
 
-  generateListViewData_() {
-    const data = {
-      [GameState.GiveClues]: [],
-      [GameState.MakeGuesses]: [],
-      [GameState.TheirTurn]: [],
-      [GameState.Complete]: []
-    };
-    for (const game of this.props.partnership.games) {
-      data[getGameState(game)].push(game);
-    }
-    for (const section in data) {
-      if (data[section].length === 0) {
-        delete data[section];
-      }
-    }
-    return data;
-  }
-
-  renderSectionHeader_(header) {
-    return <HeaderRow text={header} />;
+  dataSourceForGameStates_(gameStates) {
+    const games = this.props.partnership.games.filter(
+      (game) => gameStates.includes(getGameState(game)));
+    return this.baseDataSource_.cloneWithRows(games);
   }
 
   renderGameRow_(game) {
-    return <Row
-      title={game.id}
-      onPress={() => this.onPressGameRow_(game)}/>;
+    var containerStyle = {
+      width: kCardWidth + kCardMargin,
+      padding: kCardMargin / 2,
+    }
+    return <TouchableWithoutFeedback onPress={() => this.onPressGameRow_(game)}>
+      <View style={containerStyle}>
+        <Card word={game.word} width={kCardWidth} />
+      </View>
+    </TouchableWithoutFeedback>;
   }
 
   onPressGameRow_(game) {
@@ -100,6 +96,20 @@ class PartnershipScreen extends Component {
     }
   }
 }
+
+const Section = (props) => {
+  if (props.dataSource.getRowCount() > 0) {
+    return <View>
+      <Text>{props.headerText}</Text>
+      <ListView
+        horizontal={true}
+        dataSource={props.dataSource}
+        renderRow={props.renderGameRow} />
+    </View>;
+  } else {
+    return null;
+  }
+};
 
 export default compose(
   graphql(PartnershipQuery, {

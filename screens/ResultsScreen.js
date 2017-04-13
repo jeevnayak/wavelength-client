@@ -6,15 +6,15 @@ import {
   graphql,
 } from 'react-apollo';
 import {
-  Text,
-  TextInput,
-  TouchableHighlight,
-  View,
+  StyleSheet,
 } from 'react-native';
 
 import {
   BackButton,
 } from '../ui/Button';
+import {
+  FullScreenCard,
+} from '../ui/Card';
 import GameQuery from '../queries/GameQuery';
 import {
   screen,
@@ -24,17 +24,21 @@ import {
 class ResultsScreen extends Component {
   render() {
     return (
-      <Screen>
+      <Screen style={Styles.Screen}>
         <BackButton navigator={this.props.navigator} />
-        <Text>{this.props.game.word}</Text>
-        <Text>Clues:</Text>
-        <Text>{this.props.game.clues.join(", ")}</Text>
-        <Text>Guesses:</Text>
-        <Text>{this.props.game.guesses.join(", ")}</Text>
+        <FullScreenCard
+          word={this.props.game.word}
+          clues={this.props.game.clues} />
       </Screen>
     );
   }
 }
+
+const Styles = StyleSheet.create({
+  Screen: {
+    justifyContent: "flex-start",
+  },
+});
 
 export default compose(
   graphql(GameQuery, {
