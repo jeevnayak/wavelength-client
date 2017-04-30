@@ -8,6 +8,7 @@ import {
   View,
 } from 'react-native';
 
+import Colors from './Colors';
 import {
   kKeyboardHeight,
 } from './Keyboard';
@@ -106,6 +107,7 @@ export class Card extends Component {
       props.clues = clues.map((clue, i) => ({
         text: guessingWord || i !== props.activeIndex ?
           clue : this.getDisplayGuess_(),
+        correct: i === this.correctGuessIndex_(),
         wavelengthIncorrect: this.wavelengthIncorrect_(clue, i),
         wavelengthCorrect: this.wavelengthCorrect_(clue, i),
       }));
@@ -227,10 +229,14 @@ const Clue = (props) => {
     <View style={Styles.Blank} /> : null;
   const style = {height: props.height};
   let color;
-  if (props.clue && props.clue.wavelengthIncorrect) {
-    color = "#666";
-  } else if (props.clue && props.clue.wavelengthCorrect) {
-    color = "#ffc323";
+  if (props.clue) {
+    if (props.clue.correct) {
+      color = Colors.Primary;
+    } else if (props.clue.wavelengthIncorrect) {
+      color = Colors.Incorrect;
+    } else if (props.clue.wavelengthCorrect) {
+      color = Colors.Wavelength;
+    }
   }
   return <View style={[Styles.Clue, style]}>
     <Letters
@@ -248,10 +254,10 @@ const Styles = StyleSheet.create({
     left: kFullScreenHorizontalMargin,
   },
   Card: {
-    backgroundColor: "#300095",
+    backgroundColor: Colors.Primary,
   },
   IncorrectCard: {
-    backgroundColor: "#666",
+    backgroundColor: Colors.Incorrect,
   },
   Header: {
     justifyContent: "center",
@@ -270,7 +276,7 @@ const Styles = StyleSheet.create({
   Blank: {
     height: 2,
     marginTop: 5,
-    backgroundColor: "#300095",
+    backgroundColor: Colors.Primary,
     opacity: 0.2,
-  }
+  },
 });
