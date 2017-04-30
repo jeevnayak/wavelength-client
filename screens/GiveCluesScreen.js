@@ -34,7 +34,7 @@ class GiveCluesScreen extends Component {
       <FullScreenCard
         word={this.props.game.word}
         clues={this.state.clues}
-        focusedClueIndex={this.state.clues.length - 1} />
+        activeIndex={this.state.clues.length - 1} />
       <Keyboard
         onPressLetter={(letter) => this.onPressLetter_(letter)}
         onPressBackspace={() => this.onPressBackspace_()}

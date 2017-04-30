@@ -11,7 +11,9 @@ import {
 import {
   kKeyboardHeight,
 } from './Keyboard';
-import Letters from './Letters';
+import Letters, {
+  kLetterPlaceholder,
+} from './Letters';
 
 const kWindowWidth = Dimensions.get("window").width;
 const kWindowHeight = Dimensions.get("window").height;
@@ -79,23 +81,96 @@ export class FullScreenCard extends Component {
   calculateBottom_(props) {
     const width = this.width_();
     const height = heightFromWidth(width);
-    if (props.focusedClueIndex !== undefined) {
+    if (props.activeIndex !== undefined) {
       const headerHeight = headerHeightFromWidth(width);
       const borderSize = borderSizeFromWidth(width);
       const clueHeight = clueHeightFromWidth(width);
       const cluesContainerHeight = height - headerHeight - borderSize;
       const cluesHeight = clueHeight * 4;
       const cluesPadding = (cluesContainerHeight - cluesHeight) / 2;
-      const focusedClueBottom = headerHeight + cluesPadding +
-        clueHeight * (props.focusedClueIndex + 1);
-      return -(kKeyboardHeight - height + focusedClueBottom);
+      const activeClueBottom = headerHeight + cluesPadding +
+        clueHeight * (props.activeIndex + 1);
+      return -(kKeyboardHeight - height + activeClueBottom);
     } else {
       return -(kWindowHeight - height) / 2;
     }
   }
 }
 
-export const Card = (props) => {
+export class Card extends Component {
+  render() {
+    const guessingWord = this.guessingWord_();
+    const {word, clues, guesses, ...props} = this.props;
+    props.word = guessingWord ? this.getDisplayGuess_() : word;
+    if (guesses) {
+      props.clues = clues.map((clue, i) => ({
+        text: guessingWord || i !== props.activeIndex ?
+          clue : this.getDisplayGuess_(),
+        wavelengthIncorrect: this.wavelengthIncorrect_(clue, i),
+        wavelengthCorrect: this.wavelengthCorrect_(clue, i),
+      }));
+    } else if (clues) {
+      props.clues = clues.map((clue, i) => ({
+        text: clue,
+        needsBlank: !this.props.guesses && i === props.activeIndex,
+      }));
+    }
+    return <CardView
+      incorrect={this.correctGuessIndex_() === -1}
+      {...props} />;
+  }
+
+  guessingWord_() {
+    return this.props.guesses && this.props.activeIndex !== undefined &&
+      this.props.guesses.every((guess, i) => (
+        i === this.props.activeIndex || guess !== this.props.word
+      ));
+  }
+
+  correctGuessIndex_() {
+    if (this.props.guesses) {
+      const correctIndex = this.props.guesses.indexOf(this.props.word);
+      return correctIndex === this.props.activeIndex ? -1 : correctIndex;
+    } else {
+      return -1;
+    }
+  }
+
+  wavelengthIncorrect_(clue, i) {
+    const correctGuessIndex = this.correctGuessIndex_();
+    if (correctGuessIndex === -1) {
+      return false;
+    }
+    return i > correctGuessIndex && i !== this.props.activeIndex &&
+      clue !== this.props.guesses[i];
+  }
+
+  wavelengthCorrect_(clue, i) {
+    const correctGuessIndex = this.correctGuessIndex_();
+    if (correctGuessIndex === -1) {
+      return false;
+    }
+    return i > correctGuessIndex && i !== this.props.activeIndex &&
+      clue === this.props.guesses[i];
+  }
+
+  getCurrentGuess_() {
+    return this.props.guesses[this.props.activeIndex];
+  }
+
+  getCurrentTarget_() {
+    return this.guessingWord_() ?
+      this.props.word : this.props.clues[this.props.activeIndex];
+  }
+
+  getDisplayGuess_() {
+    const currentGuess = this.getCurrentGuess_();
+    return currentGuess + kLetterPlaceholder.repeat(
+      this.getCurrentTarget_().length - currentGuess.length);
+  }
+}
+
+const CardView = (props) => {
   const borderSize = borderSizeFromWidth(props.width);
   const style = {
     width: props.width,
@@ -106,7 +181,7 @@ export const Card = (props) => {
     borderRadius: borderRadiusFromWidth(props.width),
   };
   return <View
-      style={[Styles.Card, props.guessingWord && Styles.PendingCard, style]}>
+      style={[Styles.Card, props.incorrect && Styles.IncorrectCard, style]}>
     <Header
       word={props.word}
       height={headerHeightFromWidth(props.width)}
@@ -116,7 +191,7 @@ export const Card = (props) => {
       clueHeight={clueHeightFromWidth(props.width)}
       clueTextSize={clueTextSizeFromWidth(props.width)}
       borderRadius={innerBorderRadiusFromWidth(props.width)}
-      focusedIndex={props.focusedClueIndex} />
+      activeIndex={props.activeIndex} />
   </View>;
 }
 
@@ -136,10 +211,9 @@ const Clues = (props) => {
     clues = [0, 1, 2, 3].map((i) => (
       <Clue
         key={i}
-        text={props.clues[i]}
+        clue={props.clues[i]}
         height={props.clueHeight}
-        textSize={props.clueTextSize}
-        focused={i === props.focusedIndex} />
+        textSize={props.clueTextSize} />
     ));
   }
   const style = {borderRadius: props.borderRadius};
@@ -149,10 +223,20 @@ const Clues = (props) => {
 };
 
 const Clue = (props) => {
-  const blank = props.focused ? <View style={Styles.Blank} /> : null;
+  const blank = props.clue && props.clue.needsBlank ?
+    <View style={Styles.Blank} /> : null;
   const style = {height: props.height};
+  let color;
+  if (props.clue && props.clue.wavelengthIncorrect) {
+    color = "#666";
+  } else if (props.clue && props.clue.wavelengthCorrect) {
+    color = "#ffc323";
+  }
   return <View style={[Styles.Clue, style]}>
-    <Letters text={props.text} size={props.textSize} />
+    <Letters
+      text={props.clue ? props.clue.text : ""}
+      size={props.textSize}
+      color={color} />
     {blank}
   </View>
 };
@@ -166,7 +250,7 @@ const Styles = StyleSheet.create({
   Card: {
     backgroundColor: "#300095",
   },
-  PendingCard: {
+  IncorrectCard: {
     backgroundColor: "#666",
   },
   Header: {

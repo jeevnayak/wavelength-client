@@ -28,7 +28,8 @@ class ResultsScreen extends Component {
         <BackButton navigator={this.props.navigator} />
         <FullScreenCard
           word={this.props.game.word}
-          clues={this.props.game.clues} />
+          clues={this.props.game.clues}
+          guesses={this.props.game.guesses} />
       </Screen>
     );
   }

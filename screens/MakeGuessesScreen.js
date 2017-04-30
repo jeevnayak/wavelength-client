@@ -18,9 +18,6 @@ import {
 } from '../ui/Card';
 import GameQuery from '../queries/GameQuery';
 import {
-  kLetterPlaceholder,
-} from '../ui/Letters';
-import {
   screen,
   Screen,
 } from '../ui/Screen';
@@ -31,20 +28,13 @@ class MakeGuessesScreen extends Component {
   };
 
   render() {
-    const guessedWord = this.guessedWord_();
-    const displayGuess = this.getDisplayGuess_();
-    const word = guessedWord ? this.props.game.word : displayGuess;
-    const clues = guessedWord ?
-      [...this.props.game.clues.slice(0, this.state.guesses.length - 1),
-        displayGuess] :
-      this.props.game.clues.slice(0, this.state.guesses.length);
     return <Screen style={Styles.Screen}>
       <BackButton navigator={this.props.navigator} />
       <FullScreenCard
-        word={word}
-        clues={clues}
-        focusedClueIndex={clues.length - 1}
-        guessingWord={!guessedWord} />
+        word={this.props.game.word}
+        clues={this.props.game.clues}
+        guesses={this.state.guesses}
+        activeIndex={this.state.guesses.length - 1} />
       <Keyboard
         onPressLetter={(letter) => this.onPressLetter_(letter)}
         onPressBackspace={() => this.onPressBackspace_()}
@@ -67,12 +57,6 @@ class MakeGuessesScreen extends Component {
     const currentGuessIndex = this.state.guesses.length - 1;
     return this.guessedWord_() ?
       this.props.game.clues[currentGuessIndex] : this.props.game.word;
-  }
-
-  getDisplayGuess_() {
-    const currentGuess = this.getCurrentGuess_();
-    return currentGuess + kLetterPlaceholder.repeat(
-      this.getCurrentTarget_().length - currentGuess.length);
   }
 
   onPressLetter_(letter) {
