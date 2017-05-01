@@ -2,7 +2,7 @@
   "name": "Wavelength",
   "description": "A hopefully awesome word game",
   "slug": "wavelength",
-  "privacy": "public",
+  "privacy": "unlisted",
   "sdkVersion": "15.0.0",
   "version": "1.0.0",
   "orientation": "portrait",
