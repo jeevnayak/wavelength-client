@@ -14,8 +14,6 @@ import {
 import {
   Button,
 } from '../ui/Button';
-import DailyChallengeScreen from './DailyChallengeScreen';
-import DemoScreen from './DemoScreen';
 import NewGameScreen from './NewGameScreen';
 import PartnershipScreen from './PartnershipScreen';
 import {
@@ -55,10 +53,6 @@ class MainScreen extends Component {
     return (
       <Screen>
         <Button onPress={() => this.onPressNewGame_()} text="New Game" />
-        <Button
-          onPress={() => this.onPressDailyChallenge_()}
-          text="Daily Challenge" />
-        <Button onPress={() => this.onPressDemo_()} text="Animation Demos" />
         {listView}
         <Button onPress={logOut} text="Sign Out" />
       </Screen>
@@ -87,20 +81,6 @@ class MainScreen extends Component {
       component: NewGameScreen,
       props: {currentUser: this.props.currentUser}
     });
-  }
-
-  onPressDailyChallenge_() {
-    this.props.navigator.push({
-      component: DailyChallengeScreen,
-      props: {
-        currentUser: this.props.currentUser,
-        currentUserId: this.props.currentUser.id
-      }
-    });
-  }
-
-  onPressDemo_() {
-    this.props.navigator.push({component: DemoScreen});
   }
 }
 
