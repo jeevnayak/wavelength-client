@@ -107,6 +107,7 @@ const makeGuessesMutation = gql`
       clues
       guesses
       replayed
+      lastUpdated
     }
   }
 `;

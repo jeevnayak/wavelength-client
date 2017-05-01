@@ -9,6 +9,7 @@ export default gql`
       clues
       guesses
       replayed
+      lastUpdated
     }
   }
 `;

@@ -57,6 +57,7 @@ const newGameMutation = gql`
       clues
       guesses
       replayed
+      lastUpdated
       partnership {
         id
       }

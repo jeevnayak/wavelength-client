@@ -83,6 +83,7 @@ const giveCluesMutation = gql`
       clues
       guesses
       replayed
+      lastUpdated
     }
   }
 `;

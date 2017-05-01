@@ -69,6 +69,9 @@ class PartnershipScreen extends Component {
   dataSourceForGameStates_(gameStates) {
     const games = this.props.partnership.games.filter(
       (game) => gameStates.includes(getGameState(game)));
+    games.sort((game1, game2) => (
+      parseInt(game2.lastUpdated) - parseInt(game1.lastUpdated)
+    ));
     return this.baseDataSource_.cloneWithRows(games);
   }
 
