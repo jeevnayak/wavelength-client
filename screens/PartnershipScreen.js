@@ -55,7 +55,8 @@ class PartnershipScreen extends Component {
           renderGameRow={(game) => this.renderGameRow_(game)} />
         <Section
           headerText="Their turn"
-          dataSource={this.dataSourceForGameStates_([GameState.TheirTurn])}
+          dataSource={this.dataSourceForGameStates_(
+            [GameState.TheirTurnToGuess])}
           renderGameRow={(game) => this.renderGameRow_(game)} />
         <Section
           headerText="Complete"

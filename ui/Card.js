@@ -133,7 +133,7 @@ export class Card extends Component {
   }
 
   guessingWord_() {
-    return this.correctGuessIndex_() === -1;
+    return this.props.guesses && this.correctGuessIndex_() === -1;
   }
 
   wavelengthIncorrect_(clue, i) {

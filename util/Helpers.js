@@ -3,21 +3,28 @@ import MakeGuessesScreen from '../screens/MakeGuessesScreen';
 import ResultsScreen from '../screens/ResultsScreen';
 
 export const GameState = {
-  GiveClues: "Your turn to give clues",
-  MakeGuesses: "Your turn to guess",
-  TheirTurn: "Their turn",
-  Complete: "Complete"
+  GiveClues: "GiveClues",
+  MakeGuesses: "MakeGuesses",
+  TheirTurnToClue: "TheirTurnToClue",
+  TheirTurnToGuess: "TheirTurnToGuess",
+  Complete: "Complete",
 }
 
 export function getGameState(game) {
   if (game.clues.length >= 4 && game.guesses.length >= 4) {
     return GameState.Complete;
-  } else if (game.isCluer && game.clues.length < 4) {
-    return GameState.GiveClues;
-  } else if (!game.isCluer && game.clues.length >= 4) {
-    return GameState.MakeGuesses;
+  } else if (game.clues.length < 4) {
+    if (game.isCluer) {
+      return GameState.GiveClues;
+    } else {
+      return GameState.TheirTurnToClue;
+    }
   } else {
-    return GameState.TheirTurn;
+    if (game.isCluer) {
+      return GameState.TheirTurnToGuess;
+    } else {
+      return GameState.MakeGuesses;
+    }
   }
 }
 
