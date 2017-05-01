@@ -78,7 +78,14 @@ class PartnershipScreen extends Component {
     }
     return <TouchableWithoutFeedback onPress={() => this.onPressGameRow_(game)}>
       <View style={containerStyle}>
-        <Card word={game.word} width={kCardWidth} />
+        <Card
+          word={game.word}
+          forceShowWord={
+            game.isCluer || getGameState(game) === GameState.Complete}
+          clues={game.clues}
+          guesses={game.guesses}
+          width={kCardWidth}
+          thumbnail={true} />
       </View>
     </TouchableWithoutFeedback>;
   }

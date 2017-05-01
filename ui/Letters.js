@@ -35,10 +35,14 @@ class Letter extends Component {
       color: this.props.color,
       transform: [{scale: this.state.scale}],
     };
-    return <BoldAnimatedText style={[
-        this.props.value === kLetterPlaceholder && Styles.PlaceholderLetter,
-        this.props.isFirstPlaceholder && Styles.FirstPlaceholderLetter,
-        style]}>
+    const placeholderMargin = this.props.size / 8;
+    if (this.props.value === kLetterPlaceholder) {
+      style.marginRight = placeholderMargin;
+    }
+    if (this.props.isFirstPlaceholder) {
+      style.marginLeft = placeholderMargin;
+    }
+    return <BoldAnimatedText style={style}>
       {this.props.value}
     </BoldAnimatedText>;
   }
@@ -74,12 +78,6 @@ export default Letters = (props) => {
 }
 
 const Styles = StyleSheet.create({
-  PlaceholderLetter: {
-    marginRight: 4,
-  },
-  FirstPlaceholderLetter: {
-    marginLeft: 4,
-  },
   Letters: {
     flexDirection: "row",
     justifyContent: "center",

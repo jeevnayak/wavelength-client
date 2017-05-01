@@ -102,7 +102,8 @@ export class Card extends Component {
   render() {
     const guessingWord = this.guessingWord_();
     const {word, clues, guesses, ...props} = this.props;
-    props.word = guessingWord ? this.getDisplayGuess_() : word;
+    props.word = guessingWord && !props.forceShowWord ?
+      this.getDisplayGuess_() : word;
     if (guesses) {
       props.clues = clues.map((clue, i) => ({
         text: guessingWord || i !== props.activeIndex ?
@@ -122,13 +123,6 @@ export class Card extends Component {
       {...props} />;
   }
 
-  guessingWord_() {
-    return this.props.guesses && this.props.activeIndex !== undefined &&
-      this.props.guesses.every((guess, i) => (
-        i === this.props.activeIndex || guess !== this.props.word
-      ));
-  }
-
   correctGuessIndex_() {
     if (this.props.guesses) {
       const correctIndex = this.props.guesses.indexOf(this.props.word);
@@ -136,6 +130,10 @@ export class Card extends Component {
     } else {
       return -1;
     }
+  }
+
+  guessingWord_() {
+    return this.correctGuessIndex_() === -1;
   }
 
   wavelengthIncorrect_(clue, i) {
@@ -166,9 +164,9 @@ export class Card extends Component {
   }
 
   getDisplayGuess_() {
-    const currentGuess = this.getCurrentGuess_();
+    const currentGuess = this.getCurrentGuess_() || "";
     return currentGuess + kLetterPlaceholder.repeat(
-      this.getCurrentTarget_().length - currentGuess.length);
+        this.getCurrentTarget_().length - currentGuess.length);
   }
 }
 
@@ -189,6 +187,7 @@ const CardView = (props) => {
       height={headerHeightFromWidth(props.width)}
       textSize={headerTextSizeFromWidth(props.width)} />
     <Clues
+      thumbnail={props.thumbnail}
       clues={props.clues}
       clueHeight={clueHeightFromWidth(props.width)}
       clueTextSize={clueTextSizeFromWidth(props.width)}
@@ -209,7 +208,9 @@ const Header = (props) => {
 
 const Clues = (props) => {
   let clues;
-  if (props.clues) {
+  if (props.thumbnail) {
+    // TODO(rajeev): show stars
+  } else {
     clues = [0, 1, 2, 3].map((i) => (
       <Clue
         key={i}
