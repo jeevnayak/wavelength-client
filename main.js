@@ -14,9 +14,11 @@ import {
   ApolloProvider
 } from 'react-apollo';
 import {
-  Navigator,
   StatusBar,
 } from 'react-native';
+import {
+  Navigator,
+} from 'react-native-deprecated-custom-components';
 
 import Constants from './util/Constants';
 import LoginScreen from './screens/LoginScreen';

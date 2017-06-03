@@ -6,14 +6,15 @@
   "private": true,
   "main": "main.js",
   "dependencies": {
-    "@expo/vector-icons": "^4.0.0",
+    "@expo/vector-icons": "^5.0.0",
     "apollo-client": "^1.0.0",
-    "expo": "^15.0.2",
+    "expo": "^17.0.0",
     "graphql-tag": "^2.0.0",
-    "react": "~15.4.1",
+    "react": "16.0.0-alpha.6",
     "react-apollo": "^1.0.0",
     "react-dom": "~15.4.1",
-    "react-native": "https://github.com/exponent/react-native/archive/sdk-15.0.0.tar.gz"
+    "react-native": "https://github.com/expo/react-native/archive/sdk-17.0.0.tar.gz",
+    "react-native-deprecated-custom-components": "^0.1.0"
   },
   "devDependencies": {
     "react-native-debugger-open": "^0.3.2"
