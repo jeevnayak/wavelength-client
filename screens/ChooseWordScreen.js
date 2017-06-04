@@ -6,11 +6,20 @@ import {
   compose,
   graphql,
 } from 'react-apollo';
+import {
+  Dimensions,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 
 import {
   BackButton,
   Button,
 } from '../ui/Button';
+import {
+  Card,
+} from '../ui/Card';
 import GiveCluesScreen from './GiveCluesScreen';
 import PartnershipQuery from '../queries/PartnershipQuery';
 import PossibleWordsQuery from '../queries/PossibleWordsQuery';
@@ -22,15 +31,37 @@ import {
   MediumText,
 } from '../ui/Text';
 
+const kWindowWidth = Dimensions.get("window").width;
+const kCardHorizontalMargin = 50;
+const kCardWidth = kWindowWidth - 2 * kCardHorizontalMargin;
+const kCardsTop = 70;
+const kCardsOffset = 80;
+const kCardMaxRotation = 10;
+
 class ChooseWordScreen extends Component {
   render() {
-    const words = this.props.possibleWords.map((word) => (
-      <Button key={word} text={word} onPress={() => this.chooseWord_(word)} />
-    ));
+    const cards = this.props.possibleWords.map((word, i) => {
+      const rotation = Math.random() * 2 * kCardMaxRotation - kCardMaxRotation;
+      const style = {
+        top: kCardsTop + i * kCardsOffset,
+        transform: [{rotate: `${rotation}deg`}],
+      };
+      return <TouchableWithoutFeedback
+          key={word}
+          onPress={() => this.chooseWord_(word)}>
+        <View style={[Styles.CardContainer, style]}>
+          <Card
+            word={word}
+            clues={[]}
+            width={kCardWidth}
+            forceCorrect={true} />
+        </View>
+      </TouchableWithoutFeedback>;
+    });
     return <Screen>
       <BackButton navigator={this.props.navigator} />
       <MediumText>Choose a word to clue:</MediumText>
-      {words}
+      {cards}
     </Screen>;
   }
 
@@ -47,6 +78,14 @@ class ChooseWordScreen extends Component {
     this.props.refetch();
   }
 }
+
+const Styles = StyleSheet.create({
+  CardContainer: {
+    position: "absolute",
+    left: kCardHorizontalMargin,
+    width: kCardWidth,
+  },
+});
 
 const newGameMutation = gql`
   mutation newGame($cluerId: String!, $guesserId: String!, $word: String!) {

@@ -19,6 +19,7 @@ import Letters, {
 const kWindowWidth = Dimensions.get("window").width;
 const kWindowHeight = Dimensions.get("window").height;
 const kFullScreenHorizontalMargin = 30;
+const kFullScreenCardWidth = kWindowWidth - 2 * kFullScreenHorizontalMargin;
 
 function heightFromWidth(width) {
   return width * 1.5;
@@ -71,16 +72,12 @@ export class FullScreenCard extends Component {
   render() {
     const style = {transform: [{translateY: this.state.bottom}]};
     return <Animated.View style={[Styles.FullScreenCard, style]}>
-      <Card width={this.width_()} {...this.props} />
+      <Card width={kFullScreenCardWidth} {...this.props} />
     </Animated.View>;
   }
 
-  width_() {
-    return kWindowWidth - 2 * kFullScreenHorizontalMargin;
-  }
-
   calculateBottom_(props) {
-    const width = this.width_();
+    const width = kFullScreenCardWidth;
     const height = heightFromWidth(width);
     if (props.activeIndex !== undefined) {
       const headerHeight = headerHeightFromWidth(width);
@@ -124,7 +121,9 @@ export class Card extends Component {
   }
 
   correctGuessIndex_() {
-    if (this.props.guesses) {
+    if (this.props.forceCorrect) {
+      return 0;
+    } else if (this.props.guesses) {
       const correctIndex = this.props.guesses.indexOf(this.props.word);
       return correctIndex === this.props.activeIndex ? -1 : correctIndex;
     } else {
