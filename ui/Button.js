@@ -34,7 +34,10 @@ const Styles = StyleSheet.create({
     backgroundColor: "#f00",
   },
   Back: {
-    textAlign: "left",
+    position: "absolute",
+    top: 0,
+    left: 0,
     paddingLeft: 16,
+    paddingRight: 16,
   },
 });

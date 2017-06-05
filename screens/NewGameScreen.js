@@ -12,9 +12,6 @@ import {
   View,
 } from 'react-native';
 
-import {
-  BackButton,
-} from '../ui/Button';
 import ChooseWordScreen from './ChooseWordScreen';
 import {
   withFbFriends,
@@ -46,8 +43,7 @@ class NewGameScreen extends Component {
     }
 
     return (
-      <Screen>
-        <BackButton navigator={this.props.navigator} />
+      <Screen navigator={this.props.navigator} title="Choose a person">
         {listView}
       </Screen>
     );

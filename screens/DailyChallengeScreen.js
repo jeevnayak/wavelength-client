@@ -13,7 +13,6 @@ import {
 } from 'react-native';
 
 import {
-  BackButton,
   Button,
 } from '../ui/Button';
 import DailyChallengeQuery from '../queries/DailyChallengeQuery';
@@ -62,8 +61,7 @@ class DailyChallengeScreen extends Component {
       }
     }
 
-    return <Screen>
-      <BackButton navigator={this.props.navigator} />
+    return <Screen navigator={this.props.navigator} >
       {contents}
     </Screen>;
   }

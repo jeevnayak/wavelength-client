@@ -14,10 +14,6 @@ import {
 } from 'react-native';
 
 import {
-  BackButton,
-  Button,
-} from '../ui/Button';
-import {
   Card,
 } from '../ui/Card';
 import GiveCluesScreen from './GiveCluesScreen';
@@ -34,17 +30,16 @@ import {
 const kWindowWidth = Dimensions.get("window").width;
 const kCardHorizontalMargin = 50;
 const kCardWidth = kWindowWidth - 2 * kCardHorizontalMargin;
-const kCardsTop = 70;
-const kCardsOffset = 80;
-const kCardMaxRotation = 10;
+const kCardsTop = 40;
+const kCardsOffset = 90;
+const kCardRotations = [4, -4, 2, -4, 2];
 
 class ChooseWordScreen extends Component {
   render() {
     const cards = this.props.possibleWords.map((word, i) => {
-      const rotation = Math.random() * 2 * kCardMaxRotation - kCardMaxRotation;
       const style = {
         top: kCardsTop + i * kCardsOffset,
-        transform: [{rotate: `${rotation}deg`}],
+        transform: [{rotate: `${kCardRotations[i]}deg`}],
       };
       return <TouchableWithoutFeedback
           key={word}
@@ -58,9 +53,9 @@ class ChooseWordScreen extends Component {
         </View>
       </TouchableWithoutFeedback>;
     });
-    return <Screen>
-      <BackButton navigator={this.props.navigator} />
-      <MediumText>Choose a word to clue:</MediumText>
+    return <Screen
+        navigator={this.props.navigator}
+        title="Choose a word">
       {cards}
     </Screen>;
   }

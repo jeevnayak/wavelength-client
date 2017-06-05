@@ -13,9 +13,6 @@ import {
 } from 'react-native';
 
 import {
-  BackButton,
-} from '../ui/Button';
-import {
   Card,
 } from '../ui/Card';
 import {
@@ -46,8 +43,9 @@ class PartnershipScreen extends Component {
 
   render() {
     return (
-      <Screen>
-        <BackButton navigator={this.props.navigator} />
+      <Screen
+          navigator={this.props.navigator}
+          title={this.props.partnership.partner.name}>
         <Section
           headerText="Your turn"
           dataSource={this.dataSourceForGameStates_(
