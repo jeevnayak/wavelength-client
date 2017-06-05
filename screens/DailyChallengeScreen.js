@@ -23,9 +23,7 @@ import {
   getGameScreen,
   getGameState,
 } from '../util/Helpers';
-import {
-  Row,
-} from '../ui/Row';
+import Row from '../ui/Row';
 import {
   screen,
   Screen,

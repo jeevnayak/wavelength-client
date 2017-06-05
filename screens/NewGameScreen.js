@@ -16,9 +16,7 @@ import ChooseWordScreen from './ChooseWordScreen';
 import {
   withFbFriends,
 } from '../data/FbFriendStore';
-import {
-  Row,
-} from '../ui/Row';
+import Row from '../ui/Row';
 import {
   screen,
   Screen,

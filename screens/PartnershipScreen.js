@@ -7,7 +7,7 @@ import {
 } from 'react-apollo';
 import {
   ListView,
-  Text,
+  StyleSheet,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
@@ -15,19 +15,22 @@ import {
 import {
   Card,
 } from '../ui/Card';
+import Colors from '../ui/Colors';
 import {
   GameState,
   getGameScreen,
   getGameState,
 } from '../util/Helpers';
 import PartnershipQuery from '../queries/PartnershipQuery';
-import {
-  Row,
-} from '../ui/Row';
+import Row from '../ui/Row';
 import {
   screen,
   Screen,
 } from '../ui/Screen';
+import {
+  BoldText,
+} from '../ui/Text';
+import UserPicture from '../ui/UserPicture';
 
 const kCardWidth = 60;
 const kCardMargin = 10;
@@ -46,18 +49,28 @@ class PartnershipScreen extends Component {
       <Screen
           navigator={this.props.navigator}
           title={this.props.partnership.partner.name}>
+        <View style={Styles.UserPicturesContainer}>
+          <UserPicture
+            userId={this.props.currentUserId}
+            style={Styles.UserPicture} />
+          <UserPicture
+            user={this.props.partnership.partner}
+            style={Styles.UserPicture} />
+        </View>
+        <BoldText style={Styles.ScoreDesc}>SCORE:</BoldText>
+        <BoldText style={Styles.Score}>15,000</BoldText>
         <Section
           headerText="Your turn"
           dataSource={this.dataSourceForGameStates_(
             [GameState.GiveClues, GameState.MakeGuesses])}
           renderGameRow={(game) => this.renderGameRow_(game)} />
         <Section
-          headerText="Their turn"
+          headerText={`${this.props.partnership.partner.firstName}'s turn`}
           dataSource={this.dataSourceForGameStates_(
             [GameState.TheirTurnToGuess])}
           renderGameRow={(game) => this.renderGameRow_(game)} />
         <Section
-          headerText="Complete"
+          headerText="Completed"
           dataSource={this.dataSourceForGameStates_([GameState.Complete])}
           renderGameRow={(game) => this.renderGameRow_(game)} />
       </Screen>
@@ -74,12 +87,8 @@ class PartnershipScreen extends Component {
   }
 
   renderGameRow_(game) {
-    var containerStyle = {
-      width: kCardWidth + kCardMargin,
-      padding: kCardMargin / 2,
-    }
     return <TouchableWithoutFeedback onPress={() => this.onPressGameRow_(game)}>
-      <View style={containerStyle}>
+      <View style={Styles.CardContainer}>
         <Card
           word={game.word}
           forceShowWord={
@@ -108,8 +117,10 @@ class PartnershipScreen extends Component {
 
 const Section = (props) => {
   if (props.dataSource.getRowCount() > 0) {
-    return <View>
-      <Text>{props.headerText}</Text>
+    return <View style={Styles.Section}>
+      <BoldText style={Styles.HeaderText}>
+        {props.headerText.toUpperCase()}
+      </BoldText>
       <ListView
         horizontal={true}
         dataSource={props.dataSource}
@@ -119,6 +130,41 @@ const Section = (props) => {
     return null;
   }
 };
+
+const Styles = StyleSheet.create({
+  UserPicturesContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    paddingLeft: 80,
+    paddingRight: 80,
+  },
+  ScoreDesc: {
+    marginTop: 15,
+    color: Colors.SecondaryText,
+    textAlign: "center",
+  },
+  Score: {
+    marginTop: 0,
+    fontSize: 28,
+    textAlign: "center",
+  },
+  UserPicture: {
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+  },
+  Section: {
+    marginTop: 25,
+  },
+  HeaderText: {
+    paddingLeft: kCardMargin / 2,
+    color: Colors.SecondaryText,
+  },
+  CardContainer: {
+    width: kCardWidth + kCardMargin,
+    padding: kCardMargin / 2,
+  },
+});
 
 export default compose(
   graphql(PartnershipQuery, {

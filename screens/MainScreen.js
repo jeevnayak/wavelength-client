@@ -17,9 +17,7 @@ import {
 } from '../ui/Button';
 import NewGameScreen from './NewGameScreen';
 import PartnershipScreen from './PartnershipScreen';
-import {
-  Row,
-} from '../ui/Row';
+import Row from '../ui/Row';
 import {
   screen,
   Screen,

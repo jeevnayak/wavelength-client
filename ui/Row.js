@@ -11,8 +11,9 @@ import {
   MediumText,
 } from './Text';
 import touchable from './Touchable';
+import UserPicture from './UserPicture';
 
-export const Row = touchable((props) => {
+export default Row = touchable((props) => {
   let subtitle;
   if (props.subtitle) {
     subtitle = <BoldText style={Styles.RowSubtitle}>
@@ -23,7 +24,9 @@ export const Row = touchable((props) => {
       Styles.Row,
       props.touchableActive ? Styles.RowActive : null,
       props.style]}>
-    {props.pictureUser ? <UserPicture user={props.pictureUser} /> : null}
+    {props.pictureUser ?
+      <UserPicture user={props.pictureUser} style={Styles.UserPicture} /> :
+      null}
     <View style={Styles.RowText}>
       <BoldText style={Styles.RowTitle}>{props.title}</BoldText>
       {subtitle}
@@ -31,13 +34,6 @@ export const Row = touchable((props) => {
     {props.button}
   </View>;
 });
-
-const UserPicture = (props) => {
-  const fbId = props.user.id.substring(2);
-  const pictureUrl = `https://graph.facebook.com/${fbId}/picture?type=square`;
-  return <Image style={[Styles.UserPicture, props.style]}
-    source={{uri: pictureUrl}}/>
-};
 
 const Styles = StyleSheet.create({
   Row: {
@@ -54,8 +50,6 @@ const Styles = StyleSheet.create({
     height: 44,
     borderRadius: 22,
     marginRight: 16,
-    borderWidth: 2,
-    borderColor: Colors.Primary,
   },
   RowText: {
     flex: 1,
