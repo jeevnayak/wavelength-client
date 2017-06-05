@@ -72,7 +72,6 @@ const Styles = StyleSheet.create({
   Screen: {
     flex: 1,
     backgroundColor: "#fff",
-    justifyContent: "center",
   },
   Header: {
     height: 64,

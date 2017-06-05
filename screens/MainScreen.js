@@ -7,6 +7,7 @@ import {
 } from 'react-apollo';
 import {
   ListView,
+  StyleSheet,
   TouchableHighlight,
   View,
 } from 'react-native';
@@ -24,9 +25,14 @@ import {
   Screen,
 } from '../ui/Screen';
 import {
+  BoldText,
+} from '../ui/Text';
+import {
   getUserStore,
 } from '../data/UserStore';
 import UserQuery from '../queries/UserQuery';
+
+const kNewGamePlaceholderId = "newgame";
 
 class MainScreen extends Component {
   constructor(props) {
@@ -42,7 +48,7 @@ class MainScreen extends Component {
   render() {
     const logOut = getUserStore().clearCurrentUser.bind(getUserStore());
     this.dataSource_ = this.dataSource_.cloneWithRows(
-      this.props.currentUser.partnerships);
+      [{id: kNewGamePlaceholderId}, ...this.props.currentUser.partnerships]);
     let listView;
     if (this.dataSource_.getRowCount() > 0) {
       listView = <ListView
@@ -52,7 +58,7 @@ class MainScreen extends Component {
 
     return (
       <Screen>
-        <Button onPress={() => this.onPressNewGame_()} text="New Game" />
+        <BoldText style={Styles.Title}>WAVELENGTH</BoldText>
         {listView}
         <Button onPress={logOut} text="Sign Out" />
       </Screen>
@@ -60,10 +66,17 @@ class MainScreen extends Component {
   }
 
   renderPartnershipRow_(partnership) {
-    return <Row
-      title={partnership.partner.name}
-      pictureUser={partnership.partner}
-      onPress={() => this.onPressPartnershipRow_(partnership)} />;
+    if (partnership.id === kNewGamePlaceholderId) {
+      return <Row
+        title="NEW GAME"
+        onPress={() => this.onPressNewGame_()} />;
+    } else {
+      return <Row
+        title={partnership.partner.name.toUpperCase()}
+        subtitle="SCORE: 1,500"
+        pictureUser={partnership.partner}
+        onPress={() => this.onPressPartnershipRow_(partnership)} />;
+    }
   }
 
   onPressPartnershipRow_(partnership) {
@@ -83,6 +96,15 @@ class MainScreen extends Component {
     });
   }
 }
+
+const Styles = StyleSheet.create({
+  Title: {
+    fontSize: 28,
+    textAlign: "center",
+    height: 120,
+    lineHeight: 120,
+  },
+});
 
 export default compose(
   graphql(UserQuery, {

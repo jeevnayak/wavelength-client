@@ -51,7 +51,8 @@ class NewGameScreen extends Component {
 
   renderFbFriendRow_(friend) {
     return <Row
-      title={friend.name}
+      title={friend.name.toUpperCase()}
+      subtitle="SCORE: 1,500"
       pictureUser={friend}
       onPress={() => this.onPressFriendRow_(friend)} />;
   }

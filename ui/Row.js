@@ -5,21 +5,32 @@ import {
   View,
 } from 'react-native';
 
+import Colors from './Colors';
 import {
+  BoldText,
   MediumText,
 } from './Text';
 import touchable from './Touchable';
 
-export const Row = touchable((props) => (
-  <View style={[
+export const Row = touchable((props) => {
+  let subtitle;
+  if (props.subtitle) {
+    subtitle = <BoldText style={Styles.RowSubtitle}>
+      {props.subtitle}
+    </BoldText>;
+  }
+  return <View style={[
       Styles.Row,
       props.touchableActive ? Styles.RowActive : null,
       props.style]}>
     {props.pictureUser ? <UserPicture user={props.pictureUser} /> : null}
-    <MediumText style={Styles.RowTitle}>{props.title}</MediumText>
+    <View style={Styles.RowText}>
+      <BoldText style={Styles.RowTitle}>{props.title}</BoldText>
+      {subtitle}
+    </View>
     {props.button}
-  </View>
-));
+  </View>;
+});
 
 const UserPicture = (props) => {
   const fbId = props.user.id.substring(2);
@@ -32,19 +43,27 @@ const Styles = StyleSheet.create({
   Row: {
     flexDirection: "row",
     alignItems: "center",
-    height: 64,
+    height: 72,
     paddingLeft: 16
   },
   RowActive: {
     backgroundColor: "#0f0",
   },
   UserPicture: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    marginRight: 16
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    marginRight: 16,
+    borderWidth: 2,
+    borderColor: Colors.Primary,
+  },
+  RowText: {
+    flex: 1,
   },
   RowTitle: {
-    flex: 1,
+    fontSize: 20,
+  },
+  RowSubtitle: {
+    color: Colors.SecondaryText,
   },
 });
