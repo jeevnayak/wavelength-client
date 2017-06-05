@@ -7,6 +7,7 @@ export default gql`
       partner(userId: $currentUserId) {
         id
         name
+        firstName
       }
       games {
         id

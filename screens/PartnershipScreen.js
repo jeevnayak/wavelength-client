@@ -144,8 +144,7 @@ const Styles = StyleSheet.create({
     textAlign: "center",
   },
   Score: {
-    marginTop: 0,
-    fontSize: 28,
+    fontSize: 32,
     textAlign: "center",
   },
   UserPicture: {
