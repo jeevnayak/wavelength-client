@@ -7,6 +7,7 @@ import {
 } from 'react-apollo';
 import {
   ListView,
+  ScrollView,
   StyleSheet,
   TouchableWithoutFeedback,
   View,
@@ -49,30 +50,32 @@ class PartnershipScreen extends Component {
       <Screen
           navigator={this.props.navigator}
           title={this.props.partnership.partner.name}>
-        <View style={Styles.UserPicturesContainer}>
-          <UserPicture
-            userId={this.props.currentUserId}
-            style={Styles.UserPicture} />
-          <UserPicture
-            user={this.props.partnership.partner}
-            style={Styles.UserPicture} />
-        </View>
-        <BoldText style={Styles.ScoreDesc}>SCORE:</BoldText>
-        <BoldText style={Styles.Score}>15,000</BoldText>
-        <Section
-          headerText="Your turn"
-          dataSource={this.dataSourceForGameStates_(
-            [GameState.GiveClues, GameState.MakeGuesses])}
-          renderGameRow={(game) => this.renderGameRow_(game)} />
-        <Section
-          headerText={`${this.props.partnership.partner.firstName}'s turn`}
-          dataSource={this.dataSourceForGameStates_(
-            [GameState.TheirTurnToGuess])}
-          renderGameRow={(game) => this.renderGameRow_(game)} />
-        <Section
-          headerText="Completed"
-          dataSource={this.dataSourceForGameStates_([GameState.Complete])}
-          renderGameRow={(game) => this.renderGameRow_(game)} />
+        <ScrollView>
+          <View style={Styles.UserPicturesContainer}>
+            <UserPicture
+              userId={this.props.currentUserId}
+              style={Styles.UserPicture} />
+            <UserPicture
+              user={this.props.partnership.partner}
+              style={Styles.UserPicture} />
+          </View>
+          <BoldText style={Styles.ScoreDesc}>SCORE:</BoldText>
+          <BoldText style={Styles.Score}>15,000</BoldText>
+          <Section
+            headerText="Your turn"
+            dataSource={this.dataSourceForGameStates_(
+              [GameState.GiveClues, GameState.MakeGuesses])}
+            renderGameRow={(game) => this.renderGameRow_(game)} />
+          <Section
+            headerText={`${this.props.partnership.partner.firstName}'s turn`}
+            dataSource={this.dataSourceForGameStates_(
+              [GameState.TheirTurnToGuess])}
+            renderGameRow={(game) => this.renderGameRow_(game)} />
+          <Section
+            headerText="Completed"
+            dataSource={this.dataSourceForGameStates_([GameState.Complete])}
+            renderGameRow={(game) => this.renderGameRow_(game)} />
+        </ScrollView>
       </Screen>
     );
   }
@@ -135,6 +138,7 @@ const Styles = StyleSheet.create({
   UserPicturesContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
+    marginTop: 15,
     paddingLeft: 80,
     paddingRight: 80,
   },
