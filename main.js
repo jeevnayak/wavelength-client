@@ -14,6 +14,7 @@ import {
   ApolloProvider
 } from 'react-apollo';
 import {
+  BackHandler,
   StatusBar,
 } from 'react-native';
 import {
@@ -63,6 +64,8 @@ class App extends Component {
     StatusBar.setHidden(true);
     this.isMounted_ = true;
     getUserStore().addListener(this.onUserUpdate_);
+    BackHandler.addEventListener(
+      "hardwareBackPress", () => this.handleBackPress_());
     Notifications.addListener(
       (notification) => this.handleNotification_(notification));
     await Font.loadAsync({
@@ -107,6 +110,14 @@ class App extends Component {
           return React.createElement(route.component, props);
         }} />
     </ApolloProvider>;
+  }
+
+  handleBackPress_() {
+    if (this.navigator_ && this.navigator_.getCurrentRoutes().length > 1) {
+      this.navigator_.pop();
+      return true;
+    }
+    return false;
   }
 
   handleNotification_(notification) {
