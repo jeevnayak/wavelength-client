@@ -23,7 +23,7 @@ import {
   Screen,
 } from '../ui/Screen';
 import {
-  BoldText,
+  CenteredBoldText,
 } from '../ui/Text';
 import {
   getUserStore,
@@ -56,7 +56,9 @@ class MainScreen extends Component {
 
     return (
       <Screen>
-        <BoldText style={Styles.Title}>WAVELENGTH</BoldText>
+        <CenteredBoldText style={Styles.Title} textStyle={Styles.TitleText}>
+          WAVELENGTH
+        </CenteredBoldText>
         {listView}
         <Button onPress={logOut} text="Sign Out" />
       </Screen>
@@ -97,10 +99,10 @@ class MainScreen extends Component {
 
 const Styles = StyleSheet.create({
   Title: {
-    fontSize: 28,
-    textAlign: "center",
     height: 120,
-    lineHeight: 120,
+  },
+  TitleText: {
+    fontSize: 28,
   },
 });
 

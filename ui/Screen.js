@@ -11,7 +11,7 @@ import {
   Button,
 } from './Button';
 import {
-  BoldText,
+  CenteredBoldText,
   MediumText,
 } from '../ui/Text';
 
@@ -45,9 +45,11 @@ export const Screen = (props) => {
 const Header = (props) => {
   let title;
   if (props.title) {
-    title = <BoldText style={Styles.HeaderTitle}>
+    title = <CenteredBoldText
+        style={Styles.HeaderTitle}
+        textStyle={Styles.HeaderTitleText}>
       {props.title.toUpperCase()}
-    </BoldText>;
+    </CenteredBoldText>;
   }
   return <View style={Styles.Header}>
     {title}
@@ -82,9 +84,9 @@ const Styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     left: 0,
+  },
+  HeaderTitleText: {
     fontSize: 20,
-    textAlign: "center",
-    lineHeight: 64,
   },
   LoadingText: {
     textAlign: "center",

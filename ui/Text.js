@@ -3,6 +3,7 @@ import {
   Animated,
   StyleSheet,
   Text,
+  View,
 } from 'react-native';
 
 export const MediumText = (props) => {
@@ -11,6 +12,20 @@ export const MediumText = (props) => {
 
 export const BoldText = (props) => {
   return <Text {...props} style={[Styles.BoldText, props.style]} />;
+}
+
+export const CenteredMediumText = (props) => {
+  const { style, ...textProps } = props;
+  return <View style={[Styles.CenteredContainer, style]}>
+    <MediumText {...textProps} style={props.textStyle} />
+  </View>;
+}
+
+export const CenteredBoldText = (props) => {
+  const { style, ...textProps } = props;
+  return <View style={[Styles.CenteredContainer, style]}>
+    <BoldText {...textProps} style={props.textStyle} />
+  </View>;
 }
 
 export const MediumAnimatedText = (props) => {
@@ -27,5 +42,9 @@ const Styles = StyleSheet.create({
   },
   BoldText: {
     fontFamily: "brandon-bold",
+  },
+  CenteredContainer: {
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

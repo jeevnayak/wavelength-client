@@ -4,17 +4,17 @@ import {
 } from 'react-native';
 
 import {
-  MediumText,
+  CenteredMediumText,
 } from './Text';
 import touchable from './Touchable';
 
 export const Button = touchable((props) => (
-  <MediumText style={[
+  <CenteredMediumText style={[
       Styles.Button,
       props.touchableActive ? Styles.ButtonActive : null,
       props.style]}>
     {props.text}
-  </MediumText>
+  </CenteredMediumText>
 ));
 
 export const BackButton = (props) => (
@@ -27,8 +27,6 @@ export const BackButton = (props) => (
 const Styles = StyleSheet.create({
   Button: {
     height: 64,
-    textAlign: "center",
-    lineHeight: 64,
   },
   ButtonActive: {
     backgroundColor: "#f00",
