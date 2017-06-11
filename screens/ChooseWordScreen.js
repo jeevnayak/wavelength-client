@@ -25,7 +25,7 @@ import {
   Screen,
 } from '../ui/Screen';
 import {
-  MediumText,
+  InstructionText,
 } from '../ui/Text';
 
 const kWindowWidth = Dimensions.get("window").width;
@@ -54,9 +54,10 @@ class ChooseWordScreen extends Component {
         </View>
       </TouchableWithoutFeedback>;
     });
-    return <Screen
-        navigator={this.props.navigator}
-        title="Choose a word">
+    return <Screen navigator={this.props.navigator}>
+      <InstructionText style={Styles.InstructionText}>
+        CHOOSE A WORD
+      </InstructionText>
       {cards}
     </Screen>;
   }
@@ -83,6 +84,12 @@ class ChooseWordScreen extends Component {
 }
 
 const Styles = StyleSheet.create({
+  InstructionText: {
+    position: "absolute",
+    top: kCardsTop - 50,
+    left: 0,
+    right: 0,
+  },
   CardContainer: {
     position: "absolute",
     left: kCardHorizontalMargin,

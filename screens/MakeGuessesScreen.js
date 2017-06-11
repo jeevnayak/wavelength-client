@@ -31,6 +31,8 @@ class MakeGuessesScreen extends Component {
     return <Screen style={Styles.Screen}>
       <BackButton navigator={this.props.navigator} />
       <FullScreenCard
+        instructionText={
+          this.guessedWord_() ? "GUESS THE CLUES" : "GUESS THE WORD"}
         word={this.props.game.word}
         clues={this.props.game.clues}
         guesses={this.state.guesses}

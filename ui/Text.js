@@ -36,6 +36,10 @@ export const BoldAnimatedText = (props) => {
   return <Animated.Text {...props} style={[Styles.BoldText, props.style]} />;
 }
 
+export const InstructionText = (props) => {
+  return <BoldText {...props} style={[Styles.InstructionText, props.style]} />;
+}
+
 const Styles = StyleSheet.create({
   MediumText: {
     fontFamily: "brandon-medium",
@@ -46,5 +50,10 @@ const Styles = StyleSheet.create({
   CenteredContainer: {
     justifyContent: "center",
     alignItems: "center",
+  },
+  InstructionText: {
+    fontSize: 16,
+    color: "rgba(0,0,0,0.5)",
+    textAlign: "center",
   },
 });

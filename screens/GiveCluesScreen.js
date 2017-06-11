@@ -32,6 +32,7 @@ class GiveCluesScreen extends Component {
     return <Screen style={Styles.Screen}>
       <BackButton navigator={this.props.navigator} />
       <FullScreenCard
+        instructionText="GIVE CLUES"
         word={this.props.game.word}
         clues={this.state.clues}
         activeIndex={this.state.clues.length - 1} />

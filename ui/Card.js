@@ -15,6 +15,9 @@ import {
 import Letters, {
   kLetterPlaceholder,
 } from './Letters';
+import {
+  InstructionText,
+} from '../ui/Text';
 
 const kWindowWidth = Dimensions.get("window").width;
 const kWindowHeight = Dimensions.get("window").height;
@@ -70,8 +73,15 @@ export class FullScreenCard extends Component {
   }
 
   render() {
+    let instructionText;
+    if (this.props.instructionText) {
+      instructionText = <InstructionText style={Styles.InstructionText}>
+        {this.props.instructionText.toUpperCase()}
+      </InstructionText>;
+    }
     const style = {transform: [{translateY: this.state.bottom}]};
     return <Animated.View style={[Styles.FullScreenCard, style]}>
+      {instructionText}
       <Card width={kFullScreenCardWidth} {...this.props} />
     </Animated.View>;
   }
@@ -255,6 +265,9 @@ const Clue = (props) => {
 };
 
 const Styles = StyleSheet.create({
+  InstructionText: {
+    marginBottom: 25,
+  },
   FullScreenCard: {
     position: "absolute",
     bottom: 0,
