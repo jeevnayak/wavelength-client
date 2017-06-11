@@ -17,6 +17,7 @@ import {
   Card,
 } from '../ui/Card';
 import GiveCluesScreen from './GiveCluesScreen';
+import PartnershipScreen from './PartnershipScreen';
 import PartnershipQuery from '../queries/PartnershipQuery';
 import PossibleWordsQuery from '../queries/PossibleWordsQuery';
 import {
@@ -63,6 +64,13 @@ class ChooseWordScreen extends Component {
   async chooseWord_(word) {
     const resp = await this.props.createNewGame(
       this.props.cluerId, this.props.guesserId, word);
+    this.props.navigator.replacePrevious({
+      component: PartnershipScreen,
+      props: {
+        currentUserId: this.props.currentUserId,
+        partnershipId: resp.data.newGame.partnership.id
+      }
+    });
     this.props.navigator.replace({
       component: GiveCluesScreen,
       props: {
