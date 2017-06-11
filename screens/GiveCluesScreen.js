@@ -11,6 +11,9 @@ import {
 } from 'react-native';
 
 import {
+  BackButton,
+} from '../ui/Button';
+import {
   FullScreenCard,
 } from '../ui/Card';
 import GameQuery from '../queries/GameQuery';
@@ -26,7 +29,8 @@ class GiveCluesScreen extends Component {
   };
 
   render() {
-    return <Screen style={Styles.Screen} navigator={this.props.navigator}>
+    return <Screen style={Styles.Screen}>
+      <BackButton navigator={this.props.navigator} />
       <FullScreenCard
         word={this.props.game.word}
         clues={this.state.clues}

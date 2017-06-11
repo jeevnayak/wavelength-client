@@ -126,6 +126,7 @@ const Section = (props) => {
       </BoldText>
       <ListView
         horizontal={true}
+        showsHorizontalScrollIndicator={false}
         dataSource={props.dataSource}
         renderRow={props.renderGameRow} />
     </View>;

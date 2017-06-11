@@ -25,7 +25,8 @@ class MakeGuessesScreen extends Component {
   };
 
   render() {
-    return <Screen style={Styles.Screen} navigator={this.props.navigator}>
+    return <Screen style={Styles.Screen}>
+      <BackButton navigator={this.props.navigator} />
       <FullScreenCard
         word={this.props.game.word}
         clues={this.props.game.clues}

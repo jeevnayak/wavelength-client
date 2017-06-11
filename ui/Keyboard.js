@@ -25,7 +25,6 @@ const kKeyWidth =
   (kWindowWidth - kMaxNumLetters * kKeyHorizontalSpacing) /
   kMaxNumLetters;
 const kKeyHeight = kKeyWidth * 4 / 3;
-const kRowSpacing = 0;
 
 export const kKeyboardHeight = 4 * (kKeyHeight + kKeyVerticalSpacing);
 
@@ -97,7 +96,6 @@ const Styles = StyleSheet.create({
     flexGrow: 1,
     flexDirection: "row",
     justifyContent: "center",
-    marginTop: kRowSpacing,
   },
   Key: {
     alignItems: "center",
@@ -119,7 +117,7 @@ const Styles = StyleSheet.create({
   },
   BackspaceContainer: {
     position: "absolute",
-    top: kRowSpacing,
+    top: 0,
     right: 0,
   },
   BackspaceKey: {
