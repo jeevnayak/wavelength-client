@@ -6,9 +6,11 @@ import {
   View,
 } from 'react-native';
 
+import Colors from './Colors';
 import touchable from './Touchable';
-
-export const kKeyboardHeight = 225;
+import {
+  BoldText,
+} from './Text';
 
 const kLetterRows = [
   ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
@@ -17,16 +19,20 @@ const kLetterRows = [
 ];
 const kMaxNumLetters = Math.max(...kLetterRows.map((row) => row.length));
 const kWindowWidth = Dimensions.get("window").width;
-const kKeySpacing = 5;
+const kKeyHorizontalSpacing = 8;
+const kKeyVerticalSpacing = 10;
 const kKeyWidth =
-  (kWindowWidth - (kMaxNumLetters + 1) * kKeySpacing) / kMaxNumLetters;
-const kRowSpacing = 10;
+  (kWindowWidth - kMaxNumLetters * kKeyHorizontalSpacing) /
+  kMaxNumLetters;
+const kKeyHeight = kKeyWidth * 4 / 3;
+const kRowSpacing = 0;
+
+export const kKeyboardHeight = 4 * (kKeyHeight + kKeyVerticalSpacing);
 
 export default Keyboard = (props) => {
   const letterRows = kLetterRows.map((letters, i) => {
     const letterRow = <LetterRow
       key={i}
-      firstRow={i === 0}
       letters={letters}
       onPressLetter={(letter) => props.onPressLetter(letter)} />;
     if (i === 2) {
@@ -34,7 +40,7 @@ export default Keyboard = (props) => {
         {letterRow}
         <View style={Styles.BackspaceContainer}>
           <Key
-            firstKey={false}
+            style={Styles.BackspaceKey}
             text="<"
             onPress={props.onPressBackspace} />
         </View>
@@ -45,12 +51,8 @@ export default Keyboard = (props) => {
   });
   return <View style={Styles.Keyboard}>
     {letterRows}
-    <View style={Styles.Row}>
-      <Key
-        style={Styles.SubmitKey}
-        firstKey={true}
-        text="Submit"
-        onPress={props.onPressSubmit} />
+    <View style={[Styles.Row, Styles.SubmitRow]}>
+      <SubmitKey text="NEXT" onPress={props.onPressSubmit} />
     </View>
   </View>;
 };
@@ -59,7 +61,6 @@ const LetterRow = (props) => {
   return <View style={Styles.Row}>
     {props.letters.map((letter, i) => <Key
       key={i}
-      firstKey={i === 0}
       text={letter}
       onPress={() => props.onPressLetter(letter)} />)}
   </View>
@@ -68,17 +69,26 @@ const LetterRow = (props) => {
 const Key = touchable((props) => (
   <View style={[
       Styles.Key,
-      props.firstKey ? Styles.FirstKey : null,
-      props.touchableActive ? Styles.KeyActive : null,
-      props.style]}>
-    <Text>{props.text}</Text>
+      props.style,
+      props.touchableActive ? Styles.KeyActive : null]}>
+    <Text style={Styles.KeyText}>{props.text}</Text>
+  </View>
+));
+
+const SubmitKey = touchable((props) => (
+  <View style={[
+      Styles.Key,
+      Styles.SubmitKey,
+      props.style,
+      props.touchableActive ? Styles.KeyActive : null]}>
+    <BoldText style={Styles.SubmitKeyText}>{props.text}</BoldText>
   </View>
 ));
 
 const Styles = StyleSheet.create({
   Keyboard: {
     height: kKeyboardHeight,
-    backgroundColor: "#eee",
+    backgroundColor: "#d3d7de",
   },
   HorizontalLayout: {
     flexDirection: "row",
@@ -93,12 +103,16 @@ const Styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: kKeyWidth,
-    height: kKeyWidth * 4 / 3,
-    marginLeft: kKeySpacing,
-    backgroundColor: "#0ff",
+    height: kKeyHeight,
+    marginLeft: kKeyHorizontalSpacing / 2,
+    marginRight: kKeyHorizontalSpacing / 2,
+    marginTop: kKeyVerticalSpacing / 2,
+    marginBottom: kKeyVerticalSpacing / 2,
+    backgroundColor: "#fff",
+    borderRadius: 5,
   },
-  FirstKey: {
-    marginLeft: 0,
+  KeyText: {
+    fontSize: 20,
   },
   KeyActive: {
     backgroundColor: "#00f",
@@ -108,7 +122,19 @@ const Styles = StyleSheet.create({
     top: kRowSpacing,
     right: 0,
   },
+  BackspaceKey: {
+    width: kKeyHeight,
+    backgroundColor: "#a3aebf",
+  },
+  SubmitRow: {
+    justifyContent: "flex-end",
+  },
   SubmitKey: {
-    width: 200,
+    width: 100,
+    backgroundColor: Colors.Primary,
+  },
+  SubmitKeyText: {
+    fontSize: 20,
+    color: "#fff",
   },
 });
