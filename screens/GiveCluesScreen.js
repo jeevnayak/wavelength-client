@@ -38,6 +38,7 @@ class GiveCluesScreen extends Component {
       <Keyboard
         onPressLetter={(letter) => this.onPressLetter_(letter)}
         onPressBackspace={() => this.onPressBackspace_()}
+        submitButtonText={this.state.clues.length === 4 ? "SEND" : "NEXT"}
         onPressSubmit={() => this.onPressSubmit_()} />
     </Screen>;
   }

@@ -48,10 +48,15 @@ export default Keyboard = (props) => {
       return letterRow;
     }
   });
+  let skipKey;
+  if (props.onPressSkip) {
+    skipKey = <SkipKey onPress={props.onPressSkip} />
+  }
   return <View style={Styles.Keyboard}>
     {letterRows}
-    <View style={[Styles.Row, Styles.SubmitRow]}>
-      <SubmitKey text="NEXT" onPress={props.onPressSubmit} />
+    <View style={[Styles.Row, skipKey ? Styles.SkipRow : Styles.SubmitRow]}>
+      {skipKey}
+      <SubmitKey text={props.submitButtonText} onPress={props.onPressSubmit} />
     </View>
   </View>;
 };
@@ -81,6 +86,16 @@ const SubmitKey = touchable((props) => (
       props.style,
       props.touchableActive ? Styles.KeyActive : null]}>
     <BoldText style={Styles.SubmitKeyText}>{props.text}</BoldText>
+  </View>
+));
+
+const SkipKey = touchable((props) => (
+  <View style={[
+      Styles.Key,
+      Styles.SkipKey,
+      props.style,
+      props.touchableActive ? Styles.KeyActive : null]}>
+    <BoldText style={Styles.SkipKeyText}>SKIP</BoldText>
   </View>
 ));
 
@@ -127,6 +142,9 @@ const Styles = StyleSheet.create({
   SubmitRow: {
     justifyContent: "flex-end",
   },
+  SkipRow: {
+    justifyContent: "space-between",
+  },
   SubmitKey: {
     width: 100,
     backgroundColor: Colors.Primary,
@@ -134,5 +152,12 @@ const Styles = StyleSheet.create({
   SubmitKeyText: {
     fontSize: 20,
     color: "#fff",
+  },
+  SkipKey: {
+    width: 100,
+    backgroundColor: "#a3aebf",
+  },
+  SkipKeyText: {
+    fontSize: 20,
   },
 });

@@ -38,7 +38,9 @@ class MakeGuessesScreen extends Component {
       <Keyboard
         onPressLetter={(letter) => this.onPressLetter_(letter)}
         onPressBackspace={() => this.onPressBackspace_()}
-        onPressSubmit={() => this.onPressSubmit_()} />
+        submitButtonText="GUESS"
+        onPressSubmit={() => this.onPressSubmit_()}
+        onPressSkip={() => this.onPressSkip_()} />
     </Screen>;
   }
 
@@ -79,6 +81,14 @@ class MakeGuessesScreen extends Component {
     if (this.getCurrentGuess_().length !== this.getCurrentTarget_().length) {
       return;
     }
+    if (this.state.guesses.length === 4) {
+      this.makeGuesses_();
+    } else {
+      this.setState({guesses: [...this.state.guesses, ""]});
+    }
+  }
+
+  onPressSkip_() {
     if (this.state.guesses.length === 4) {
       this.makeGuesses_();
     } else {
