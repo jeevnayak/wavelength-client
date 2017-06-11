@@ -11,6 +11,9 @@ import {
 } from 'react-native';
 
 import {
+  BackButton,
+} from '../ui/Button';
+import {
   FullScreenCard,
 } from '../ui/Card';
 import GameQuery from '../queries/GameQuery';
@@ -52,8 +55,9 @@ class MakeGuessesScreen extends Component {
 
   getCurrentTarget_() {
     const currentGuessIndex = this.state.guesses.length - 1;
-    return this.guessedWord_() ?
+    const target = this.guessedWord_() ?
       this.props.game.clues[currentGuessIndex] : this.props.game.word;
+    return target.split(" ").join("");
   }
 
   onPressLetter_(letter) {

@@ -163,9 +163,16 @@ export class Card extends Component {
   }
 
   getDisplayGuess_() {
-    const currentGuess = this.getCurrentGuess_() || "";
-    return currentGuess + kLetterPlaceholder.repeat(
-        this.getCurrentTarget_().length - currentGuess.length);
+    const targetParts = this.getCurrentTarget_().split(" ");
+    let currentGuess = this.getCurrentGuess_() || "";
+    let displayGuessParts = [];
+    for (const targetPart of targetParts) {
+      const guessPart = currentGuess.substring(0, targetPart.length);
+      displayGuessParts.push(guessPart + kLetterPlaceholder.repeat(
+        Math.max(targetPart.length - guessPart.length, 0)));
+      currentGuess = currentGuess.substring(targetPart.length);
+    }
+    return displayGuessParts.join(" ");
   }
 }
 
