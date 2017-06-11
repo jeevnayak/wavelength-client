@@ -5,6 +5,9 @@
   "author": null,
   "private": true,
   "main": "main.js",
+  "scripts": {
+    "devtools": "react-devtools"
+  },
   "dependencies": {
     "@expo/vector-icons": "^5.0.0",
     "apollo-client": "^1.0.0",
@@ -17,6 +20,7 @@
     "react-native-deprecated-custom-components": "^0.1.0"
   },
   "devDependencies": {
+    "react-devtools": "^2.3.3",
     "react-native-debugger-open": "^0.3.2"
   }
 }
