@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   StyleSheet,
+  View,
 } from 'react-native';
 
 import {
@@ -18,10 +19,12 @@ export const Button = touchable((props) => (
 ));
 
 export const BackButton = (props) => (
-  <Button
-    onPress={props.navigator.pop}
-    style={[Styles.Back, props.style]}
-    text="Back" />
+  <View style={Styles.BackContainer}>
+    <Button
+      style={Styles.BackButton}
+      text="Back"
+      onPress={props.navigator.pop} />
+  </View>
 );
 
 const Styles = StyleSheet.create({
@@ -31,10 +34,12 @@ const Styles = StyleSheet.create({
   ButtonActive: {
     backgroundColor: "#f00",
   },
-  Back: {
+  BackContainer: {
     position: "absolute",
     top: 0,
     left: 0,
+  },
+  BackButton: {
     paddingLeft: 16,
     paddingRight: 16,
   },

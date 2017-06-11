@@ -32,11 +32,12 @@ export default Keyboard = (props) => {
     if (i === 2) {
       return <View key={i} style={Styles.HorizontalLayout}>
         {letterRow}
-        <Key
-          style={Styles.BackspaceKey}
-          firstKey={false}
-          text="<"
-          onPress={props.onPressBackspace} />
+        <View style={Styles.BackspaceContainer}>
+          <Key
+            firstKey={false}
+            text="<"
+            onPress={props.onPressBackspace} />
+        </View>
       </View>;
     } else {
       return letterRow;
@@ -102,7 +103,7 @@ const Styles = StyleSheet.create({
   KeyActive: {
     backgroundColor: "#00f",
   },
-  BackspaceKey: {
+  BackspaceContainer: {
     position: "absolute",
     top: kRowSpacing,
     right: 0,
