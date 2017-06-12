@@ -54,9 +54,9 @@ class LoginScreen extends Component {
         `access_token=${token}&fields=${Constants.FbUserFields}`);
       const respJson = await resp.json();
       const userId = Constants.FbUserIdPrefix + respJson.id;
-      await this.props.onFbLogin(userId, respJson.name, respJson.first_name,
-        respJson.last_name, token);
-      return userId;
+      const userResp = await this.props.onFbLogin(
+        userId, respJson.name, respJson.first_name, respJson.last_name, token);
+      return userResp.data.updateUser.id;
     } else {
       return null;
     }
@@ -100,7 +100,7 @@ export default compose(
   graphql(updateUserMutation, {
     props: ({ mutate }) => ({
       onFbLogin: (id, name, firstName, lastName, fbToken) => {
-        mutate({
+        return mutate({
           variables: { id, name, firstName, lastName, fbToken }
         });
       }
