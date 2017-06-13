@@ -20,6 +20,7 @@ import {
 import {
   Navigator,
 } from 'react-native-deprecated-custom-components';
+import Sentry from 'sentry-expo';
 
 import Constants from './util/Constants';
 import LoginScreen from './screens/LoginScreen';
@@ -29,6 +30,9 @@ import ResultsScreen from './screens/ResultsScreen';
 import {
   getUserStore,
 } from './data/UserStore';
+
+Sentry.config(
+  "https://9aac787d58bc4d36b8f3bab6638ac006@sentry.io/178839").install();
 
 const dataIdFromObject = (object) => {
   if (object.__typename && object.id) {

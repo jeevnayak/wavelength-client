@@ -21,5 +21,17 @@
   },
   "ios": {
     "supportsTablet": true
+  },
+  "hooks": {
+    "postPublish": [
+      {
+        "file": "sentry-expo/upload-sourcemaps",
+        "config": {
+          "organization": "rajeev-nayak",
+          "project": "wavelength-client",
+          "authToken": "e5d822406c9f4e349c4ecb908cce48a0f9db2eeff3be4a64b0f2ab830590b894"
+        }
+      }
+    ]
   }
 }
