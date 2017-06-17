@@ -15,6 +15,7 @@ import {
 import {
   Button,
 } from '../ui/Button';
+import ChooseWordScreen from './ChooseWordScreen';
 import NewGameScreen from './NewGameScreen';
 import PartnershipScreen from './PartnershipScreen';
 import Row from '../ui/Row';
@@ -75,7 +76,8 @@ class MainScreen extends Component {
         title={partnership.partner.name.toUpperCase()}
         subtitle="SCORE: 1,500"
         pictureUser={partnership.partner}
-        onPress={() => this.onPressPartnershipRow_(partnership)} />;
+        onPress={() => this.onPressPartnershipRow_(partnership)}
+        onPressCreateGame={() => this.onPressCreateGame_(partnership)} />;
     }
   }
 
@@ -86,6 +88,18 @@ class MainScreen extends Component {
         currentUserId: this.props.currentUser.id,
         partnershipId: partnership.id
       }
+    });
+  }
+
+  onPressCreateGame_(partnership) {
+    this.props.navigator.push({
+      component: ChooseWordScreen,
+      props: {
+        currentUserId: this.props.currentUser.id,
+        cluerId: this.props.currentUser.id,
+        guesserId: partnership.partner.id
+      },
+      isModal: true,
     });
   }
 

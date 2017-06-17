@@ -5,6 +5,9 @@ import {
   View,
 } from 'react-native';
 
+import {
+  Button,
+} from '../ui/Button';
 import Colors from './Colors';
 import PlusIcon from '../icons/Plus';
 import {
@@ -13,6 +16,8 @@ import {
 } from './Text';
 import touchable from './Touchable';
 import UserPicture from './UserPicture';
+
+const kRowHeight = 72;
 
 export default Row = touchable((props) => {
   let subtitle;
@@ -32,7 +37,8 @@ export default Row = touchable((props) => {
       <BoldText style={Styles.RowTitle}>{props.title}</BoldText>
       {subtitle}
     </View>
-    {props.button}
+    {props.onPressCreateGame ?
+      <CreateGameButton onPress={props.onPressCreateGame} /> : null}
   </View>;
 });
 
@@ -42,11 +48,17 @@ const NewGameIcon = (props) => (
   </View>
 );
 
+const CreateGameButton = (props) => (
+  <Button style={Styles.CreateGameButton} onPress={props.onPress}>
+    <PlusIcon size={16} />
+  </Button>
+);
+
 const Styles = StyleSheet.create({
   Row: {
     flexDirection: "row",
     alignItems: "center",
-    height: 72,
+    height: kRowHeight,
     paddingLeft: 16
   },
   RowActive: {
@@ -72,5 +84,11 @@ const Styles = StyleSheet.create({
   },
   RowSubtitle: {
     color: Colors.SecondaryText,
+  },
+  CreateGameButton: {
+    width: kRowHeight,
+    height: kRowHeight,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

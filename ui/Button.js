@@ -10,12 +10,17 @@ import {
 import touchable from './Touchable';
 
 export const Button = touchable((props) => (
-  <CenteredMediumText style={[
-      Styles.Button,
-      props.touchableActive ? Styles.ButtonActive : null,
-      props.style]}>
-    {props.text}
-  </CenteredMediumText>
+  props.text ?
+    <CenteredMediumText style={[
+        Styles.Button,
+        props.touchableActive ? Styles.ButtonActive : null,
+        props.style]}>
+      {props.text}
+    </CenteredMediumText> :
+    <View {...props} style={[
+        Styles.Button,
+        props.touchableActive ? Styles.ButtonActive : null,
+        props.style]} />
 ));
 
 export const BackButton = (props) => (
