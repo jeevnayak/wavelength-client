@@ -226,7 +226,19 @@ const Header = (props) => {
 const Clues = (props) => {
   let clues;
   if (props.thumbnail) {
-    // TODO(rajeev): show stars
+    clues = [0, 1, 2, 3].map((i) => {
+      if (props.clues[i] && props.clues[i].wavelengthCorrect) {
+        const style = {
+          marginTop: props.clueHeight / 4,
+          marginBottom: props.clueHeight / 4,
+        };
+        return <View key={i} style={style}>
+          <StarIcon size={props.clueHeight} />
+        </View>;
+      } else {
+        return null;
+      }
+    });
   } else {
     clues = [0, 1, 2, 3].map((i) => (
       <Clue
@@ -237,7 +249,10 @@ const Clues = (props) => {
     ));
   }
   const style = {borderRadius: props.borderRadius};
-  return <View style={[Styles.Clues, style]}>
+  return <View style={[
+      Styles.Clues,
+      props.thumbnail && Styles.CluesThumbnail,
+      style]}>
     {clues}
   </View>;
 };
@@ -248,7 +263,7 @@ const Clue = (props) => {
     blank = <View style={Styles.Blank} />;
   }
   let star;
-  if (props.clue.wavelengthCorrect) {
+  if (props.clue && props.clue.wavelengthCorrect) {
     star = <View style={[Styles.Star, {top: props.textSize * 0.05}]}>
       <StarIcon size={props.textSize * 1.25} />
     </View>;
@@ -299,6 +314,9 @@ const Styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     backgroundColor: "#fff",
+  },
+  CluesThumbnail: {
+    alignItems: "center",
   },
   Clue: {
     justifyContent: "center",
