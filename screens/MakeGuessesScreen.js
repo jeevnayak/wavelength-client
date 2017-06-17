@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 
 import {
-  BackButton,
+  ExitButton,
 } from '../ui/Button';
 import {
   FullScreenCard,
@@ -29,7 +29,7 @@ class MakeGuessesScreen extends Component {
 
   render() {
     return <Screen style={Styles.Screen}>
-      <BackButton navigator={this.props.navigator} />
+      <ExitButton navigator={this.props.navigator} />
       <FullScreenCard
         instructionText={
           this.guessedWord_() ? "GUESS THE CLUES" : "GUESS THE WORD"}

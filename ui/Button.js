@@ -4,6 +4,7 @@ import {
   View,
 } from 'react-native';
 
+import ExitIcon from '../icons/Exit';
 import {
   CenteredMediumText,
 } from './Text';
@@ -32,6 +33,14 @@ export const BackButton = (props) => (
   </View>
 );
 
+export const ExitButton = (props) => (
+  <View style={Styles.ExitContainer}>
+    <Button style={Styles.ExitButton} onPress={props.navigator.pop}>
+      <ExitIcon size={24} />
+    </Button>
+  </View>
+);
+
 const Styles = StyleSheet.create({
   Button: {
     height: 64,
@@ -47,5 +56,16 @@ const Styles = StyleSheet.create({
   BackButton: {
     paddingLeft: 16,
     paddingRight: 16,
+  },
+  ExitContainer: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+  },
+  ExitButton: {
+    width: 72,
+    height: 72,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

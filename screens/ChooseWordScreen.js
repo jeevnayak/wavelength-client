@@ -14,6 +14,9 @@ import {
 } from 'react-native';
 
 import {
+  ExitButton,
+} from '../ui/Button';
+import {
   Card,
 } from '../ui/Card';
 import GiveCluesScreen from './GiveCluesScreen';
@@ -31,7 +34,7 @@ import {
 const kWindowWidth = Dimensions.get("window").width;
 const kCardHorizontalMargin = 50;
 const kCardWidth = kWindowWidth - 2 * kCardHorizontalMargin;
-const kCardsTop = 40;
+const kCardsTop = 110;
 const kCardsOffset = 90;
 const kCardRotations = [4, -4, 2, -4, 2];
 
@@ -54,7 +57,8 @@ class ChooseWordScreen extends Component {
         </View>
       </TouchableWithoutFeedback>;
     });
-    return <Screen navigator={this.props.navigator}>
+    return <Screen>
+      <ExitButton navigator={this.props.navigator} />
       <InstructionText style={Styles.InstructionText}>
         CHOOSE A WORD
       </InstructionText>
