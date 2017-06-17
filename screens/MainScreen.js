@@ -46,8 +46,10 @@ class MainScreen extends Component {
 
   render() {
     const logOut = getUserStore().clearCurrentUser.bind(getUserStore());
+    const partnerships = this.props.currentUser.partnerships.slice(0).sort(
+      (p1, p2) => p2.numPendingGames - p1.numPendingGames);
     this.dataSource_ = this.dataSource_.cloneWithRows(
-      [{id: kNewGamePlaceholderId}, ...this.props.currentUser.partnerships]);
+      [{id: kNewGamePlaceholderId}, ...partnerships]);
     let listView;
     if (this.dataSource_.getRowCount() > 0) {
       listView = <ListView
