@@ -18,6 +18,7 @@ export default gql`
         replayed
         lastUpdated
       }
+      numPendingGames(userId: $currentUserId)
       averageScore
     }
   }

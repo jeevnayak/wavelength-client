@@ -80,6 +80,7 @@ class MainScreen extends Component {
         title={partnership.partner.name.toUpperCase()}
         subtitle={subtitle}
         pictureUser={partnership.partner}
+        badgeCount={partnership.numPendingGames}
         onPress={() => this.onPressPartnershipRow_(partnership)}
         onPressCreateGame={() => this.onPressCreateGame_(partnership)} />;
     }

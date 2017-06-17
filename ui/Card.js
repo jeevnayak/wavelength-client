@@ -187,7 +187,7 @@ export class Card extends Component {
   }
 }
 
-const CardView = (props) => {
+export const CardView = (props) => {
   const borderSize = borderSizeFromWidth(props.width);
   const style = {
     width: props.width,
@@ -204,6 +204,7 @@ const CardView = (props) => {
       height={headerHeightFromWidth(props.width)}
       textSize={headerTextSizeFromWidth(props.width)} />
     <Clues
+      customContents={props.customContents}
       thumbnail={props.thumbnail}
       clues={props.clues}
       clueHeight={clueHeightFromWidth(props.width)}
@@ -224,9 +225,11 @@ const Header = (props) => {
 };
 
 const Clues = (props) => {
-  let clues;
-  if (props.thumbnail) {
-    clues = [0, 1, 2, 3].map((i) => {
+  let contents;
+  if (props.customContents) {
+    contents = props.customContents;
+  } else if (props.thumbnail) {
+    contents = [0, 1, 2, 3].map((i) => {
       if (props.clues[i] && props.clues[i].wavelengthCorrect) {
         const style = {
           marginTop: props.clueHeight / 4,
@@ -240,7 +243,7 @@ const Clues = (props) => {
       }
     });
   } else {
-    clues = [0, 1, 2, 3].map((i) => (
+    contents = [0, 1, 2, 3].map((i) => (
       <Clue
         key={i}
         clue={props.clues[i]}
@@ -253,7 +256,7 @@ const Clues = (props) => {
       Styles.Clues,
       props.thumbnail && Styles.CluesThumbnail,
       style]}>
-    {clues}
+    {contents}
   </View>;
 };
 

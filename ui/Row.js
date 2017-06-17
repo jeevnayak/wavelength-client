@@ -7,11 +7,15 @@ import {
 
 import {
   Button,
-} from '../ui/Button';
+} from './Button';
+import {
+  CardView,
+} from './Card';
 import Colors from './Colors';
 import PlusIcon from '../icons/Plus';
 import {
   BoldText,
+  CenteredBoldText,
   MediumText,
 } from './Text';
 import touchable from './Touchable';
@@ -30,9 +34,12 @@ export default Row = touchable((props) => {
       Styles.Row,
       props.touchableActive ? Styles.RowActive : null,
       props.style]}>
-    {props.pictureUser ?
-      <UserPicture user={props.pictureUser} style={Styles.LeftCircle} /> :
-      <NewGameIcon />}
+    <View>
+      {props.pictureUser ?
+        <UserPicture user={props.pictureUser} style={Styles.LeftCircle} /> :
+        <NewGameIcon />}
+      {props.badgeCount ? <Badge count={props.badgeCount} /> : null}
+    </View>
     <View style={Styles.RowText}>
       <BoldText style={Styles.RowTitle}>{props.title}</BoldText>
       {subtitle}
@@ -41,6 +48,15 @@ export default Row = touchable((props) => {
       <CreateGameButton onPress={props.onPressCreateGame} /> : null}
   </View>;
 });
+
+const Badge = (props) => {
+  const contents = <CenteredBoldText textStyle={Styles.BadgeText}>
+    {props.count}
+  </CenteredBoldText>;
+  return <View style={Styles.Badge}>
+    <CardView width={10} customContents={contents} />
+  </View>;
+};
 
 const NewGameIcon = (props) => (
   <View style={[Styles.LeftCircle, Styles.NewGameIcon]}>
@@ -70,12 +86,6 @@ const Styles = StyleSheet.create({
     borderRadius: 22,
     marginRight: 16,
   },
-  NewGameIcon: {
-    justifyContent: "center",
-    alignItems: "center",
-    borderWidth: 2,
-    borderColor: Colors.Primary,
-  },
   RowText: {
     flex: 1,
   },
@@ -84,6 +94,21 @@ const Styles = StyleSheet.create({
   },
   RowSubtitle: {
     color: Colors.SecondaryText,
+  },
+  Badge: {
+    position: "absolute",
+    bottom: 0,
+    right: 15,
+  },
+  BadgeText: {
+    fontSize: 9,
+    color: Colors.Primary,
+  },
+  NewGameIcon: {
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 2,
+    borderColor: Colors.Primary,
   },
   CreateGameButton: {
     width: kRowHeight,
