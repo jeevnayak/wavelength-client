@@ -62,7 +62,7 @@ class PartnershipScreen extends Component {
         <ScrollView>
           <View style={Styles.UserPicturesContainer}>
             <UserPicture
-              userId={this.props.currentUserId}
+              user={this.props.currentUser}
               style={Styles.UserPicture} />
             <UserPicture
               user={this.props.partnership.partner}
@@ -115,10 +115,13 @@ class PartnershipScreen extends Component {
   onPressGameRow_(game) {
     let screen = getGameScreen(game);
     if (screen) {
+      const partner = this.props.partnership.partner;
       this.props.navigator.push({
         component: screen,
         props: {
           currentUserId: this.props.currentUserId,
+          cluer: game.isCluer ? this.props.currentUser : partner,
+          guesser: game.isCluer ? partner : this.props.currentUser,
           gameId: game.id
         },
         isModal: true,

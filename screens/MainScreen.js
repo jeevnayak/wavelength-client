@@ -93,6 +93,7 @@ class MainScreen extends Component {
       component: PartnershipScreen,
       props: {
         currentUserId: this.props.currentUser.id,
+        currentUser: this.props.currentUser,
         partnershipId: partnership.id
       }
     });

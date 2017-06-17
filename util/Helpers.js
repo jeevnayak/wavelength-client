@@ -40,3 +40,38 @@ export function getGameScreen(game) {
       return null;
   }
 }
+
+export function getScore(game) {
+  const scoreByNumIncorrect = [50, 30, 20, 10];
+  let numIncorrect = 0;
+  let guessedWord = false;
+  let score = 0;
+  for (let i = 0; i < game.guesses.length; i++) {
+    const guess = game.guesses[i];
+    const correct = guessedWord ?
+      (guess === game.clues[i]) : (guess === game.word);
+    if (correct) {
+      guessedWord = true;
+      score += scoreByNumIncorrect[numIncorrect];
+    } else {
+      numIncorrect++;
+    }
+  }
+  return score;
+}
+
+export function getIncorrectGuesses(game) {
+  let guessedWord = false;
+  let incorrectGuesses = [];
+  for (let i = 0; i < game.guesses.length; i++) {
+    const guess = game.guesses[i];
+    const correct = guessedWord ?
+      (guess === game.clues[i]) : (guess === game.word);
+    if (correct) {
+      guessedWord = true;
+    } else if (guess.length) {
+      incorrectGuesses.push(guess);
+    }
+  }
+  return incorrectGuesses;
+}

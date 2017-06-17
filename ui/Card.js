@@ -57,6 +57,11 @@ function innerBorderRadiusFromWidth(width) {
   return width * 0.01;
 }
 
+export function getFullScreenCardBottom() {
+  const height = heightFromWidth(kFullScreenCardWidth);
+  return -(kWindowHeight - height) / 2;
+}
+
 export class FullScreenCard extends Component {
   constructor(props) {
     super(props);

@@ -6,7 +6,10 @@ import {
   graphql,
 } from 'react-apollo';
 import {
+  Dimensions,
   StyleSheet,
+  ScrollView,
+  View,
 } from 'react-native';
 
 import {
@@ -14,7 +17,9 @@ import {
 } from '../ui/Button';
 import {
   FullScreenCard,
+  getFullScreenCardBottom,
 } from '../ui/Card';
+import GameSummary from '../ui/GameSummary';
 import GameQuery from '../queries/GameQuery';
 import {
   screen,
@@ -24,13 +29,22 @@ import {
 class ResultsScreen extends Component {
   render() {
     return (
-      <Screen style={Styles.Screen}>
+      <Screen>
+        <ScrollView>
+          <View style={Styles.CardContainer}>
+            <FullScreenCard
+              word={this.props.game.word}
+              forceShowWord={true}
+              clues={this.props.game.clues}
+              guesses={this.props.game.guesses} />
+          </View>
+          <GameSummary
+            style={Styles.GameSummary}
+            game={this.props.game}
+            cluer={this.props.cluer}
+            guesser={this.props.guesser} />
+        </ScrollView>
         <ExitButton navigator={this.props.navigator} />
-        <FullScreenCard
-          word={this.props.game.word}
-          forceShowWord={true}
-          clues={this.props.game.clues}
-          guesses={this.props.game.guesses} />
       </Screen>
     );
   }
@@ -39,6 +53,12 @@ class ResultsScreen extends Component {
 const Styles = StyleSheet.create({
   Screen: {
     justifyContent: "flex-start",
+  },
+  CardContainer: {
+    height: Dimensions.get("window").height,
+  },
+  GameSummary: {
+    marginTop: getFullScreenCardBottom() + 25,
   },
 });
 
