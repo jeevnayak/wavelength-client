@@ -62,7 +62,8 @@ class NewGameScreen extends Component {
         currentUserId: this.props.currentUser.id,
         cluerId: this.props.currentUser.id,
         guesserId: friend.id
-      }
+      },
+      isModal: true,
     });
   }
 }

@@ -112,7 +112,11 @@ class App extends Component {
           let props = route.props || {};
           props.navigator = navigator;
           return React.createElement(route.component, props);
-        }} />
+        }}
+        configureScene={(route, routeStack) => (
+          route.isModal ? Navigator.SceneConfigs.FloatFromBottom :
+            Navigator.SceneConfigs.PushFromRight
+        )} />
     </ApolloProvider>;
   }
 

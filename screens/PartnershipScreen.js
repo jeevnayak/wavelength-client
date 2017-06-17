@@ -112,7 +112,8 @@ class PartnershipScreen extends Component {
         props: {
           currentUserId: this.props.currentUserId,
           gameId: game.id
-        }
+        },
+        isModal: true,
       });
     }
   }
