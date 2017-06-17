@@ -15,7 +15,9 @@ import {
 
 import {
   Card,
+  CardView,
 } from '../ui/Card';
+import ChooseWordScreen from './ChooseWordScreen';
 import Colors from '../ui/Colors';
 import {
   GameState,
@@ -23,6 +25,7 @@ import {
   getGameState,
 } from '../util/Helpers';
 import PartnershipQuery from '../queries/PartnershipQuery';
+import PlusIcon from '../icons/Plus';
 import Row from '../ui/Row';
 import {
   screen,
@@ -33,6 +36,7 @@ import {
 } from '../ui/Text';
 import UserPicture from '../ui/UserPicture';
 
+const kCreateGamePlaceholderId = "creategame";
 const kCardWidth = 60;
 const kCardMargin = 10;
 
@@ -72,7 +76,7 @@ class PartnershipScreen extends Component {
           <Section
             headerText="Your turn"
             dataSource={this.dataSourceForGameStates_(
-              [GameState.GiveClues, GameState.MakeGuesses])}
+              [GameState.GiveClues, GameState.MakeGuesses], true)}
             renderGameRow={(game) => this.renderGameRow_(game)} />
           <Section
             headerText={`${this.props.partnership.partner.firstName}'s turn`}
@@ -88,28 +92,44 @@ class PartnershipScreen extends Component {
     );
   }
 
-  dataSourceForGameStates_(gameStates) {
+  dataSourceForGameStates_(gameStates, includeCreateGame) {
     const games = this.props.partnership.games.filter(
       (game) => gameStates.includes(getGameState(game)));
     games.sort((game1, game2) => (
       parseInt(game2.lastUpdated) - parseInt(game1.lastUpdated)
     ));
+    if (includeCreateGame) {
+      games.unshift({id: kCreateGamePlaceholderId});
+    }
     return this.baseDataSource_.cloneWithRows(games);
   }
 
   renderGameRow_(game) {
-    return <TouchableWithoutFeedback onPress={() => this.onPressGameRow_(game)}>
-      <View style={Styles.CardContainer}>
-        <Card
-          word={game.word}
-          forceShowWord={
-            game.isCluer || getGameState(game) === GameState.Complete}
-          clues={game.clues}
-          guesses={game.guesses}
-          width={kCardWidth}
-          thumbnail={true} />
-      </View>
-    </TouchableWithoutFeedback>;
+    if (game.id === kCreateGamePlaceholderId) {
+      const contents = <View style={Styles.NewGameIcon}>
+        <PlusIcon size={kCardWidth / 3} />
+      </View>;
+      return <TouchableWithoutFeedback
+          onPress={() => this.onPressCreateGame_()}>
+        <View style={Styles.CardContainer}>
+          <CardView width={kCardWidth} customContents={contents} />
+        </View>
+      </TouchableWithoutFeedback>;
+    } else {
+      return <TouchableWithoutFeedback
+          onPress={() => this.onPressGameRow_(game)}>
+        <View style={Styles.CardContainer}>
+          <Card
+            word={game.word}
+            forceShowWord={
+              game.isCluer || getGameState(game) === GameState.Complete}
+            clues={game.clues}
+            guesses={game.guesses}
+            width={kCardWidth}
+            thumbnail={true} />
+        </View>
+      </TouchableWithoutFeedback>;
+    }
   }
 
   onPressGameRow_(game) {
@@ -127,6 +147,18 @@ class PartnershipScreen extends Component {
         isModal: true,
       });
     }
+  }
+
+  onPressCreateGame_() {
+    this.props.navigator.push({
+      component: ChooseWordScreen,
+      props: {
+        currentUserId: this.props.currentUserId,
+        cluerId: this.props.currentUserId,
+        guesserId: this.props.partnership.partner.id
+      },
+      isModal: true,
+    });
   }
 }
 
@@ -179,6 +211,9 @@ const Styles = StyleSheet.create({
   CardContainer: {
     width: kCardWidth + kCardMargin,
     padding: kCardMargin / 2,
+  },
+  NewGameIcon: {
+    alignItems: "center",
   },
 });
 
