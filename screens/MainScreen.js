@@ -72,9 +72,13 @@ class MainScreen extends Component {
         title="NEW GAME"
         onPress={() => this.onPressNewGame_()} />;
     } else {
+      let subtitle;
+      if (partnership.averageScore != null) {
+        subtitle = `AVERAGE SCORE: ${partnership.averageScore}`;
+      }
       return <Row
         title={partnership.partner.name.toUpperCase()}
-        subtitle="SCORE: 1,500"
+        subtitle={subtitle}
         pictureUser={partnership.partner}
         onPress={() => this.onPressPartnershipRow_(partnership)}
         onPressCreateGame={() => this.onPressCreateGame_(partnership)} />;

@@ -46,6 +46,15 @@ class PartnershipScreen extends Component {
   }
 
   render() {
+    let scoreSection;
+    if (this.props.partnership.averageScore != null) {
+      scoreSection = [
+        <BoldText key="0" style={Styles.ScoreDesc}>AVERAGE SCORE:</BoldText>,
+        <BoldText key="1" style={Styles.Score}>
+          {this.props.partnership.averageScore}
+        </BoldText>,
+      ];
+    }
     return (
       <Screen
           navigator={this.props.navigator}
@@ -59,8 +68,7 @@ class PartnershipScreen extends Component {
               user={this.props.partnership.partner}
               style={Styles.UserPicture} />
           </View>
-          <BoldText style={Styles.ScoreDesc}>SCORE:</BoldText>
-          <BoldText style={Styles.Score}>15,000</BoldText>
+          {scoreSection}
           <Section
             headerText="Your turn"
             dataSource={this.dataSourceForGameStates_(
