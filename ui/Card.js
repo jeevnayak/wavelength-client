@@ -15,6 +15,7 @@ import {
 import Letters, {
   kLetterPlaceholder,
 } from './Letters';
+import StarIcon from '../icons/Star';
 import {
   InstructionText,
 } from '../ui/Text';
@@ -242,8 +243,16 @@ const Clues = (props) => {
 };
 
 const Clue = (props) => {
-  const blank = props.clue && props.clue.needsBlank ?
-    <View style={Styles.Blank} /> : null;
+  let blank;
+  if (props.clue && props.clue.needsBlank) {
+    blank = <View style={Styles.Blank} />;
+  }
+  let star;
+  if (props.clue.wavelengthCorrect) {
+    star = <View style={[Styles.Star, {top: props.textSize * 0.05}]}>
+      <StarIcon size={props.textSize * 1.25} />
+    </View>;
+  }
   const style = {height: props.height};
   let color;
   if (props.clue) {
@@ -256,10 +265,13 @@ const Clue = (props) => {
     }
   }
   return <View style={[Styles.Clue, style]}>
-    <Letters
-      text={props.clue ? props.clue.text : ""}
-      size={props.textSize}
-      color={color} />
+    <View>
+      {star}
+      <Letters
+        text={props.clue ? props.clue.text : ""}
+        size={props.textSize}
+        color={color} />
+    </View>
     {blank}
   </View>
 };
@@ -292,6 +304,10 @@ const Styles = StyleSheet.create({
     justifyContent: "center",
     paddingLeft: 35,
     paddingRight: 35,
+  },
+  Star: {
+    position: "absolute",
+    left: 0,
   },
   Blank: {
     height: 2,
