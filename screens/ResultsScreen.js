@@ -10,6 +10,9 @@ import {
 } from 'react-native';
 
 import {
+  ExitButton,
+} from '../ui/Button';
+import {
   FullScreenCard,
 } from '../ui/Card';
 import GameQuery from '../queries/GameQuery';
@@ -21,7 +24,8 @@ import {
 class ResultsScreen extends Component {
   render() {
     return (
-      <Screen style={Styles.Screen} navigator={this.props.navigator}>
+      <Screen style={Styles.Screen}>
+        <ExitButton navigator={this.props.navigator} />
         <FullScreenCard
           word={this.props.game.word}
           forceShowWord={true}
