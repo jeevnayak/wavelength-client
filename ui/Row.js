@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 
 import Colors from './Colors';
+import PlusIcon from '../icons/Plus';
 import {
   BoldText,
   MediumText,
@@ -25,8 +26,8 @@ export default Row = touchable((props) => {
       props.touchableActive ? Styles.RowActive : null,
       props.style]}>
     {props.pictureUser ?
-      <UserPicture user={props.pictureUser} style={Styles.UserPicture} /> :
-      null}
+      <UserPicture user={props.pictureUser} style={Styles.LeftCircle} /> :
+      <NewGameIcon />}
     <View style={Styles.RowText}>
       <BoldText style={Styles.RowTitle}>{props.title}</BoldText>
       {subtitle}
@@ -34,6 +35,12 @@ export default Row = touchable((props) => {
     {props.button}
   </View>;
 });
+
+const NewGameIcon = (props) => (
+  <View style={[Styles.LeftCircle, Styles.NewGameIcon]}>
+    <PlusIcon size={16} />
+  </View>
+);
 
 const Styles = StyleSheet.create({
   Row: {
@@ -45,11 +52,17 @@ const Styles = StyleSheet.create({
   RowActive: {
     backgroundColor: "#0f0",
   },
-  UserPicture: {
+  LeftCircle: {
     width: 44,
     height: 44,
     borderRadius: 22,
     marginRight: 16,
+  },
+  NewGameIcon: {
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 2,
+    borderColor: Colors.Primary,
   },
   RowText: {
     flex: 1,

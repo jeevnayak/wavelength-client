@@ -10,10 +10,11 @@ import {
   BackButton,
   Button,
 } from './Button';
+import Colors from './Colors';
 import {
   CenteredBoldText,
   MediumText,
-} from '../ui/Text';
+} from './Text';
 
 export function screen(WrappedComponent) {
   return class extends Component {
@@ -73,7 +74,7 @@ const ErrorScreen = (props) => (
 const Styles = StyleSheet.create({
   Screen: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: Colors.Background,
   },
   Header: {
     height: 64,
