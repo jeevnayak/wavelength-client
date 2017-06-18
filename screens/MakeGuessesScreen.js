@@ -17,6 +17,7 @@ import {
   FullScreenCard,
 } from '../ui/Card';
 import GameQuery from '../queries/GameQuery';
+import PartnershipQuery from '../queries/PartnershipQuery';
 import ResultsScreen from './ResultsScreen';
 import {
   screen,
@@ -150,7 +151,14 @@ export default compose(
             currentUserId: ownProps.currentUserId,
             gameId: ownProps.gameId,
             guesses: guesses
-          }
+          },
+          refetchQueries: [{
+            query: PartnershipQuery,
+            variables: {
+              partnershipId: ownProps.game.partnership.id,
+              currentUserId: ownProps.currentUserId,
+            },
+          }],
         });
       }
     }),

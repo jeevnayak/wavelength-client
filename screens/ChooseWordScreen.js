@@ -154,6 +154,7 @@ export default compose(
                 variables: queryVariables,
               });
               data.partnership.games.unshift(newGame);
+              data.partnership.numPendingGames++;
               proxy.writeQuery({
                 query: PartnershipQuery,
                 variables: queryVariables,

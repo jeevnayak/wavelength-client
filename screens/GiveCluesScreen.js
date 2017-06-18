@@ -18,6 +18,7 @@ import {
 } from '../ui/Card';
 import GameQuery from '../queries/GameQuery';
 import Keyboard from '../ui/Keyboard';
+import PartnershipQuery from '../queries/PartnershipQuery';
 import {
   screen,
   Screen,
@@ -121,7 +122,27 @@ export default compose(
             currentUserId: ownProps.currentUserId,
             gameId: ownProps.gameId,
             clues: clues
-          }
+          },
+          update: (proxy) => {
+            const queryVariables = {
+              partnershipId: ownProps.game.partnership.id,
+              currentUserId: ownProps.currentUserId,
+            };
+            try {
+              const data = proxy.readQuery({
+                query: PartnershipQuery,
+                variables: queryVariables,
+              });
+              data.partnership.numPendingGames--;
+              proxy.writeQuery({
+                query: PartnershipQuery,
+                variables: queryVariables,
+                data,
+              });
+            } catch (e) {
+              // no-op
+            }
+          },
         });
       }
     }),
