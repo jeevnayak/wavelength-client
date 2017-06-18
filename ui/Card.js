@@ -5,6 +5,7 @@ import {
   Animated,
   Dimensions,
   StyleSheet,
+  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 
@@ -128,7 +129,7 @@ export class Card extends Component {
     } else if (clues) {
       props.clues = clues.map((clue, i) => ({
         text: clue,
-        needsBlank: !this.props.guesses && i === props.activeIndex,
+        needsBlank: !this.props.guesses && i === props.editingIndex,
       }));
     }
     return <CardView
@@ -215,7 +216,7 @@ export const CardView = (props) => {
       clueHeight={clueHeightFromWidth(props.width)}
       clueTextSize={clueTextSizeFromWidth(props.width)}
       borderRadius={innerBorderRadiusFromWidth(props.width)}
-      activeIndex={props.activeIndex} />
+      onPressClue={props.onPressClue} />
   </View>;
 }
 
@@ -253,7 +254,8 @@ const Clues = (props) => {
         key={i}
         clue={props.clues[i]}
         height={props.clueHeight}
-        textSize={props.clueTextSize} />
+        textSize={props.clueTextSize}
+        onPress={props.onPressClue ? () => props.onPressClue(i) : null} />
     ));
   }
   const style = {borderRadius: props.borderRadius};
@@ -287,7 +289,7 @@ const Clue = (props) => {
       color = Colors.Wavelength;
     }
   }
-  return <View style={[Styles.Clue, style]}>
+  const view = <View style={[Styles.Clue, style]}>
     <View>
       {star}
       <Letters
@@ -296,7 +298,14 @@ const Clue = (props) => {
         color={color} />
     </View>
     {blank}
-  </View>
+  </View>;
+  if (props.onPress) {
+    return <TouchableWithoutFeedback onPress={props.onPress}>
+      {view}
+    </TouchableWithoutFeedback>;
+  } else {
+    return view;
+  }
 };
 
 const Styles = StyleSheet.create({
