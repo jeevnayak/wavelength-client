@@ -33,7 +33,7 @@ class ResultsScreen extends Component {
   render() {
     const partner = this.props.game.partnership.partner;
     return <Screen>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={Styles.CardContainer}>
           <FullScreenCard
             word={this.props.game.word}

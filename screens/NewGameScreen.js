@@ -36,6 +36,7 @@ class NewGameScreen extends Component {
     let listView;
     if (this.dataSource_.getRowCount() > 0) {
       listView = <ListView
+        removeClippedSubviews={false}
         dataSource={this.dataSource_}
         renderRow={(friend) => this.renderFbFriendRow_(friend)} />;
     }

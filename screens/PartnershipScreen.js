@@ -63,7 +63,7 @@ class PartnershipScreen extends Component {
       <Screen
           navigator={this.props.navigator}
           title={this.props.partnership.partner.name}>
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View style={Styles.UserPicturesContainer}>
             <UserPicture
               user={this.props.currentUser}
@@ -171,6 +171,7 @@ const Section = (props) => {
       <ListView
         horizontal={true}
         showsHorizontalScrollIndicator={false}
+        removeClippedSubviews={false}
         dataSource={props.dataSource}
         renderRow={props.renderGameRow} />
     </View>;
