@@ -10,6 +10,14 @@ export default gql`
       guesses
       replayed
       lastUpdated
+      partnership {
+        id
+        partner(userId: $currentUserId) {
+          id
+          name
+          firstName
+        }
+      }
     }
   }
 `;

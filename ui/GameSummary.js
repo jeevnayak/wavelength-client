@@ -5,6 +5,9 @@ import {
   View,
 } from 'react-native';
 
+import {
+  PrimaryButton,
+} from './Button';
 import Colors from './Colors';
 import {
   getIncorrectGuesses,
@@ -17,6 +20,13 @@ import {
 import UserPicture from './UserPicture';
 
 export default (props) => {
+  let createGameButton;
+  if (props.onPressCreateGame) {
+    createGameButton = <PrimaryButton
+      style={Styles.CreateGameButton}
+      text="START NEW GAME"
+      onPress={props.onPressCreateGame} />;
+  }
   const incorrectGuesses = getIncorrectGuesses(props.game);
   let incorrectGuessesSection;
   if (incorrectGuesses.length) {
@@ -34,6 +44,7 @@ export default (props) => {
   }
   return <View style={[Styles.Container, props.style]}>
     <BoldText style={Styles.Score}>{`SCORE: ${getScore(props.game)}`}</BoldText>
+    {createGameButton}
     <View style={Styles.Users}>
       <UserPicture user={props.cluer} style={Styles.UserPicture} />
       <PlusIcon size={20} />
@@ -67,5 +78,9 @@ const Styles = StyleSheet.create({
     fontSize: 13,
     color: Colors.SecondaryText,
     marginBottom: 7,
+  },
+  CreateGameButton: {
+    marginTop: 10,
+    marginBottom: 30,
   },
 });

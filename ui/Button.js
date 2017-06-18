@@ -4,9 +4,11 @@ import {
   View,
 } from 'react-native';
 
+import Colors from './Colors';
 import ExitIcon from '../icons/Exit';
 import {
   CenteredMediumText,
+  BoldText,
 } from './Text';
 import touchable from './Touchable';
 
@@ -41,6 +43,17 @@ export const ExitButton = (props) => (
   </View>
 );
 
+export const PrimaryButton = touchable((props) => (
+    <View style={[
+        Styles.PrimaryButton,
+        props.touchableActive ? Styles.PrimaryButtonActive : null,
+        props.style]}>
+      <BoldText style={Styles.PrimaryButtonText}>
+        {props.text}
+      </BoldText>
+    </View>
+));
+
 const Styles = StyleSheet.create({
   Button: {
     height: 64,
@@ -67,5 +80,20 @@ const Styles = StyleSheet.create({
     height: 72,
     justifyContent: "center",
     alignItems: "center",
+  },
+  PrimaryButton: {
+    paddingTop: 5,
+    paddingBottom: 5,
+    paddingLeft: 40,
+    paddingRight: 40,
+    backgroundColor: Colors.Primary,
+    borderRadius: 10,
+  },
+  PrimaryButtonActive: {
+    backgroundColor: "#f00",
+  },
+  PrimaryButtonText: {
+    fontSize: 18,
+    color: "#fff",
   },
 });

@@ -140,8 +140,7 @@ class PartnershipScreen extends Component {
         component: screen,
         props: {
           currentUserId: this.props.currentUserId,
-          cluer: game.isCluer ? this.props.currentUser : partner,
-          guesser: game.isCluer ? partner : this.props.currentUser,
+          currentUser: this.props.currentUser,
           gameId: game.id
         },
         isModal: true,

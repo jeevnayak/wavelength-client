@@ -103,7 +103,10 @@ class MakeGuessesScreen extends Component {
     await this.props.makeGuesses(this.state.guesses);
     this.props.navigator.replace({
       component: ResultsScreen,
-      props: {...this.props},
+      props: {
+        showCreateGame: true,
+        ...this.props,
+      },
       isModal: true,
     });
   }

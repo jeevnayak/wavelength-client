@@ -20,6 +20,7 @@ import {
   Card,
 } from '../ui/Card';
 import GiveCluesScreen from './GiveCluesScreen';
+import MainScreen from './MainScreen';
 import PartnershipScreen from './PartnershipScreen';
 import PartnershipQuery from '../queries/PartnershipQuery';
 import PossibleWordsQuery from '../queries/PossibleWordsQuery';
@@ -69,22 +70,30 @@ class ChooseWordScreen extends Component {
   async chooseWord_(word) {
     const resp = await this.props.createNewGame(
       this.props.cluerId, this.props.guesserId, word);
-    this.props.navigator.replacePrevious({
-      component: PartnershipScreen,
-      props: {
-        currentUserId: this.props.currentUserId,
-        currentUser: this.props.currentUser,
-        partnershipId: resp.data.newGame.partnership.id
-      }
-    });
-    this.props.navigator.replace({
-      component: GiveCluesScreen,
-      props: {
-        currentUserId: this.props.currentUserId,
-        gameId: resp.data.newGame.id,
-        isModal: true,
-      }
-    });
+    this.props.navigator.immediatelyResetRouteStack([
+      {
+        component: MainScreen,
+        props: {
+          currentUserId: this.props.currentUserId
+        },
+      },
+      {
+        component: PartnershipScreen,
+        props: {
+          currentUserId: this.props.currentUserId,
+          currentUser: this.props.currentUser,
+          partnershipId: resp.data.newGame.partnership.id,
+        },
+      },
+      {
+        component: GiveCluesScreen,
+        props: {
+          currentUserId: this.props.currentUserId,
+          gameId: resp.data.newGame.id,
+          isModal: true,
+        },
+      },
+    ]);
     this.props.refetch();
   }
 }
