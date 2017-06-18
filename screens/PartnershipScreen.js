@@ -154,6 +154,7 @@ class PartnershipScreen extends Component {
       component: ChooseWordScreen,
       props: {
         currentUserId: this.props.currentUserId,
+        currentUser: this.props.currentUser,
         cluerId: this.props.currentUserId,
         guesserId: this.props.partnership.partner.id
       },

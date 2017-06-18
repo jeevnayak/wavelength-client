@@ -73,6 +73,7 @@ class ChooseWordScreen extends Component {
       component: PartnershipScreen,
       props: {
         currentUserId: this.props.currentUserId,
+        currentUser: this.props.currentUser,
         partnershipId: resp.data.newGame.partnership.id
       }
     });
@@ -80,7 +81,8 @@ class ChooseWordScreen extends Component {
       component: GiveCluesScreen,
       props: {
         currentUserId: this.props.currentUserId,
-        gameId: resp.data.newGame.id
+        gameId: resp.data.newGame.id,
+        isModal: true,
       }
     });
     this.props.refetch();

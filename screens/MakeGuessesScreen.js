@@ -17,6 +17,7 @@ import {
   FullScreenCard,
 } from '../ui/Card';
 import GameQuery from '../queries/GameQuery';
+import ResultsScreen from './ResultsScreen';
 import {
   screen,
   Screen,
@@ -100,7 +101,11 @@ class MakeGuessesScreen extends Component {
 
   async makeGuesses_() {
     await this.props.makeGuesses(this.state.guesses);
-    this.props.navigator.pop();
+    this.props.navigator.replace({
+      component: ResultsScreen,
+      props: {...this.props},
+      isModal: true,
+    });
   }
 }
 

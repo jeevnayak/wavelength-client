@@ -51,9 +51,6 @@ class ResultsScreen extends Component {
 }
 
 const Styles = StyleSheet.create({
-  Screen: {
-    justifyContent: "flex-start",
-  },
   CardContainer: {
     height: Dimensions.get("window").height,
   },
