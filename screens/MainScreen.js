@@ -39,7 +39,9 @@ class MainScreen extends Component {
 
     this.dataSource_ = new ListView.DataSource({
       rowHasChanged: (partnership1, partnership2) => (
-        partnership1.id !== partnership2.id
+        partnership1.id !== partnership2.id ||
+        partnership1.numPendingGames !== partnership2.numPendingGames ||
+        partnership1.averageScore !== partnership2.averageScore
       )
     });
   }
