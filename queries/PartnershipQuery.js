@@ -4,6 +4,9 @@ export default gql`
   query PartnershipQuery($partnershipId: Int!, $currentUserId: String!) {
     partnership(id: $partnershipId) {
       id
+      user(userId: $currentUserId) {
+        id
+      }
       partner(userId: $currentUserId) {
         id
         name

@@ -61,7 +61,6 @@ class NewGameScreen extends Component {
       component: ChooseWordScreen,
       props: {
         currentUserId: this.props.currentUser.id,
-        currentUser: this.props.currentUser,
         cluerId: this.props.currentUser.id,
         guesserId: friend.id
       },

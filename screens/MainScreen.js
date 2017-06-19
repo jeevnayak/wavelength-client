@@ -96,7 +96,6 @@ class MainScreen extends Component {
       component: PartnershipScreen,
       props: {
         currentUserId: this.props.currentUser.id,
-        currentUser: this.props.currentUser,
         partnershipId: partnership.id
       }
     });
@@ -107,7 +106,6 @@ class MainScreen extends Component {
       component: ChooseWordScreen,
       props: {
         currentUserId: this.props.currentUser.id,
-        currentUser: this.props.currentUser,
         cluerId: this.props.currentUser.id,
         guesserId: partnership.partner.id
       },

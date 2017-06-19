@@ -31,6 +31,7 @@ import {
 
 class ResultsScreen extends Component {
   render() {
+    const user = this.props.game.partnership.user;
     const partner = this.props.game.partnership.partner;
     return <Screen>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -44,8 +45,8 @@ class ResultsScreen extends Component {
         <GameSummary
           style={Styles.GameSummary}
           game={this.props.game}
-          cluer={this.props.game.isCluer ? this.props.currentUser : partner}
-          guesser={this.props.game.isCluer ? partner : this.props.currentUser}
+          cluer={this.props.game.isCluer ? user : partner}
+          guesser={this.props.game.isCluer ? partner : user}
           onPressCreateGame={this.props.showCreateGame ?
             () => this.onPressCreateGame_() : null} />
       </ScrollView>
@@ -64,8 +65,7 @@ class ResultsScreen extends Component {
       {
         component: PartnershipScreen,
         props: {
-          currentUserId: this.props.currentUser.id,
-          currentUser: this.props.currentUser,
+          currentUserId: this.props.currentUserId,
           partnershipId: this.props.game.partnership.id,
         },
       },
@@ -73,7 +73,6 @@ class ResultsScreen extends Component {
         component: ChooseWordScreen,
         props: {
           currentUserId: this.props.currentUserId,
-          currentUser: this.props.currentUser,
           cluerId: this.props.currentUserId,
           guesserId: this.props.game.partnership.partner.id,
         },

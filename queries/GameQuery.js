@@ -12,6 +12,9 @@ export default gql`
       lastUpdated
       partnership {
         id
+        user(userId: $currentUserId) {
+          id
+        }
         partner(userId: $currentUserId) {
           id
           name

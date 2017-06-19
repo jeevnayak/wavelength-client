@@ -1,6 +1,6 @@
 import ApolloClient, {
   createNetworkInterface,
-  toIdValue
+  toIdValue,
 } from 'apollo-client';
 import Expo, {
   AppLoading,
@@ -26,6 +26,8 @@ import Constants from './util/Constants';
 import LoginScreen from './screens/LoginScreen';
 import MainScreen from './screens/MainScreen';
 import MakeGuessesScreen from './screens/MakeGuessesScreen';
+import PartnershipScreen from './screens/PartnershipScreen';
+import PartnershipQuery from './queries/PartnershipQuery';
 import ResultsScreen from './screens/ResultsScreen';
 import {
   getUserStore,
@@ -130,7 +132,16 @@ class App extends Component {
 
   handleNotification_(notification) {
     const currentUserId = getUserStore().getCurrentUserId();
-    if (notification.origin === "selected" &&
+    if (notification.origin === "received" && currentUserId) {
+      apolloClient.query({
+        query: PartnershipQuery,
+        variables: {
+          partnershipId: notification.data.partnershipId,
+          currentUserId: currentUserId,
+        },
+        fetchPolicy: "network-only",
+      });
+    } else if (notification.origin === "selected" &&
         currentUserId &&
         this.navigator_) {
       const screen = notification.data.cluesGiven ?
@@ -138,14 +149,22 @@ class App extends Component {
       this.navigator_.immediatelyResetRouteStack([
         {
           component: MainScreen,
-          props: { currentUserId }
+          props: { currentUserId },
+        },
+        {
+          component: PartnershipScreen,
+          props: {
+            currentUserId: currentUserId,
+            partnershipId: notification.data.partnershipId,
+          },
         },
         {
           component: screen,
           props: {
             currentUserId: currentUserId,
-            gameId: notification.data.gameId
-          }
+            gameId: notification.data.gameId,
+          },
+          isModal: true,
         }
       ]);
     }

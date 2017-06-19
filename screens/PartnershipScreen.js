@@ -66,7 +66,7 @@ class PartnershipScreen extends Component {
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={Styles.UserPicturesContainer}>
             <UserPicture
-              user={this.props.currentUser}
+              user={this.props.partnership.user}
               style={Styles.UserPicture} />
             <UserPicture
               user={this.props.partnership.partner}
@@ -140,7 +140,6 @@ class PartnershipScreen extends Component {
         component: screen,
         props: {
           currentUserId: this.props.currentUserId,
-          currentUser: this.props.currentUser,
           gameId: game.id
         },
         isModal: true,
@@ -153,7 +152,6 @@ class PartnershipScreen extends Component {
       component: ChooseWordScreen,
       props: {
         currentUserId: this.props.currentUserId,
-        currentUser: this.props.currentUser,
         cluerId: this.props.currentUserId,
         guesserId: this.props.partnership.partner.id
       },

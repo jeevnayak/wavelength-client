@@ -81,7 +81,6 @@ class ChooseWordScreen extends Component {
         component: PartnershipScreen,
         props: {
           currentUserId: this.props.currentUserId,
-          currentUser: this.props.currentUser,
           partnershipId: resp.data.newGame.partnership.id,
         },
       },
