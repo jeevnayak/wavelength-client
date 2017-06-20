@@ -33,6 +33,9 @@ import {
   Screen,
 } from '../ui/Screen';
 import {
+  getStats,
+} from '../util/Stats';
+import {
   BoldText,
 } from '../ui/Text';
 import UserPicture from '../ui/UserPicture';
@@ -88,6 +91,7 @@ class PartnershipScreen extends Component {
             headerText="Completed"
             dataSource={this.dataSourceForGameStates_([GameState.Complete])}
             renderGameRow={(game) => this.renderGameRow_(game)} />
+          <StatsSection partnership={this.props.partnership} />
         </ScrollView>
       </Screen>
     );
@@ -117,10 +121,6 @@ class PartnershipScreen extends Component {
         </View>
       </TouchableWithoutFeedback>;
     } else {
-      let unreadDot;
-      if (needsReplay(game)) {
-        unreadDot = <View style={Styles.UnreadDot} />;
-      }
       return <TouchableWithoutFeedback
           onPress={() => this.onPressGameRow_(game)}>
         <View style={Styles.CardContainer}>
@@ -132,7 +132,9 @@ class PartnershipScreen extends Component {
             guesses={game.guesses}
             width={kCardWidth}
             thumbnail={true} />
-          {unreadDot}
+          <View style={[
+            Styles.UnreadDot,
+            needsReplay(game) && Styles.ActiveUnreadDot]} />
         </View>
       </TouchableWithoutFeedback>;
     }
@@ -185,6 +187,22 @@ const Section = (props) => {
   }
 };
 
+const StatsSection = (props) => (
+  <View style={Styles.Section}>
+    <BoldText style={[Styles.HeaderText, Styles.StatsHeader]}>STATS</BoldText>
+    {getStats(props.partnership).map((stat, i) => <Stat key={i} stat={stat} />)}
+  </View>
+);
+
+const Stat = (props) => (
+  <View style={Styles.Stat}>
+    <BoldText style={Styles.StatText}>
+      {props.stat.title.toUpperCase()}
+    </BoldText>
+    <BoldText style={Styles.StatText}>{props.stat.value}</BoldText>
+  </View>
+);
+
 const Styles = StyleSheet.create({
   UserPicturesContainer: {
     flexDirection: "row",
@@ -226,8 +244,23 @@ const Styles = StyleSheet.create({
     width: 8,
     height: 8,
     marginTop: 8,
-    backgroundColor: Colors.Primary,
     borderRadius: 4,
+  },
+  ActiveUnreadDot: {
+    backgroundColor: Colors.Primary,
+  },
+  StatsHeader: {
+    marginBottom: 15,
+  },
+  Stat: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 10,
+    paddingLeft: kCardMargin / 2,
+    paddingRight: kCardMargin / 2,
+  },
+  StatText: {
+    fontSize: 20,
   },
 });
 

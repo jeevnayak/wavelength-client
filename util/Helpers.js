@@ -34,6 +34,15 @@ export function needsReplay(game) {
     !game.replayed;
 }
 
+export function wonGame(game) {
+  return getGameState(game) === GameState.Complete &&
+    game.guesses.some((guess) => guess === game.word);
+}
+
+export function isPerfectGame(game) {
+  return getScore(game) === 200;
+}
+
 export function getGameScreen(game) {
   switch (getGameState(game)) {
     case GameState.GiveClues:
@@ -85,4 +94,22 @@ export function getIncorrectGuesses(game) {
     }
   }
   return incorrectGuesses;
+}
+
+export function getNumWavelengths(game) {
+  let guessedWord = false;
+  let numWavelengths = 0;
+  for (let i = 0; i < game.guesses.length; i++) {
+    const guess = game.guesses[i];
+    const correct = guessedWord ?
+      (guess === game.clues[i]) : (guess === game.word);
+    if (correct) {
+      if (guessedWord) {
+        numWavelengths++;
+      } else {
+        guessedWord = true;
+      }
+    }
+  }
+  return numWavelengths;
 }
