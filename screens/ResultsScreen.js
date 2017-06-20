@@ -31,8 +31,18 @@ import {
 
 class ResultsScreen extends Component {
   render() {
-    const user = this.props.game.partnership.user;
-    const partner = this.props.game.partnership.partner;
+    let summary;
+    if (!this.props.hideSummary) {
+      const user = this.props.game.partnership.user;
+      const partner = this.props.game.partnership.partner;
+      summary = <GameSummary
+        style={Styles.GameSummary}
+        game={this.props.game}
+        cluer={this.props.game.isCluer ? user : partner}
+        guesser={this.props.game.isCluer ? partner : user}
+        onPressCreateGame={this.props.showCreateGame ?
+          () => this.onPressCreateGame_() : null} />;
+    }
     return <Screen>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={Styles.CardContainer}>
@@ -42,13 +52,7 @@ class ResultsScreen extends Component {
             clues={this.props.game.clues}
             guesses={this.props.game.guesses} />
         </View>
-        <GameSummary
-          style={Styles.GameSummary}
-          game={this.props.game}
-          cluer={this.props.game.isCluer ? user : partner}
-          guesser={this.props.game.isCluer ? partner : user}
-          onPressCreateGame={this.props.showCreateGame ?
-            () => this.onPressCreateGame_() : null} />
+        {summary}
       </ScrollView>
       <ExitButton navigator={this.props.navigator} />
     </Screen>;

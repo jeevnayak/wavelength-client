@@ -133,14 +133,15 @@ class PartnershipScreen extends Component {
   }
 
   onPressGameRow_(game) {
-    let screen = getGameScreen(game);
+    let { screen, props } = getGameScreen(game);
     if (screen) {
       const partner = this.props.partnership.partner;
       this.props.navigator.push({
         component: screen,
         props: {
           currentUserId: this.props.currentUserId,
-          gameId: game.id
+          gameId: game.id,
+          ...props,
         },
         isModal: true,
       });

@@ -31,13 +31,18 @@ export function getGameState(game) {
 export function getGameScreen(game) {
   switch (getGameState(game)) {
     case GameState.GiveClues:
-      return GiveCluesScreen;
+      return {screen: GiveCluesScreen};
     case GameState.MakeGuesses:
-      return MakeGuessesScreen;
+      return {screen: MakeGuessesScreen};
+    case GameState.TheirTurnToGuess:
+      return {
+        screen: ResultsScreen,
+        props: {hideSummary: true},
+      };
     case GameState.Complete:
-      return ResultsScreen;
+      return {screen: ResultsScreen};
     default:
-      return null;
+      return {screen: null};
   }
 }
 
