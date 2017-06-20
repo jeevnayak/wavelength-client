@@ -1,3 +1,4 @@
+import gql from 'graphql-tag';
 import React, {
   Component,
 } from 'react';
@@ -22,6 +23,9 @@ import {
 import ChooseWordScreen from './ChooseWordScreen';
 import GameSummary from '../ui/GameSummary';
 import GameQuery from '../queries/GameQuery';
+import {
+  needsReplay,
+} from '../util/Helpers';
 import MainScreen from './MainScreen';
 import PartnershipScreen from './PartnershipScreen';
 import {
@@ -30,6 +34,12 @@ import {
 } from '../ui/Screen';
 
 class ResultsScreen extends Component {
+  componentDidMount() {
+    if (needsReplay(this.props.game)) {
+      this.props.markReplayed();
+    }
+  }
+
   render() {
     let summary;
     if (!this.props.hideSummary) {
@@ -95,6 +105,20 @@ const Styles = StyleSheet.create({
   },
 });
 
+const markReplayedMutation = gql`
+  mutation markReplayed($currentUserId: String!, $gameId: Int!) {
+    markReplayed(gameId: $gameId) {
+      id
+      word
+      isCluer(userId: $currentUserId)
+      clues
+      guesses
+      replayed
+      lastUpdated
+    }
+  }
+`;
+
 export default compose(
   graphql(GameQuery, {
     props: ({ ownProps, data: { loading, error, refetch, game } }) => ({
@@ -102,6 +126,18 @@ export default compose(
       error: error,
       refetch: refetch,
       game: game,
+    }),
+  }),
+  graphql(markReplayedMutation, {
+    props: ({ ownProps, mutate }) => ({
+      markReplayed: () => {
+        mutate({
+          variables: {
+            currentUserId: ownProps.currentUserId,
+            gameId: ownProps.gameId,
+          },
+        });
+      }
     }),
   }),
   screen

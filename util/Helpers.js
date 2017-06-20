@@ -28,6 +28,12 @@ export function getGameState(game) {
   }
 }
 
+export function needsReplay(game) {
+  return game.isCluer &&
+    getGameState(game) === GameState.Complete &&
+    !game.replayed;
+}
+
 export function getGameScreen(game) {
   switch (getGameState(game)) {
     case GameState.GiveClues:

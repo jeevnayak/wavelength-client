@@ -23,6 +23,7 @@ import {
   GameState,
   getGameScreen,
   getGameState,
+  needsReplay,
 } from '../util/Helpers';
 import PartnershipQuery from '../queries/PartnershipQuery';
 import PlusIcon from '../icons/Plus';
@@ -116,6 +117,10 @@ class PartnershipScreen extends Component {
         </View>
       </TouchableWithoutFeedback>;
     } else {
+      let unreadDot;
+      if (needsReplay(game)) {
+        unreadDot = <View style={Styles.UnreadDot} />;
+      }
       return <TouchableWithoutFeedback
           onPress={() => this.onPressGameRow_(game)}>
         <View style={Styles.CardContainer}>
@@ -127,6 +132,7 @@ class PartnershipScreen extends Component {
             guesses={game.guesses}
             width={kCardWidth}
             thumbnail={true} />
+          {unreadDot}
         </View>
       </TouchableWithoutFeedback>;
     }
@@ -211,9 +217,17 @@ const Styles = StyleSheet.create({
   CardContainer: {
     width: kCardWidth + kCardMargin,
     padding: kCardMargin / 2,
+    alignItems: "center",
   },
   NewGameIcon: {
     alignItems: "center",
+  },
+  UnreadDot: {
+    width: 8,
+    height: 8,
+    marginTop: 8,
+    backgroundColor: Colors.Primary,
+    borderRadius: 4,
   },
 });
 
