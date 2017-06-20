@@ -11,13 +11,16 @@ import {
   graphql,
 } from 'react-apollo';
 import {
-  TouchableHighlight,
-  View,
+  Dimensions,
+  StyleSheet,
 } from 'react-native';
 
 import {
-  Button,
+  PrimaryButton,
 } from '../ui/Button';
+import {
+  CardView,
+} from '../ui/Card';
 import Constants from '../util/Constants';
 import {
   Screen,
@@ -26,13 +29,22 @@ import {
   getUserStore,
 } from '../data/UserStore';
 
+const kWindowWidth = Dimensions.get("window").width;
+const kPadding = 50;
+const kClues = ["A", "HARMONIOUS", "WORD", "GAME"];
+
 class LoginScreen extends Component {
   render() {
-    return (
-      <Screen>
-        <Button onPress={() => this.login_()} text="Log in with Facebook" />
-      </Screen>
-    );
+    return <Screen style={Styles.Screen}>
+      <CardView
+        width={kWindowWidth - 2 * kPadding}
+        word="WAVELENGTH"
+        clues={kClues.map((clue) => ({text: clue}))} />
+      <PrimaryButton
+        style={Styles.LoginButton}
+        text="CONNECT TO FACEBOOK"
+        onPress={() => this.login_()} />
+    </Screen>;
   }
 
   async login_() {
@@ -73,6 +85,20 @@ class LoginScreen extends Component {
     await this.props.addPushToken(userId, pushToken);
   }
 }
+
+const Styles = StyleSheet.create({
+  Screen: {
+    justifyContent: "center",
+    paddingLeft: kPadding,
+    paddingRight: kPadding,
+  },
+  LoginButton: {
+    alignItems: "center",
+    marginTop: 30,
+    paddingLeft: 0,
+    paddingRight: 0,
+  },
+});
 
 const updateUserMutation = gql`
   mutation updateUser($id: String!, $name: String!, $firstName: String!,
