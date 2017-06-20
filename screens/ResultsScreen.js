@@ -27,6 +27,7 @@ import {
   needsReplay,
 } from '../util/Helpers';
 import MainScreen from './MainScreen';
+import PartnershipQuery from '../queries/PartnershipQuery';
 import PartnershipScreen from './PartnershipScreen';
 import {
   screen,
@@ -135,6 +136,26 @@ export default compose(
           variables: {
             currentUserId: ownProps.currentUserId,
             gameId: ownProps.gameId,
+          },
+          update: (proxy) => {
+            const queryVariables = {
+              partnershipId: ownProps.game.partnership.id,
+              currentUserId: ownProps.currentUserId,
+            };
+            try {
+              const data = proxy.readQuery({
+                query: PartnershipQuery,
+                variables: queryVariables,
+              });
+              data.partnership.numPendingGames--;
+              proxy.writeQuery({
+                query: PartnershipQuery,
+                variables: queryVariables,
+                data,
+              });
+            } catch (e) {
+              // no-op
+            }
           },
         });
       }
