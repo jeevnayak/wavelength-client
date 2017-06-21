@@ -20,7 +20,8 @@ export function getStats(partnership) {
 function gamesPlayed(partnership) {
   return {
     title: "Games Played",
-    value: partnership.games.length,
+    value: partnership.games.filter(
+      (game) => getGameState(game) === GameState.Complete).length,
   };
 }
 
