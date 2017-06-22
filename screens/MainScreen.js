@@ -12,9 +12,6 @@ import {
   View,
 } from 'react-native';
 
-import {
-  Button,
-} from '../ui/Button';
 import ChooseWordScreen from './ChooseWordScreen';
 import {
   setUserProperties,
@@ -29,9 +26,6 @@ import {
 import {
   CenteredBoldText,
 } from '../ui/Text';
-import {
-  getUserStore,
-} from '../data/UserStore';
 import UserQuery from '../queries/UserQuery';
 
 const kNewGamePlaceholderId = "newgame";
@@ -54,7 +48,6 @@ class MainScreen extends Component {
   }
 
   render() {
-    const logOut = getUserStore().clearCurrentUser.bind(getUserStore());
     const partnerships = this.props.currentUser.partnerships.slice(0).sort(
       (p1, p2) => p2.numPendingGames - p1.numPendingGames);
     this.dataSource_ = this.dataSource_.cloneWithRows(
@@ -73,7 +66,6 @@ class MainScreen extends Component {
           WAVELENGTH
         </CenteredBoldText>
         {listView}
-        <Button onPress={logOut} text="Sign Out" />
       </Screen>
     );
   }
