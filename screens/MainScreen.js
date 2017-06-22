@@ -79,7 +79,7 @@ class MainScreen extends Component {
     } else {
       let subtitle;
       if (partnership.averageScore != null) {
-        subtitle = `AVERAGE SCORE: ${partnership.averageScore}`;
+        subtitle = `SCORE: ${partnership.averageScore}`;
       }
       return <Row
         title={partnership.partner.name.toUpperCase()}

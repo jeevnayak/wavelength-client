@@ -10,6 +10,9 @@ export const GameState = {
   Complete: "Complete",
 }
 
+const kScoreByNumIncorrect = [250, 150, 100];
+export const kMaxScore = kScoreByNumIncorrect[0] * 4;
+
 export function getGameState(game) {
   if (game.clues.length >= 4 && game.guesses.length >= 4) {
     return GameState.Complete;
@@ -40,7 +43,7 @@ export function wonGame(game) {
 }
 
 export function isPerfectGame(game) {
-  return getScore(game) === 200;
+  return getScore(game) === kMaxScore;
 }
 
 export function getGameScreen(game) {
@@ -62,7 +65,6 @@ export function getGameScreen(game) {
 }
 
 export function getScore(game) {
-  const scoreByNumIncorrect = [50, 30, 20, 10];
   let numIncorrect = 0;
   let guessedWord = false;
   let score = 0;
@@ -71,8 +73,12 @@ export function getScore(game) {
     const correct = guessedWord ?
       (guess === game.clues[i]) : (guess === game.word);
     if (correct) {
-      guessedWord = true;
-      score += scoreByNumIncorrect[numIncorrect];
+      if (guessedWord) {
+        score += kScoreByNumIncorrect[numIncorrect];
+      } else {
+        score += kScoreByNumIncorrect[0];
+        guessedWord = true;
+      }
     } else {
       numIncorrect++;
     }

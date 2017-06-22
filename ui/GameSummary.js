@@ -12,6 +12,7 @@ import Colors from './Colors';
 import {
   getIncorrectGuesses,
   getScore,
+  kMaxScore,
 } from '../util/Helpers';
 import PlusIcon from '../icons/Plus';
 import {
@@ -43,7 +44,9 @@ export default (props) => {
     ];
   }
   return <View style={[Styles.Container, props.style]}>
-    <BoldText style={Styles.Score}>{`SCORE: ${getScore(props.game)}`}</BoldText>
+    <BoldText style={Styles.Score}>
+      {`SCORE: ${getScore(props.game)} / ${kMaxScore}`}
+    </BoldText>
     {createGameButton}
     <View style={Styles.Users}>
       <UserPicture user={props.cluer} style={Styles.UserPicture} />

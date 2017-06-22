@@ -23,6 +23,7 @@ import {
   GameState,
   getGameScreen,
   getGameState,
+  kMaxScore,
   needsReplay,
 } from '../util/Helpers';
 import PartnershipQuery from '../queries/PartnershipQuery';
@@ -57,9 +58,9 @@ class PartnershipScreen extends Component {
     let scoreSection;
     if (this.props.partnership.averageScore != null) {
       scoreSection = [
-        <BoldText key="0" style={Styles.ScoreDesc}>AVERAGE SCORE:</BoldText>,
+        <BoldText key="0" style={Styles.ScoreDesc}>SCORE:</BoldText>,
         <BoldText key="1" style={Styles.Score}>
-          {this.props.partnership.averageScore}
+          {this.props.partnership.averageScore} / {kMaxScore}
         </BoldText>,
       ];
     }
