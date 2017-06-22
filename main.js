@@ -33,8 +33,10 @@ import {
   getUserStore,
 } from './data/UserStore';
 
-Sentry.config(
-  "https://9aac787d58bc4d36b8f3bab6638ac006@sentry.io/178839").install();
+if (!Expo.Constants.manifest.xde) {
+  Sentry.config(
+    "https://9aac787d58bc4d36b8f3bab6638ac006@sentry.io/178839").install();
+}
 
 const dataIdFromObject = (object) => {
   if (object.__typename && object.id) {
