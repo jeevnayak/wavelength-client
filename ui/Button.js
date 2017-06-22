@@ -38,7 +38,7 @@ export const BackButton = (props) => (
 export const ExitButton = (props) => (
   <View style={Styles.ExitContainer}>
     <Button style={Styles.ExitButton} onPress={props.navigator.pop}>
-      <ExitIcon size={24} />
+      <ExitIcon size={16} />
     </Button>
   </View>
 );
@@ -76,8 +76,8 @@ const Styles = StyleSheet.create({
     right: 0,
   },
   ExitButton: {
-    width: 72,
-    height: 72,
+    width: 60,
+    height: 60,
     justifyContent: "center",
     alignItems: "center",
   },
