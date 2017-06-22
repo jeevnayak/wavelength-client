@@ -3,6 +3,7 @@ import ApolloClient, {
   toIdValue,
 } from 'apollo-client';
 import Expo, {
+  Amplitude,
   AppLoading,
   Font,
   Notifications,
@@ -36,6 +37,7 @@ import {
 if (!Expo.Constants.manifest.xde) {
   Sentry.config(
     "https://9aac787d58bc4d36b8f3bab6638ac006@sentry.io/178839").install();
+  Amplitude.initialize("bb4671d7499e2b27702fea579e42d291");
 }
 
 const dataIdFromObject = (object) => {
@@ -175,6 +177,9 @@ class App extends Component {
   onUserUpdate_ = () => {
     if (this.isMounted_) {
       this.forceUpdate();
+      if (getUserStore().getCurrentUserId()) {
+        Amplitude.setUserId(getUserStore().getCurrentUserId());
+      }
     }
   };
 }

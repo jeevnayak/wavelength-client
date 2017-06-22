@@ -18,6 +18,10 @@ import {
 } from '../ui/Card';
 import GameQuery from '../queries/GameQuery';
 import Keyboard from '../ui/Keyboard';
+import {
+  Event,
+  logEvent,
+} from '../util/Logging';
 import PartnershipQuery from '../queries/PartnershipQuery';
 import {
   screen,
@@ -82,6 +86,11 @@ class GiveCluesScreen extends Component {
   async giveClues_() {
     await this.props.giveClues(this.state.clues);
     this.props.navigator.pop();
+    logEvent(Event.GiveClues, {
+      gameId: this.props.game.id,
+      partnershipId: this.props.game.partnership.id,
+      partnerId: this.props.game.partnership.partner.id,
+    });
   }
 }
 

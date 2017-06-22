@@ -16,6 +16,9 @@ import {
   Button,
 } from '../ui/Button';
 import ChooseWordScreen from './ChooseWordScreen';
+import {
+  setUserProperties,
+} from '../util/Logging';
 import NewGameScreen from './NewGameScreen';
 import PartnershipScreen from './PartnershipScreen';
 import Row from '../ui/Row';
@@ -44,6 +47,10 @@ class MainScreen extends Component {
         partnership1.averageScore !== partnership2.averageScore
       )
     });
+  }
+
+  componentDidMount() {
+    setUserProperties(this.props.currentUser);
   }
 
   render() {

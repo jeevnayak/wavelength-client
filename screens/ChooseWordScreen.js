@@ -20,6 +20,10 @@ import {
   Card,
 } from '../ui/Card';
 import GiveCluesScreen from './GiveCluesScreen';
+import {
+  Event,
+  logEvent,
+} from '../util/Logging';
 import MainScreen from './MainScreen';
 import PartnershipScreen from './PartnershipScreen';
 import PartnershipQuery from '../queries/PartnershipQuery';
@@ -94,6 +98,11 @@ class ChooseWordScreen extends Component {
       },
     ]);
     this.props.refetch();
+    logEvent(Event.CreateGame, {
+      gameId: resp.data.newGame.id,
+      partnershipId: resp.data.newGame.partnership.id,
+      partnerId: this.props.guesserId,
+    });
   }
 }
 

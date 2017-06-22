@@ -24,8 +24,13 @@ import ChooseWordScreen from './ChooseWordScreen';
 import GameSummary from '../ui/GameSummary';
 import GameQuery from '../queries/GameQuery';
 import {
+  getScore,
   needsReplay,
 } from '../util/Helpers';
+import {
+  Event,
+  logEvent,
+} from '../util/Logging';
 import MainScreen from './MainScreen';
 import PartnershipQuery from '../queries/PartnershipQuery';
 import PartnershipScreen from './PartnershipScreen';
@@ -38,6 +43,12 @@ class ResultsScreen extends Component {
   componentDidMount() {
     if (needsReplay(this.props.game)) {
       this.props.markReplayed();
+      logEvent(Event.ViewReplay, {
+        gameId: this.props.game.id,
+        partnershipId: this.props.game.partnership.id,
+        partnerId: this.props.game.partnership.partner.id,
+        score: getScore(this.props.game),
+      });
     }
   }
 

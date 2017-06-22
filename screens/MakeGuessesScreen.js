@@ -18,8 +18,13 @@ import {
 } from '../ui/Card';
 import GameQuery from '../queries/GameQuery';
 import {
+  getScore,
   isGuessCorrect,
 } from '../util/Helpers';
+import {
+  Event,
+  logEvent,
+} from '../util/Logging';
 import PartnershipQuery from '../queries/PartnershipQuery';
 import ResultsScreen from './ResultsScreen';
 import {
@@ -113,6 +118,12 @@ class MakeGuessesScreen extends Component {
         ...this.props,
       },
       isModal: true,
+    });
+    logEvent(Event.MakeGuesses, {
+      gameId: this.props.game.id,
+      partnershipId: this.props.game.partnership.id,
+      partnerId: this.props.game.partnership.partner.id,
+      score: getScore(this.props.game),
     });
   }
 }
