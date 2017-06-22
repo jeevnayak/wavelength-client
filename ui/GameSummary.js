@@ -14,7 +14,6 @@ import {
   getScore,
   kMaxScore,
 } from '../util/Helpers';
-import PlusIcon from '../icons/Plus';
 import {
   BoldText,
 } from './Text';
@@ -50,7 +49,7 @@ export default (props) => {
     {createGameButton}
     <View style={Styles.Users}>
       <UserPicture user={props.cluer} style={Styles.UserPicture} />
-      <PlusIcon size={20} />
+      <BoldText style={Styles.Arrow}>→</BoldText>
       <UserPicture user={props.guesser} style={Styles.UserPicture} />
     </View>
     {incorrectGuessesSection}
@@ -74,8 +73,11 @@ const Styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 18,
-    marginLeft: 15,
-    marginRight: 15,
+    marginLeft: 10,
+    marginRight: 10,
+  },
+  Arrow: {
+    fontSize: 20,
   },
   IncorrectGuess: {
     fontSize: 13,
