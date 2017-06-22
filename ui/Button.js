@@ -4,6 +4,7 @@ import {
   View,
 } from 'react-native';
 
+import BackIcon from '../icons/Back';
 import Colors from './Colors';
 import ExitIcon from '../icons/Exit';
 import {
@@ -28,10 +29,9 @@ export const Button = touchable((props) => (
 
 export const BackButton = (props) => (
   <View style={Styles.BackContainer}>
-    <Button
-      style={Styles.BackButton}
-      text="Back"
-      onPress={props.navigator.pop} />
+    <Button style={Styles.BackButton} onPress={props.navigator.pop}>
+      <BackIcon size={16} />
+    </Button>
   </View>
 );
 
@@ -67,8 +67,10 @@ const Styles = StyleSheet.create({
     left: 0,
   },
   BackButton: {
-    paddingLeft: 16,
-    paddingRight: 16,
+    width: 50,
+    height: 64,
+    justifyContent: "center",
+    alignItems: "center",
   },
   ExitContainer: {
     position: "absolute",
@@ -76,8 +78,8 @@ const Styles = StyleSheet.create({
     right: 0,
   },
   ExitButton: {
-    width: 60,
-    height: 60,
+    width: 64,
+    height: 64,
     justifyContent: "center",
     alignItems: "center",
   },
