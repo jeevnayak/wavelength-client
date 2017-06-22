@@ -1,0 +1,37 @@
+{
+  "expo": {
+    "name": "Wavelength",
+    "description": "A harmonious word game",
+    "slug": "wavelength",
+    "privacy": "unlisted",
+    "sdkVersion": "17.0.0",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "primaryColor": "#cccccc",
+    "icon": "icon_app_512.png",
+    "notification": {
+      "icon": "icon_app_48.png",
+      "color": "#300095"
+    },
+    "loading": {
+      "icon": "icon_app_512.png",
+      "backgroundColor": "#efebf7",
+      "hideExponentText": true
+    },
+    "packagerOpts": {
+      "assetExts": ["otf"]
+    },
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": "rajeev-nayak",
+            "project": "wavelength-client",
+            "authToken": "e5d822406c9f4e349c4ecb908cce48a0f9db2eeff3be4a64b0f2ab830590b894"
+          }
+        }
+      ]
+    }
+  }
+}
