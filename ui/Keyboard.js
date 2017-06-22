@@ -6,11 +6,12 @@ import {
   View,
 } from 'react-native';
 
+import BackspaceIcon from '../icons/Backspace';
 import Colors from './Colors';
-import touchable from './Touchable';
 import {
   BoldText,
 } from './Text';
+import touchable from './Touchable';
 
 const kLetterRows = [
   ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
@@ -38,10 +39,9 @@ export default Keyboard = (props) => {
       return <View key={i} style={Styles.HorizontalLayout}>
         {letterRow}
         <View style={Styles.BackspaceContainer}>
-          <Key
-            style={Styles.BackspaceKey}
-            text="<"
-            onPress={props.onPressBackspace} />
+          <Key style={Styles.BackspaceKey} onPress={props.onPressBackspace}>
+            <BackspaceIcon size={16} />
+          </Key>
         </View>
       </View>;
     } else {
@@ -75,7 +75,9 @@ const Key = touchable((props) => (
       Styles.Key,
       props.style,
       props.touchableActive ? Styles.KeyActive : null]}>
-    <Text style={Styles.KeyText}>{props.text}</Text>
+    {props.text ?
+      <Text style={Styles.KeyText}>{props.text}</Text> :
+      props.children}
   </View>
 ));
 
