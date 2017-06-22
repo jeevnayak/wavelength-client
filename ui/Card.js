@@ -141,7 +141,8 @@ export class Card extends Component {
     if (this.props.forceCorrect) {
       return 0;
     } else if (this.props.guesses) {
-      const correctIndex = this.props.guesses.indexOf(this.props.word);
+      const correctIndex =
+        this.props.guesses.indexOf(this.props.word.split(" ").join(""));
       return correctIndex === this.props.activeIndex ? -1 : correctIndex;
     } else {
       return -1;

@@ -17,6 +17,9 @@ import {
   FullScreenCard,
 } from '../ui/Card';
 import GameQuery from '../queries/GameQuery';
+import {
+  isGuessCorrect,
+} from '../util/Helpers';
 import PartnershipQuery from '../queries/PartnershipQuery';
 import ResultsScreen from './ResultsScreen';
 import {
@@ -50,7 +53,8 @@ class MakeGuessesScreen extends Component {
 
   guessedWord_() {
     return this.state.guesses.some((guess, i) => (
-      i !== this.state.guesses.length - 1 && guess === this.props.game.word
+      i !== this.state.guesses.length - 1 &&
+        isGuessCorrect(guess, this.props.game)
     ));
   }
 

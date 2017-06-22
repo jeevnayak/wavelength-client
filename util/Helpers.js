@@ -37,9 +37,13 @@ export function needsReplay(game) {
     !game.replayed;
 }
 
+export function isGuessCorrect(guess, game) {
+  return guess === game.word.split(" ").join("");
+}
+
 export function wonGame(game) {
   return getGameState(game) === GameState.Complete &&
-    game.guesses.some((guess) => guess === game.word);
+    game.guesses.some((guess) => isGuessCorrect(guess, game));
 }
 
 export function isPerfectGame(game) {
@@ -71,7 +75,7 @@ export function getScore(game) {
   for (let i = 0; i < game.guesses.length; i++) {
     const guess = game.guesses[i];
     const correct = guessedWord ?
-      (guess === game.clues[i]) : (guess === game.word);
+      (guess === game.clues[i]) : isGuessCorrect(guess, game);
     if (correct) {
       if (guessedWord) {
         score += kScoreByNumIncorrect[numIncorrect];
@@ -92,7 +96,7 @@ export function getIncorrectGuesses(game) {
   for (let i = 0; i < game.guesses.length; i++) {
     const guess = game.guesses[i];
     const correct = guessedWord ?
-      (guess === game.clues[i]) : (guess === game.word);
+      (guess === game.clues[i]) : isGuessCorrect(guess, game);
     if (correct) {
       guessedWord = true;
     } else if (guess.length) {
@@ -108,7 +112,7 @@ export function getNumWavelengths(game) {
   for (let i = 0; i < game.guesses.length; i++) {
     const guess = game.guesses[i];
     const correct = guessedWord ?
-      (guess === game.clues[i]) : (guess === game.word);
+      (guess === game.clues[i]) : isGuessCorrect(guess, game);
     if (correct) {
       if (guessedWord) {
         numWavelengths++;
