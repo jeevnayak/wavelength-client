@@ -72,14 +72,22 @@ class GiveCluesScreen extends Component {
 
   onPressSubmit_() {
     if (this.state.editingClueIndex === 3) {
+      if (!this.state.clues.every((clue) => clue)) {
+        return;
+      }
       this.giveClues_();
-    } else if (this.state.editingClueIndex === this.state.clues.length - 1) {
-      this.setState({
-        editingClueIndex: this.state.editingClueIndex + 1,
-        clues: [...this.state.clues, ""],
-      });
     } else {
-      this.setState({editingClueIndex: this.state.editingClueIndex + 1});
+      if (!this.state.clues[this.state.editingClueIndex]) {
+        return;
+      }
+      if (this.state.editingClueIndex === this.state.clues.length - 1) {
+        this.setState({
+          editingClueIndex: this.state.editingClueIndex + 1,
+          clues: [...this.state.clues, ""],
+        });
+      } else {
+        this.setState({editingClueIndex: this.state.editingClueIndex + 1});
+      }
     }
   }
 
