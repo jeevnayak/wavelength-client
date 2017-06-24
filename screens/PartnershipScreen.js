@@ -9,7 +9,7 @@ import {
   ListView,
   ScrollView,
   StyleSheet,
-  TouchableWithoutFeedback,
+  TouchableOpacity,
   View,
 } from 'react-native';
 
@@ -115,14 +115,16 @@ class PartnershipScreen extends Component {
       const contents = <View style={Styles.NewGameIcon}>
         <PlusIcon size={kCardWidth / 3} />
       </View>;
-      return <TouchableWithoutFeedback
+      return <TouchableOpacity
+          activeOpacity={0.5}
           onPress={() => this.onPressCreateGame_()}>
         <View style={Styles.CardContainer}>
           <CardView width={kCardWidth} customContents={contents} />
         </View>
-      </TouchableWithoutFeedback>;
+      </TouchableOpacity>;
     } else {
-      return <TouchableWithoutFeedback
+      return <TouchableOpacity
+          activeOpacity={0.5}
           onPress={() => this.onPressGameRow_(game)}>
         <View style={Styles.CardContainer}>
           <Card
@@ -137,7 +139,7 @@ class PartnershipScreen extends Component {
             Styles.UnreadDot,
             needsReplay(game) && Styles.ActiveUnreadDot]} />
         </View>
-      </TouchableWithoutFeedback>;
+      </TouchableOpacity>;
     }
   }
 

@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Image,
   StyleSheet,
+  TouchableOpacity,
   View,
 } from 'react-native';
 
@@ -18,36 +19,34 @@ import {
   CenteredBoldText,
   MediumText,
 } from './Text';
-import touchable from './Touchable';
 import UserPicture from './UserPicture';
 
 const kRowHeight = 72;
 
-export default Row = touchable((props) => {
+export default Row = (props) => {
   let subtitle;
   if (props.subtitle) {
     subtitle = <BoldText style={Styles.RowSubtitle}>
       {props.subtitle}
     </BoldText>;
   }
-  return <View style={[
-      Styles.Row,
-      props.touchableActive ? Styles.RowActive : null,
-      props.style]}>
-    <View>
-      {props.pictureUser ?
-        <UserPicture user={props.pictureUser} style={Styles.LeftCircle} /> :
-        <NewGameIcon />}
-      {props.badgeCount ? <Badge count={props.badgeCount} /> : null}
+  return <TouchableOpacity activeOpacity={0.5} onPress={props.onPress}>
+    <View style={[Styles.Row, props.style]}>
+      <View>
+        {props.pictureUser ?
+          <UserPicture user={props.pictureUser} style={Styles.LeftCircle} /> :
+          <NewGameIcon />}
+        {props.badgeCount ? <Badge count={props.badgeCount} /> : null}
+      </View>
+      <View style={Styles.RowText}>
+        <BoldText style={Styles.RowTitle}>{props.title}</BoldText>
+        {subtitle}
+      </View>
+      {props.onPressCreateGame ?
+        <CreateGameButton onPress={props.onPressCreateGame} /> : null}
     </View>
-    <View style={Styles.RowText}>
-      <BoldText style={Styles.RowTitle}>{props.title}</BoldText>
-      {subtitle}
-    </View>
-    {props.onPressCreateGame ?
-      <CreateGameButton onPress={props.onPressCreateGame} /> : null}
-  </View>;
-});
+  </TouchableOpacity>;
+};
 
 const Badge = (props) => {
   const contents = <CenteredBoldText textStyle={Styles.BadgeText}>
@@ -76,9 +75,6 @@ const Styles = StyleSheet.create({
     alignItems: "center",
     height: kRowHeight,
     paddingLeft: 16
-  },
-  RowActive: {
-    backgroundColor: "#0f0",
   },
   LeftCircle: {
     width: 44,

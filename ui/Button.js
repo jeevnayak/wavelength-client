@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   StyleSheet,
+  TouchableOpacity,
   View,
 } from 'react-native';
 
@@ -11,21 +12,16 @@ import {
   CenteredMediumText,
   BoldText,
 } from './Text';
-import touchable from './Touchable';
 
-export const Button = touchable((props) => (
-  props.text ?
-    <CenteredMediumText style={[
-        Styles.Button,
-        props.touchableActive ? Styles.ButtonActive : null,
-        props.style]}>
-      {props.text}
-    </CenteredMediumText> :
-    <View {...props} style={[
-        Styles.Button,
-        props.touchableActive ? Styles.ButtonActive : null,
-        props.style]} />
-));
+export const Button = (props) => (
+  <TouchableOpacity activeOpacity={0.5} onPress={props.onPress}>
+    {props.text ?
+      <CenteredMediumText style={[Styles.Button, props.style]}>
+        {props.text}
+      </CenteredMediumText> :
+      <View {...props} style={[Styles.Button, props.style]} />}
+  </TouchableOpacity>
+);
 
 export const BackButton = (props) => (
   <View style={Styles.BackContainer}>
@@ -43,23 +39,19 @@ export const ExitButton = (props) => (
   </View>
 );
 
-export const PrimaryButton = touchable((props) => (
-    <View style={[
-        Styles.PrimaryButton,
-        props.touchableActive ? Styles.PrimaryButtonActive : null,
-        props.style]}>
+export const PrimaryButton = (props) => (
+  <TouchableOpacity activeOpacity={0.5} onPress={props.onPress}>
+    <View style={[Styles.PrimaryButton, props.style]}>
       <BoldText style={Styles.PrimaryButtonText}>
         {props.text}
       </BoldText>
     </View>
-));
+  </TouchableOpacity>
+);
 
 const Styles = StyleSheet.create({
   Button: {
     height: 64,
-  },
-  ButtonActive: {
-    backgroundColor: "#f00",
   },
   BackContainer: {
     position: "absolute",
@@ -90,9 +82,6 @@ const Styles = StyleSheet.create({
     paddingRight: 40,
     backgroundColor: Colors.Primary,
     borderRadius: 10,
-  },
-  PrimaryButtonActive: {
-    backgroundColor: "#f00",
   },
   PrimaryButtonText: {
     fontSize: 18,

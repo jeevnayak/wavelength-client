@@ -3,6 +3,7 @@ import {
   Dimensions,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 
@@ -11,7 +12,6 @@ import Colors from './Colors';
 import {
   BoldText,
 } from './Text';
-import touchable from './Touchable';
 
 const kLetterRows = [
   ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
@@ -70,36 +70,31 @@ const LetterRow = (props) => {
   </View>
 };
 
-const Key = touchable((props) => (
-  <View style={[
-      Styles.Key,
-      props.style,
-      props.touchableActive ? Styles.KeyActive : null]}>
-    {props.text ?
-      <Text style={Styles.KeyText}>{props.text}</Text> :
-      props.children}
-  </View>
-));
+const Key = (props) => (
+  <TouchableOpacity activeOpacity={0.5} onPress={props.onPress}>
+    <View style={[Styles.Key, props.style]}>
+      {props.text ?
+        <Text style={Styles.KeyText}>{props.text}</Text> :
+        props.children}
+    </View>
+  </TouchableOpacity>
+);
 
-const SubmitKey = touchable((props) => (
-  <View style={[
-      Styles.Key,
-      Styles.SubmitKey,
-      props.style,
-      props.touchableActive ? Styles.KeyActive : null]}>
-    <BoldText style={Styles.SubmitKeyText}>{props.text}</BoldText>
-  </View>
-));
+const SubmitKey = (props) => (
+  <TouchableOpacity activeOpacity={0.5} onPress={props.onPress}>
+    <View style={[Styles.Key, Styles.SubmitKey, props.style]}>
+      <BoldText style={Styles.SubmitKeyText}>{props.text}</BoldText>
+    </View>
+  </TouchableOpacity>
+);
 
-const SkipKey = touchable((props) => (
-  <View style={[
-      Styles.Key,
-      Styles.SkipKey,
-      props.style,
-      props.touchableActive ? Styles.KeyActive : null]}>
-    <BoldText style={Styles.SkipKeyText}>SKIP</BoldText>
-  </View>
-));
+const SkipKey = (props) => (
+  <TouchableOpacity activeOpacity={0.5} onPress={props.onPress}>
+    <View style={[Styles.Key, Styles.SkipKey, props.style]}>
+      <BoldText style={Styles.SkipKeyText}>SKIP</BoldText>
+    </View>
+  </TouchableOpacity>
+);
 
 const Styles = StyleSheet.create({
   Keyboard: {
@@ -128,9 +123,6 @@ const Styles = StyleSheet.create({
   },
   KeyText: {
     fontSize: 20,
-  },
-  KeyActive: {
-    backgroundColor: "#00f",
   },
   BackspaceContainer: {
     position: "absolute",
