@@ -139,6 +139,9 @@ export default compose(
       refetch: refetch,
       currentUser: user,
     }),
+    options: (props) => ({
+      fetchPolicy: props.forceRefetch ? "network-only" : "cache-first",
+    }),
   }),
   screen
 )(MainScreen);

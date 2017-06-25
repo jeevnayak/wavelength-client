@@ -78,7 +78,8 @@ class ChooseWordScreen extends Component {
       {
         component: MainScreen,
         props: {
-          currentUserId: this.props.currentUserId
+          currentUserId: this.props.currentUserId,
+          forceRefetch: true,
         },
       },
       {

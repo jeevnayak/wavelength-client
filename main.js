@@ -139,14 +139,16 @@ class App extends Component {
 
   handleNotification_(notification) {
     const currentUserId = getUserStore().getCurrentUserId();
-    const isIos = (Platform.OS === "ios");
     const navigateToGame = () => {
       const screen = notification.data.cluesGiven ?
         MakeGuessesScreen : ResultsScreen;
       this.navigator_.immediatelyResetRouteStack([
         {
           component: MainScreen,
-          props: { currentUserId },
+          props: {
+            currentUserId: currentUserId,
+            forceRefetch: true,
+          },
         },
         {
           component: PartnershipScreen,
@@ -161,15 +163,22 @@ class App extends Component {
           props: {
             currentUserId: currentUserId,
             gameId: notification.data.gameId,
-            forceRefetch: isIos,
+            forceRefetch: true,
           },
           isModal: true,
         }
       ]);
     };
     if (notification.origin === "received" && currentUserId) {
-      if (isIos) {
+      if (Platform.OS === "ios") {
         if (this.isMounted_) {
+          apolloClient.query({
+            query: UserQuery,
+            variables: {
+              currentUserId: currentUserId,
+            },
+            fetchPolicy: "network-only",
+          });
           apolloClient.query({
             query: PartnershipQuery,
             variables: {
