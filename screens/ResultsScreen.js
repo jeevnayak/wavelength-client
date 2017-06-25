@@ -40,16 +40,16 @@ import {
 } from '../ui/Screen';
 
 class ResultsScreen extends Component {
+  constructor(props) {
+    super(props);
+    this.markedReplay_ = false;
+  }
   componentDidMount() {
-    if (needsReplay(this.props.game)) {
-      this.props.markReplayed();
-      logEvent(Event.ViewReplay, {
-        gameId: this.props.game.id,
-        partnershipId: this.props.game.partnership.id,
-        partnerId: this.props.game.partnership.partner.id,
-        score: getScore(this.props.game),
-      });
-    }
+    this.markReplayIfNeeded_();
+  }
+
+  componentDidUpdate() {
+    this.markReplayIfNeeded_();
   }
 
   render() {
@@ -78,6 +78,19 @@ class ResultsScreen extends Component {
       </ScrollView>
       <ExitButton navigator={this.props.navigator} />
     </Screen>;
+  }
+
+  markReplayIfNeeded_() {
+    if (needsReplay(this.props.game) && !this.markedReplay_) {
+      this.markedReplay_ = true;
+      this.props.markReplayed();
+      logEvent(Event.ViewReplay, {
+        gameId: this.props.game.id,
+        partnershipId: this.props.game.partnership.id,
+        partnerId: this.props.game.partnership.partner.id,
+        score: getScore(this.props.game),
+      });
+    }
   }
 
   onPressCreateGame_() {
