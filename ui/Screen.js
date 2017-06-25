@@ -2,6 +2,7 @@ import React, {
   Component,
 } from 'react';
 import {
+  ActivityIndicator,
   StyleSheet,
   View,
 } from 'react-native';
@@ -10,6 +11,9 @@ import {
   BackButton,
   Button,
 } from './Button';
+import {
+  CardView,
+} from '../ui/Card';
 import Colors from './Colors';
 import Sizes from './Sizes';
 import {
@@ -59,11 +63,19 @@ const Header = (props) => {
   </View>;
 };
 
-const LoadingScreen = (props) => (
-  <Screen style={props.style}>
-    <MediumText style={Styles.LoadingText}>Loading...</MediumText>
+export const LoadingScreen = (props) => {
+  const spinner = <ActivityIndicator color={Colors.Primary} />;
+  return <Screen style={[Styles.LoadingScreen, props.style]}>
+    <CardView
+      width={70}
+      height={96}
+      headerHeight={20}
+      borderSize={3}
+      borderRadius={4}
+      innerBorderRadius={1}
+      customContents={spinner} />
   </Screen>
-);
+};
 
 const ErrorScreen = (props) => (
   <Screen style={props.style}>
@@ -91,8 +103,9 @@ const Styles = StyleSheet.create({
   HeaderTitleText: {
     fontSize: Sizes.Text,
   },
-  LoadingText: {
-    textAlign: "center",
+  LoadingScreen: {
+    justifyContent: "center",
+    alignItems: "center",
   },
   ErrorText: {
     color: "#f00",

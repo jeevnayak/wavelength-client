@@ -4,7 +4,6 @@ import ApolloClient, {
 } from 'apollo-client';
 import Expo, {
   Amplitude,
-  AppLoading,
   Font,
   Notifications,
 } from 'expo';
@@ -30,6 +29,9 @@ import MakeGuessesScreen from './screens/MakeGuessesScreen';
 import PartnershipScreen from './screens/PartnershipScreen';
 import PartnershipQuery from './queries/PartnershipQuery';
 import ResultsScreen from './screens/ResultsScreen';
+import {
+  LoadingScreen,
+} from './ui/Screen';
 import {
   getUserStore,
 } from './data/UserStore';
@@ -92,12 +94,12 @@ class App extends Component {
 
   render() {
     if (!this.state.fontLoaded) {
-      return <AppLoading />;
+      return <LoadingScreen />;
     }
 
     const userStore = getUserStore();
     if (!userStore.isInitialized()) {
-      return <AppLoading />;
+      return <LoadingScreen />;
     }
 
     const currentUserId = userStore.getCurrentUserId();

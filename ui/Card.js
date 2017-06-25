@@ -295,7 +295,10 @@ const Clues = (props) => {
         onPress={props.onPressClue ? () => props.onPressClue(i) : null} />
     ));
   }
-  const style = {borderRadius: props.borderRadius};
+  const style = {
+    borderBottomLeftRadius: props.borderRadius,
+    borderBottomRightRadius: props.borderRadius,
+  };
   return <View style={[
       Styles.Clues,
       props.thumbnail && Styles.CluesThumbnail,
