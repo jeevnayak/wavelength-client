@@ -51,7 +51,6 @@ const kCardProps = {
   width: kCardWidth,
   height: 96,
   headerHeight: 20,
-  headerTextSize: 10,
   clueHeight: 14,
   borderSize: 3,
   borderRadius: 4,
@@ -150,6 +149,7 @@ class PartnershipScreen extends Component {
         <View style={Styles.CardContainer}>
           <Card
             {...kCardProps}
+            headerTextSize={game.word.length >= 10 ? 6 : 10}
             word={game.word}
             forceShowWord={
               game.isCluer || getGameState(game) === GameState.Complete}
