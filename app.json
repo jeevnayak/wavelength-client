@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Wavelength",
-    "description": "A harmonious word game",
+    "description": "A collaborative word game",
     "slug": "wavelength",
     "privacy": "unlisted",
     "sdkVersion": "17.0.0",

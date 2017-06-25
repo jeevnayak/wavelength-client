@@ -14,6 +14,7 @@ import {
 } from './Card';
 import Colors from './Colors';
 import PlusIcon from '../icons/Plus';
+import Sizes from './Sizes';
 import {
   BoldText,
   CenteredBoldText,
@@ -50,10 +51,18 @@ export default Row = (props) => {
 
 const Badge = (props) => {
   const contents = <CenteredBoldText textStyle={Styles.BadgeText}>
-    {props.count}
+    {props.count >= 10 ? "9+" : props.count}
   </CenteredBoldText>;
   return <View style={Styles.Badge}>
-    <CardView width={10} customContents={contents} />
+    <CardView
+      width={14}
+      height={18}
+      headerHeight={3.5}
+      borderSize={1.5}
+      borderRadius={2}
+      innerBorderRadius={0.5}
+      outerBorderWidth={1}
+      customContents={contents} />
   </View>;
 };
 
@@ -74,7 +83,7 @@ const Styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     height: kRowHeight,
-    paddingLeft: 16
+    paddingLeft: 32,
   },
   LeftCircle: {
     width: 44,
@@ -86,7 +95,7 @@ const Styles = StyleSheet.create({
     flex: 1,
   },
   RowTitle: {
-    fontSize: 20,
+    fontSize: Sizes.Text,
   },
   RowSubtitle: {
     color: Colors.SecondaryText,
@@ -97,8 +106,7 @@ const Styles = StyleSheet.create({
     right: 15,
   },
   BadgeText: {
-    fontSize: 9,
-    color: Colors.Primary,
+    fontSize: 8,
   },
   NewGameIcon: {
     justifyContent: "center",
@@ -111,5 +119,6 @@ const Styles = StyleSheet.create({
     height: kRowHeight,
     justifyContent: "center",
     alignItems: "center",
+    paddingRight: 8,
   },
 });

@@ -14,6 +14,7 @@ import {
   getScore,
   kMaxScore,
 } from '../util/Helpers';
+import Sizes from './Sizes';
 import {
   BoldText,
 } from './Text';
@@ -59,33 +60,33 @@ export default (props) => {
 const Styles = StyleSheet.create({
   Container: {
     alignItems: "center",
+    paddingBottom: 96,
   },
   Score: {
-    fontSize: 20,
-    marginBottom: 15,
+    fontSize: Sizes.Text,
+    marginBottom: 24,
   },
   Users: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 20,
+    marginBottom: 24,
   },
   UserPicture: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     marginLeft: 10,
     marginRight: 10,
   },
   Arrow: {
-    fontSize: 20,
+    fontSize: Sizes.Text,
   },
   IncorrectGuess: {
-    fontSize: 13,
+    fontSize: Sizes.SmallText,
     color: Colors.SecondaryText,
     marginBottom: 7,
   },
   CreateGameButton: {
-    marginTop: 10,
-    marginBottom: 30,
+    marginBottom: 24,
   },
 });

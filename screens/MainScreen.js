@@ -23,6 +23,7 @@ import {
   screen,
   Screen,
 } from '../ui/Screen';
+import Sizes from '../ui/Sizes';
 import {
   CenteredBoldText,
 } from '../ui/Text';
@@ -122,10 +123,11 @@ class MainScreen extends Component {
 
 const Styles = StyleSheet.create({
   Title: {
-    height: 120,
+    height: 96,
+    marginTop: 16,
   },
   TitleText: {
-    fontSize: 28,
+    fontSize: Sizes.LargeText,
   },
 });
 

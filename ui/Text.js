@@ -6,6 +6,8 @@ import {
   View,
 } from 'react-native';
 
+import Sizes from './Sizes';
+
 export const MediumText = (props) => {
   return <Text {...props} style={[Styles.MediumText, props.style]} />;
 }
@@ -50,9 +52,10 @@ const Styles = StyleSheet.create({
   CenteredContainer: {
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "transparent",
   },
   InstructionText: {
-    fontSize: 16,
+    fontSize: Sizes.SmallText,
     color: "rgba(0,0,0,0.5)",
     textAlign: "center",
   },

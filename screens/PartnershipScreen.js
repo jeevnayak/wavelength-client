@@ -33,6 +33,7 @@ import {
   screen,
   Screen,
 } from '../ui/Screen';
+import Sizes from '../ui/Sizes';
 import {
   getStats,
 } from '../util/Stats';
@@ -42,8 +43,20 @@ import {
 import UserPicture from '../ui/UserPicture';
 
 const kCreateGamePlaceholderId = "creategame";
-const kCardWidth = 60;
-const kCardMargin = 10;
+const kSpacingRowPlaceholderId = "spacingrow";
+const kPadding = 28;
+const kCardWidth = 70;
+const kCardMargin = 12;
+const kCardProps = {
+  width: kCardWidth,
+  height: 96,
+  headerHeight: 20,
+  headerTextSize: 10,
+  clueHeight: 14,
+  borderSize: 3,
+  borderRadius: 4,
+  innerBorderRadius: 1,
+};
 
 class PartnershipScreen extends Component {
   constructor(props) {
@@ -107,11 +120,14 @@ class PartnershipScreen extends Component {
     if (includeCreateGame) {
       games.unshift({id: kCreateGamePlaceholderId});
     }
+    games.unshift({id: kSpacingRowPlaceholderId});
     return this.baseDataSource_.cloneWithRows(games);
   }
 
   renderGameRow_(game) {
-    if (game.id === kCreateGamePlaceholderId) {
+    if (game.id === kSpacingRowPlaceholderId) {
+      return <View style={Styles.SpacingRow} />
+    } else if (game.id === kCreateGamePlaceholderId) {
       const contents = <View style={Styles.NewGameIcon}>
         <PlusIcon size={kCardWidth / 3} />
       </View>;
@@ -119,7 +135,7 @@ class PartnershipScreen extends Component {
           activeOpacity={0.5}
           onPress={() => this.onPressCreateGame_()}>
         <View style={Styles.CardContainer}>
-          <CardView width={kCardWidth} customContents={contents} />
+          <CardView {...kCardProps} customContents={contents} />
         </View>
       </TouchableOpacity>;
     } else {
@@ -128,12 +144,12 @@ class PartnershipScreen extends Component {
           onPress={() => this.onPressGameRow_(game)}>
         <View style={Styles.CardContainer}>
           <Card
+            {...kCardProps}
             word={game.word}
             forceShowWord={
               game.isCluer || getGameState(game) === GameState.Complete}
             clues={game.clues}
             guesses={game.guesses}
-            width={kCardWidth}
             thumbnail={true} />
           <View style={[
             Styles.UnreadDot,
@@ -173,7 +189,7 @@ class PartnershipScreen extends Component {
 }
 
 const Section = (props) => {
-  if (props.dataSource.getRowCount() > 0) {
+  if (props.dataSource.getRowCount() > 1) {
     return <View style={Styles.Section}>
       <BoldText style={Styles.HeaderText}>
         {props.headerText.toUpperCase()}
@@ -191,7 +207,7 @@ const Section = (props) => {
 };
 
 const StatsSection = (props) => (
-  <View style={Styles.Section}>
+  <View style={[Styles.Section, Styles.StatsSection]}>
     <BoldText style={[Styles.HeaderText, Styles.StatsHeader]}>STATS</BoldText>
     {getStats(props.partnership).map((stat, i) => <Stat key={i} stat={stat} />)}
   </View>
@@ -209,36 +225,45 @@ const Stat = (props) => (
 const Styles = StyleSheet.create({
   UserPicturesContainer: {
     flexDirection: "row",
-    justifyContent: "space-around",
-    marginTop: 15,
-    paddingLeft: 80,
-    paddingRight: 80,
+    justifyContent: "center",
+    marginTop: 7,
+    marginBottom: 8,
   },
   ScoreDesc: {
     marginTop: 15,
     color: Colors.SecondaryText,
+    fontSize: Sizes.SmallText,
     textAlign: "center",
   },
   Score: {
-    fontSize: 32,
+    fontSize: Sizes.LargeText,
     textAlign: "center",
+    marginBottom: 8,
   },
   UserPicture: {
-    width: 72,
-    height: 72,
-    borderRadius: 36,
+    width: 96,
+    height: 96,
+    borderRadius: 48,
+    borderWidth: 3,
+    marginLeft: 16,
+    marginRight: 16,
   },
   Section: {
-    marginTop: 25,
+    marginTop: 16,
   },
   HeaderText: {
-    paddingLeft: kCardMargin / 2,
+    paddingLeft: kPadding,
+    paddingBottom: 2,
     color: Colors.SecondaryText,
+    fontSize: Sizes.SmallText,
   },
   CardContainer: {
     width: kCardWidth + kCardMargin,
     padding: kCardMargin / 2,
     alignItems: "center",
+  },
+  SpacingRow: {
+    width: kPadding - kCardMargin / 2 + 1,
   },
   NewGameIcon: {
     alignItems: "center",
@@ -252,18 +277,21 @@ const Styles = StyleSheet.create({
   ActiveUnreadDot: {
     backgroundColor: Colors.Primary,
   },
+  StatsSection: {
+    paddingBottom: 96,
+  },
   StatsHeader: {
-    marginBottom: 15,
+    marginBottom: 12,
   },
   Stat: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 10,
-    paddingLeft: kCardMargin / 2,
-    paddingRight: kCardMargin / 2,
+    marginBottom: 12,
+    paddingLeft: kPadding,
+    paddingRight: kPadding,
   },
   StatText: {
-    fontSize: 20,
+    fontSize: Sizes.Text,
   },
 });
 

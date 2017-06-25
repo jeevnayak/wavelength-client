@@ -31,7 +31,7 @@ import {
 
 const kWindowWidth = Dimensions.get("window").width;
 const kPadding = 50;
-const kClues = ["A", "HARMONIOUS", "WORD", "GAME"];
+const kClues = ["A", "COLLABORATIVE", "WORD", "GAME"];
 
 class LoginScreen extends Component {
   render() {
@@ -42,7 +42,7 @@ class LoginScreen extends Component {
         clues={kClues.map((clue) => ({text: clue}))} />
       <PrimaryButton
         style={Styles.LoginButton}
-        text="CONNECT TO FACEBOOK"
+        text="SIGN IN WITH FB"
         onPress={() => this.login_()} />
     </Screen>;
   }

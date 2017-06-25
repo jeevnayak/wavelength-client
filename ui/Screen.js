@@ -11,6 +11,7 @@ import {
   Button,
 } from './Button';
 import Colors from './Colors';
+import Sizes from './Sizes';
 import {
   CenteredBoldText,
   MediumText,
@@ -77,7 +78,8 @@ const Styles = StyleSheet.create({
     backgroundColor: Colors.Background,
   },
   Header: {
-    height: 64,
+    height: 72,
+    marginTop: 8,
   },
   HeaderTitle: {
     position: "absolute",
@@ -87,7 +89,7 @@ const Styles = StyleSheet.create({
     left: 0,
   },
   HeaderTitleText: {
-    fontSize: 20,
+    fontSize: Sizes.Text,
   },
   LoadingText: {
     textAlign: "center",

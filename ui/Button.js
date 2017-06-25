@@ -8,6 +8,7 @@ import {
 import BackIcon from '../icons/Back';
 import Colors from './Colors';
 import ExitIcon from '../icons/Exit';
+import Sizes from './Sizes';
 import {
   CenteredMediumText,
   BoldText,
@@ -26,7 +27,7 @@ export const Button = (props) => (
 export const BackButton = (props) => (
   <View style={Styles.BackContainer}>
     <Button style={Styles.BackButton} onPress={props.navigator.pop}>
-      <BackIcon size={16} />
+      <BackIcon size={20} />
     </Button>
   </View>
 );
@@ -34,7 +35,7 @@ export const BackButton = (props) => (
 export const ExitButton = (props) => (
   <View style={Styles.ExitContainer}>
     <Button style={Styles.ExitButton} onPress={props.navigator.pop}>
-      <ExitIcon size={16} />
+      <ExitIcon size={20} />
     </Button>
   </View>
 );
@@ -59,8 +60,8 @@ const Styles = StyleSheet.create({
     left: 0,
   },
   BackButton: {
-    width: 50,
-    height: 64,
+    width: 72,
+    height: 72,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -70,21 +71,22 @@ const Styles = StyleSheet.create({
     right: 0,
   },
   ExitButton: {
-    width: 64,
-    height: 64,
+    width: 72,
+    height: 72,
+    paddingTop: 8,
     justifyContent: "center",
     alignItems: "center",
   },
   PrimaryButton: {
-    paddingTop: 5,
-    paddingBottom: 5,
+    paddingTop: 10,
+    paddingBottom: 10,
     paddingLeft: 40,
     paddingRight: 40,
     backgroundColor: Colors.Primary,
-    borderRadius: 10,
+    borderRadius: 12,
   },
   PrimaryButtonText: {
-    fontSize: 18,
+    fontSize: Sizes.Text,
     color: "#fff",
   },
 });

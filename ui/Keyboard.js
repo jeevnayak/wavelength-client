@@ -9,6 +9,7 @@ import {
 
 import BackspaceIcon from '../icons/Backspace';
 import Colors from './Colors';
+import Sizes from './Sizes';
 import {
   BoldText,
 } from './Text';
@@ -122,7 +123,7 @@ const Styles = StyleSheet.create({
     borderRadius: 5,
   },
   KeyText: {
-    fontSize: 20,
+    fontSize: Sizes.KeyboardText,
   },
   BackspaceContainer: {
     position: "absolute",
@@ -144,7 +145,7 @@ const Styles = StyleSheet.create({
     backgroundColor: Colors.Primary,
   },
   SubmitKeyText: {
-    fontSize: 20,
+    fontSize: Sizes.KeyboardText,
     color: "#fff",
   },
   SkipKey: {
@@ -152,6 +153,6 @@ const Styles = StyleSheet.create({
     backgroundColor: "#a3aebf",
   },
   SkipKeyText: {
-    fontSize: 20,
+    fontSize: Sizes.KeyboardText,
   },
 });

@@ -113,7 +113,7 @@ const Styles = StyleSheet.create({
     height: Dimensions.get("window").height,
   },
   GameSummary: {
-    marginTop: getFullScreenCardBottom() + 25,
+    marginTop: getFullScreenCardBottom() + 24,
   },
 });
 

@@ -23,8 +23,40 @@ import {
 
 const kWindowWidth = Dimensions.get("window").width;
 const kWindowHeight = Dimensions.get("window").height;
-const kFullScreenHorizontalMargin = 30;
+const kFullScreenHorizontalMargin = 36;
 const kFullScreenCardWidth = kWindowWidth - 2 * kFullScreenHorizontalMargin;
+
+function heightFromProps(props) {
+  return props.height || heightFromWidth(props.width);
+}
+
+function headerHeightFromProps(props) {
+  return props.headerHeight || headerHeightFromWidth(props.width);
+}
+
+function headerTextSizeFromProps(props) {
+  return props.headerTextSize || headerTextSizeFromWidth(props.width);
+}
+
+function clueHeightFromProps(props) {
+  return props.clueHeight || clueHeightFromWidth(props.width);
+}
+
+function clueTextSizeFromProps(props) {
+  return props.clueTextSize || clueTextSizeFromWidth(props.width);
+}
+
+function borderSizeFromProps(props) {
+  return props.borderSize || borderSizeFromWidth(props.width);
+}
+
+function borderRadiusFromProps(props) {
+  return props.borderRadius || borderRadiusFromWidth(props.width);
+}
+
+function innerBorderRadiusFromProps(props) {
+  return props.innerBorderRadius || innerBorderRadiusFromWidth(props.width);
+}
 
 function heightFromWidth(width) {
   return width * 1.5;
@@ -195,28 +227,32 @@ export class Card extends Component {
 }
 
 export const CardView = (props) => {
-  const borderSize = borderSizeFromWidth(props.width);
+  const borderSize = borderSizeFromProps(props);
   const style = {
     width: props.width,
-    height: heightFromWidth(props.width),
+    height: heightFromProps(props),
     paddingRight: borderSize,
     paddingBottom: borderSize,
     paddingLeft: borderSize,
-    borderRadius: borderRadiusFromWidth(props.width),
+    borderRadius: borderRadiusFromProps(props),
   };
+  if (props.outerBorderWidth) {
+    style.borderWidth = props.outerBorderWidth;
+    style.borderColor = "#fff";
+  }
   return <View
       style={[Styles.Card, props.incorrect && Styles.IncorrectCard, style]}>
     <Header
       word={props.word}
-      height={headerHeightFromWidth(props.width)}
-      textSize={headerTextSizeFromWidth(props.width)} />
+      height={headerHeightFromProps(props)}
+      textSize={headerTextSizeFromProps(props)} />
     <Clues
       customContents={props.customContents}
       thumbnail={props.thumbnail}
       clues={props.clues}
-      clueHeight={clueHeightFromWidth(props.width)}
-      clueTextSize={clueTextSizeFromWidth(props.width)}
-      borderRadius={innerBorderRadiusFromWidth(props.width)}
+      clueHeight={clueHeightFromProps(props)}
+      clueTextSize={clueTextSizeFromProps(props)}
+      borderRadius={innerBorderRadiusFromProps(props)}
       onPressClue={props.onPressClue} />
   </View>;
 }
@@ -327,6 +363,7 @@ const Styles = StyleSheet.create({
   Header: {
     justifyContent: "center",
     alignItems: "center",
+    overflow: "hidden",
   },
   Clues: {
     flex: 1,
