@@ -50,7 +50,7 @@ export default (props) => {
     {createGameButton}
     <View style={Styles.Users}>
       <UserPicture user={props.cluer} style={Styles.UserPicture} />
-      <BoldText style={Styles.Arrow}>→</BoldText>
+      <BoldText style={Styles.Arrow}>➞</BoldText>
       <UserPicture user={props.guesser} style={Styles.UserPicture} />
     </View>
     {incorrectGuessesSection}
@@ -80,6 +80,8 @@ const Styles = StyleSheet.create({
   },
   Arrow: {
     fontSize: Sizes.Text,
+    color: Colors.Primary,
+    paddingTop: 4,
   },
   IncorrectGuess: {
     fontSize: Sizes.SmallText,

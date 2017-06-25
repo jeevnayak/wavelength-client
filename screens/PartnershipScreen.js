@@ -86,6 +86,7 @@ class PartnershipScreen extends Component {
             <UserPicture
               user={this.props.partnership.user}
               style={Styles.UserPicture} />
+            <BoldText style={Styles.Arrow}>⇌</BoldText>
             <UserPicture
               user={this.props.partnership.partner}
               style={Styles.UserPicture} />
@@ -139,6 +140,7 @@ class PartnershipScreen extends Component {
           onPress={() => this.onPressCreateGame_()}>
         <View style={Styles.CardContainer}>
           <CardView {...kCardProps} customContents={contents} />
+          <View style={Styles.UnreadDot} />
         </View>
       </TouchableOpacity>;
     } else {
@@ -229,6 +231,7 @@ const Styles = StyleSheet.create({
   UserPicturesContainer: {
     flexDirection: "row",
     justifyContent: "center",
+    alignItems: "center",
     marginTop: 7,
     marginBottom: 8,
   },
@@ -250,6 +253,11 @@ const Styles = StyleSheet.create({
     borderWidth: 3,
     marginLeft: 16,
     marginRight: 16,
+  },
+  Arrow: {
+    fontSize: Sizes.LargeText,
+    color: Colors.Primary,
+    paddingTop: 14,
   },
   Section: {
     marginTop: 16,
