@@ -15,7 +15,7 @@
     },
     "loading": {
       "icon": "icon_app_512.png",
-      "backgroundColor": "#efebf7",
+      "backgroundColor": "#ded6ee",
       "hideExponentText": true
     },
     "packagerOpts": {
