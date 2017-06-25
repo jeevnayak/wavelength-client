@@ -8,7 +8,8 @@ import Colors from './Colors';
 
 export default UserPicture = (props) => {
   const fbId = props.user.id.substring(2);
-  const pictureUrl = `https://graph.facebook.com/${fbId}/picture?type=square`;
+  const pictureUrl =
+    `https://graph.facebook.com/${fbId}/picture?width=200&height=200`;
   return <Image style={[Styles.UserPicture, props.style]}
     source={{uri: pictureUrl}}/>
 };
