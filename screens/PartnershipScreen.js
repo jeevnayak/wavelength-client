@@ -120,7 +120,10 @@ class PartnershipScreen extends Component {
     if (includeCreateGame) {
       games.unshift({id: kCreateGamePlaceholderId});
     }
-    games.unshift({id: kSpacingRowPlaceholderId});
+    if (games.length) {
+      games.unshift({id: kSpacingRowPlaceholderId});
+      games.push({id: kSpacingRowPlaceholderId});
+    }
     return this.baseDataSource_.cloneWithRows(games);
   }
 
@@ -189,7 +192,7 @@ class PartnershipScreen extends Component {
 }
 
 const Section = (props) => {
-  if (props.dataSource.getRowCount() > 1) {
+  if (props.dataSource.getRowCount() > 0) {
     return <View style={Styles.Section}>
       <BoldText style={Styles.HeaderText}>
         {props.headerText.toUpperCase()}
