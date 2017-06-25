@@ -1,7 +1,7 @@
 {
   "name": "Wavelength",
-  "version": "0.0.0",
-  "description": "A hopefully awesome word game",
+  "version": "0.1.0",
+  "description": "A collaborative word game",
   "author": null,
   "private": true,
   "main": "main.js",
