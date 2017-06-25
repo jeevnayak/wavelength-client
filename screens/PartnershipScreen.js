@@ -306,6 +306,9 @@ export default compose(
       refetch: refetch,
       partnership: partnership,
     }),
+    options: (props) => ({
+      fetchPolicy: props.forceRefetch ? "network-only" : "cache-first",
+    }),
   }),
   screen
 )(PartnershipScreen);

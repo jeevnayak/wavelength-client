@@ -157,6 +157,9 @@ export default compose(
       refetch: refetch,
       game: game,
     }),
+    options: (props) => ({
+      fetchPolicy: props.forceRefetch ? "network-only" : "cache-first",
+    }),
   }),
   graphql(makeGuessesMutation, {
     props: ({ ownProps, mutate }) => ({

@@ -15,6 +15,7 @@ import {
 } from 'react-apollo';
 import {
   BackHandler,
+  Platform,
   StatusBar,
 } from 'react-native';
 import {
@@ -138,18 +139,8 @@ class App extends Component {
 
   handleNotification_(notification) {
     const currentUserId = getUserStore().getCurrentUserId();
-    if (notification.origin === "received" && currentUserId) {
-      apolloClient.query({
-        query: PartnershipQuery,
-        variables: {
-          partnershipId: notification.data.partnershipId,
-          currentUserId: currentUserId,
-        },
-        fetchPolicy: "network-only",
-      });
-    } else if (notification.origin === "selected" &&
-        currentUserId &&
-        this.navigator_) {
+    const isIos = (Platform.OS === "ios");
+    const navigateToGame = () => {
       const screen = notification.data.cluesGiven ?
         MakeGuessesScreen : ResultsScreen;
       this.navigator_.immediatelyResetRouteStack([
@@ -162,6 +153,7 @@ class App extends Component {
           props: {
             currentUserId: currentUserId,
             partnershipId: notification.data.partnershipId,
+            forceRefetch: true,
           },
         },
         {
@@ -169,10 +161,31 @@ class App extends Component {
           props: {
             currentUserId: currentUserId,
             gameId: notification.data.gameId,
+            forceRefetch: isIos,
           },
           isModal: true,
         }
       ]);
+    };
+    if (notification.origin === "received" && currentUserId) {
+      if (isIos) {
+        if (this.isMounted_) {
+          apolloClient.query({
+            query: PartnershipQuery,
+            variables: {
+              partnershipId: notification.data.partnershipId,
+              currentUserId: currentUserId,
+            },
+            fetchPolicy: "network-only",
+          });
+        } else {
+          navigateToGame();
+        }
+      }
+    } else if (notification.origin === "selected" &&
+        currentUserId &&
+        this.navigator_) {
+      navigateToGame();
     }
   }
 
