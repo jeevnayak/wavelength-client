@@ -33,6 +33,7 @@ import ResultsScreen from './screens/ResultsScreen';
 import {
   LoadingScreen,
 } from './ui/Screen';
+import UserQuery from './queries/UserQuery';
 import {
   getUserStore,
 } from './data/UserStore';
