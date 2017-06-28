@@ -3,8 +3,11 @@ import {
 } from 'expo';
 
 export const Event = {
+  StartCreateGame: "start create game",
   CreateGame: "create game",
+  StartGiveClues: "start give clues",
   GiveClues: "give clues",
+  StartMakeGuesses: "start make guesses",
   MakeGuesses: "make guesses",
   ViewReplay: "view replay",
 }

@@ -34,6 +34,14 @@ class GiveCluesScreen extends Component {
     clues: [""],
   };
 
+  componentDidMount() {
+    logEvent(Event.StartGiveClues, {
+      gameId: this.props.game.id,
+      partnershipId: this.props.game.partnership.id,
+      partnerId: this.props.game.partnership.partner.id,
+    });
+  }
+
   render() {
     return <Screen style={Styles.Screen}>
       <ExitButton navigator={this.props.navigator} />

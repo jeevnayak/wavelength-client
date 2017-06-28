@@ -44,6 +44,12 @@ const kCardsOffset = 90;
 const kCardRotations = [4, -4, 2, -4, 2];
 
 class ChooseWordScreen extends Component {
+  componentDidMount() {
+    logEvent(Event.StartCreateGame, {
+      partnerId: this.props.guesserId,
+    });
+  }
+
   render() {
     const cards = this.props.possibleWords.map((word, i) => {
       const style = {
